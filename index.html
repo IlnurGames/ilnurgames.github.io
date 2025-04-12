@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Half-Life Ɣ developer menu information</title>
     <style>
         /* Основные стили */
@@ -29,14 +30,15 @@
         .theme-btn {
             display: block;
             margin: 0 auto 20px;
-            padding: 8px 15px;
+            padding: 10px 20px;
             background-color: #555;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             transition: background-color 0.3s;
+            min-width: 200px;
         }
 
         .theme-btn:hover {
@@ -120,6 +122,32 @@
 
         body.dark-theme .theme-btn:hover {
             background-color: #888;
+        }
+
+        /* Стили для мобильных устройств */
+        @media only screen and (max-width: 600px) {
+            .theme-btn {
+                padding: 15px 25px;
+                font-size: 18px;
+                min-width: 250px;
+                border-radius: 8px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h2.attention {
+                font-size: 2em;
+            }
+            
+            h2.developer {
+                font-size: 1.5em;
+            }
         }
     </style>
 </head>
