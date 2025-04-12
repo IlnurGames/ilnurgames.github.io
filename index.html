@@ -3,184 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Half-Life Ɣ developer menu information</title>
+    <title>Half-Life Ɣ | Developer Menu</title>
     <style>
-        /* Основные стили */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+        /* Базовые стили */
+        :root {
+            --primary: #4a6bff;
+            --primary-dark: #3a56cc;
+            --danger: #ff4757;
+            --danger-dark: #cc3946;
+            --warning: #ffa502;
+            --success: #2ed573;
+            --text-light: #f8f9fa;
+            --text-dark: #212529;
+            --bg-light: #f8f9fa;
+            --bg-dark: #1a1a2e;
+            --card-light: #ffffff;
+            --card-dark: #16213e;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.7;
             padding: 20px;
-            line-height: 1.6;
-        }
-
-        /* Контейнер с рамкой */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        /* Кнопка переключения темы */
-        .theme-btn {
-            display: block;
-            margin: 0 auto 20px;
-            padding: 10px 20px;
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            min-width: 200px;
-        }
-
-        .theme-btn:hover {
-            background-color: #666;
-        }
-
-        /* Заголовки */
-        h2.attention {
-            text-align: center;
-            color: #ff0000;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        h2.test {
-            text-align: center;
-            font-size: 1.2em;
-            color: #555;
-            background-color: #ffe6e6;
-            padding: 15px;
-            border-left: 5px solid #ff0000;
-            margin-bottom: 30px;
-        }
-
-        h2.developer {
-            text-align: center;
-            color: #0000ff;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        h2 {
-            font-size: 1.1em;
-            color: #444;
-            margin: 10px 0;
-            padding-left: 20px;
-            border-left: 3px solid #0000ff;
-        }
-
-        br {
-            display: none;
+            transition: var(--transition);
+            background-image: radial-gradient(circle at 15% 50%, rgba(74, 107, 255, 0.05) 0%, rgba(74, 107, 255, 0) 28%);
         }
 
         /* Тёмная тема */
         body.dark-theme {
-            background-color: #222;
-            color: #f4f4f4;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            background-image: radial-gradient(circle at 15% 50%, rgba(74, 107, 255, 0.05) 0%, rgba(74, 107, 255, 0) 28%);
         }
 
-        body.dark-theme .container {
-            background-color: #333;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        /* Контейнер */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0;
+            overflow: hidden;
         }
 
-        body.dark-theme h2.attention {
-            color: #ff5555;
+        /* Кнопка темы */
+        .theme-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            padding: 15px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            min-width: 280px;
+            z-index: 1;
         }
 
-        body.dark-theme h2.test {
-            color: #ccc;
-            background-color: #3a2525;
-            border-left-color: #ff5555;
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            background-color: var(--primary-dark);
         }
 
-        body.dark-theme h2.developer {
-            color: #5555ff;
+        .theme-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark), var(--primary));
+            background-size: 200% 200%;
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
         }
 
-        body.dark-theme h2 {
-            color: #ccc;
-            border-left-color: #5555ff;
+        .theme-btn:hover::before {
+            opacity: 1;
+            animation: gradientBG 3s ease infinite;
         }
 
-        body.dark-theme .theme-btn {
-            background-color: #777;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        body.dark-theme .theme-btn:hover {
-            background-color: #888;
+        /* Карточка */
+        .card {
+            background-color: var(--card-light);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            transform: translateY(0);
         }
 
-        /* Стили для мобильных устройств */
-        @media only screen and (max-width: 600px) {
-            .theme-btn {
-                padding: 15px 25px;
-                font-size: 18px;
-                min-width: 250px;
-                border-radius: 8px;
-            }
-            
-            body {
-                padding: 10px;
-            }
-            
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        body.dark-theme .card {
+            background-color: var(--card-dark);
+        }
+
+        /* Заголовки */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--warning));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .attention {
+            color: var(--danger);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-notice {
+            background-color: rgba(255, 71, 87, 0.1);
+            border-left: 5px solid var(--danger);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        body.dark-theme .test-notice {
+            background-color: rgba(255, 71, 87, 0.15);
+        }
+
+        .developer {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Список опций */
+        .options-list {
+            list-style-type: none;
+        }
+
+        .option-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background-color: rgba(74, 107, 255, 0.05);
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-item:hover {
+            background-color: rgba(74, 107, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        body.dark-theme .option-item {
+            background-color: rgba(74, 107, 255, 0.1);
+        }
+
+        body.dark-theme .option-item:hover {
+            background-color: rgba(74, 107, 255, 0.2);
+        }
+
+        .option-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .option-item:hover::before {
+            width: 5px;
+            background-color: var(--warning);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 0 15px;
             }
             
-            h2.attention {
-                font-size: 2em;
+            .theme-btn {
+                padding: 18px 25px;
+                font-size: 16px;
+                min-width: 90%;
+                margin-bottom: 20px;
             }
             
-            h2.developer {
-                font-size: 1.5em;
+            .attention {
+                font-size: 2rem;
             }
+            
+            .developer {
+                font-size: 1.5rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .option-item {
+                padding: 12px 15px;
+            }
+        }
+
+        /* Дополнительные эффекты */
+        .hl-logo {
+            font-family: 'Arial Black', sans-serif;
+            color: var(--primary);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: -1px;
+        }
+
+        .hl-logo span {
+            color: var(--warning);
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <button class="theme-btn" id="themeToggle">Сменить тему (светлая, тёмная)</button>
-    
     <div class="container">
-        <h2 class="attention">«Внимание!» («Attention!»)</h2>
-        <h2 class="test">Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам! (Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!)</h2>
-        <h2 class="developer">«Меню разработчика» («Developer menu»):</h2>
-        <h2>• Debug: true/false - Включить/выключить режим отладки</h2>
-        <h2>• Open all levels - Открыть все уровни</h2>
-        <h2>• Show QFPS: true/false - Показывать/не показывать частоту кадров</h2>
-        <h2>• Show RAM: true/false - Показывать/не показывать использование оперативной памяти</h2>
-        <h2>• Show room ID: true/false - Показывать/не показывать ID комнаты</h2>
-        <h2>• Draw portals: true/false - Рисовать/не рисовать порталы</h2>
-        <h2>• Show player pos: true/false - Показывать/не показывать позицию игрока</h2>
-        <h2>• God mode: true/false - Включить/выключить режим "Бога"</h2>
-        <h2>• Show level objects: true/false - Показывать/не показывать объекты уровня</h2>
-        <h2>• Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</h2>
-        <h2>• Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</h2>
-        <h2>• Fly: On/Off - Включить/выключить режим полета</h2>
-        <h2>• Play video!!! :D - Воспроизвести видео (пока не работает)</h2>
+        <button class="theme-btn" id="themeToggle">
+            <span id="themeText">Сменить тему (светлая, тёмная)</span>
+        </button>
+        
+        <div class="card">
+            <div class="header">
+                <h2 class="attention">Внимание!</h2>
+                <h3 class="hl-logo">HALF-LIFE <span>Ɣ</span></h3>
+            </div>
+            
+            <div class="test-notice">
+                Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам!<br><br>
+                Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!
+            </div>
+            
+            <h2 class="developer">Меню разработчика</h2>
+            
+            <ul class="options-list">
+                <li class="option-item">• Debug: true/false - Включить/выключить режим отладки</li>
+                <li class="option-item">• Open all levels - Открыть все уровни</li>
+                <li class="option-item">• Show QFPS: true/false - Показывать/не показывать частоту кадров</li>
+                <li class="option-item">• Show RAM: true/false - Показывать/не показывать использование оперативной памяти</li>
+                <li class="option-item">• Show room ID: true/false - Показывать/не показывать ID комнаты</li>
+                <li class="option-item">• Draw portals: true/false - Рисовать/не рисовать порталы</li>
+                <li class="option-item">• Show player pos: true/false - Показывать/не показывать позицию игрока</li>
+                <li class="option-item">• God mode: true/false - Включить/выключить режим "Бога"</li>
+                <li class="option-item">• Show level objects: true/false - Показывать/не показывать объекты уровня</li>
+                <li class="option-item">• Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</li>
+                <li class="option-item">• Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</li>
+                <li class="option-item">• Fly: On/Off - Включить/выключить режим полета</li>
+                <li class="option-item">• Play video!!! :D - Воспроизвести видео (пока не работает)</li>
+            </ul>
+        </div>
     </div>
 
     <script>
         const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
         const body = document.body;
         
-        // Проверяем сохранённую тему (если есть)
+        // Проверяем сохранённую тему
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             body.classList.add(savedTheme);
+            updateButtonText();
+        }
+        
+        // Проверяем предпочтения системы
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (!savedTheme && prefersDark) {
+            body.classList.add('dark-theme');
             updateButtonText();
         }
         
@@ -193,15 +343,27 @@
             localStorage.setItem('theme', currentTheme);
             
             updateButtonText();
+            
+            // Анимация кнопки
+            themeToggle.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                themeToggle.style.transform = '';
+            }, 200);
         });
         
         // Обновляем текст кнопки
         function updateButtonText() {
             const isDark = body.classList.contains('dark-theme');
-            themeToggle.textContent = isDark 
+            themeText.textContent = isDark 
                 ? 'Сменить тему (тёмная, светлая)' 
                 : 'Сменить тему (светлая, тёмная)';
+            
+            // Добавляем иконку
+            themeText.innerHTML = (isDark ? '🌙' : '☀️') + ' ' + themeText.textContent;
         }
+        
+        // Инициализация текста кнопки
+        updateButtonText();
     </script>
 </body>
 </html>
