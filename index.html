@@ -82,13 +82,6 @@ body.light-theme {
   }
 }
 
-.game-subtitle {
-  font-size: 1.2rem;
-  color: var(--primary-light);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
 .button-group {
   display: flex;
   gap: 15px;
@@ -116,19 +109,10 @@ body.light-theme {
   min-width: 120px;
 }
 
-.theme-btn {
-  background: linear-gradient(135deg, #5c6bc0, #3949ab);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.theme-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(92, 107, 192, 0.4);
-  background: linear-gradient(135deg, #4a5ab0, #303f9f);
-}
-
 .download-btn {
   background: linear-gradient(135deg, #26a69a, #00897b);
   border: 1px solid rgba(255,255,255,0.1);
+  order: 1;
 }
 .download-btn:hover {
   transform: translateY(-3px);
@@ -141,9 +125,21 @@ body.light-theme {
   font-size: 1.1em;
 }
 
+.theme-btn {
+  background: linear-gradient(135deg, #5c6bc0, #3949ab);
+  border: 1px solid rgba(255,255,255,0.1);
+  order: 2;
+}
+.theme-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover), 0 0 15px rgba(92, 107, 192, 0.4);
+  background: linear-gradient(135deg, #4a5ab0, #303f9f);
+}
+
 .lang-btn {
   background: linear-gradient(135deg, #7e57c2, #5e35b1);
   border: 1px solid rgba(255,255,255,0.1);
+  order: 3;
 }
 .lang-btn:hover {
   transform: translateY(-3px);
@@ -152,7 +148,7 @@ body.light-theme {
 }
 
 .card {
-  background-color: rgba(45, 52, 54, 0.8);
+  background-color: rgba(45, 52, 54, 0.85);
   border-radius: 14px;
   box-shadow: var(--shadow);
   padding: 25px;
@@ -185,7 +181,7 @@ body.light-theme .card {
 }
 
 .test-notice {
-  background-color: rgba(108, 92, 231, 0.1);
+  background-color: rgba(70, 80, 90, 0.3);
   border-left: 4px solid var(--primary);
   padding: 18px;
   border-radius: 0 8px 8px 0;
@@ -220,7 +216,7 @@ body.light-theme .test-notice {
 .option-item {
   padding: 12px 15px 12px 25px;
   margin-bottom: 8px;
-  background-color: rgba(108, 92, 231, 0.08);
+  background-color: rgba(70, 80, 90, 0.25);
   border-radius: 6px;
   transition: var(--transition);
   position: relative;
@@ -231,7 +227,7 @@ body.light-theme .option-item {
 }
 
 .option-item:hover {
-  background-color: rgba(108, 92, 231, 0.15);
+  background-color: rgba(70, 80, 90, 0.4);
   transform: translateX(5px);
 }
 
@@ -260,21 +256,20 @@ body.light-theme .option-item {
 <div class="container">
   <div class="game-header">
     <h1 class="game-title">HALF-LIFE <span>Ɣ</span></h1>
-    <div class="game-subtitle">DEVELOPER MENU</div>
   </div>
 
   <div class="button-group">
+    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank" id="downloadBtn">
+      Скачать игру
+    </a>
     <button class="theme-btn" id="themeToggle">
       <span id="themeText">Сменить тему</span>
     </button>
-    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank">
-      Скачать игру
-    </a>
     <button class="lang-btn" id="langToggle">EN</button>
   </div>
   
   <div class="card">
-    <h2 class="attention">Внимание!</h2>
+    <h2 class="attention" id="attentionText">Внимание!</h2>
 
     <div class="test-notice">
       <div class="notice-ru active">
@@ -285,7 +280,7 @@ body.light-theme .option-item {
       </div>
     </div>
 
-    <h2 class="developer">Меню разработчика</h2>
+    <h2 class="developer" id="developerText">Меню разработчика</h2>
 
     <ul class="options-list">
       <li class="option-item">Debug: true/false - Включить/выключить режим отладки</li>
@@ -309,6 +304,9 @@ body.light-theme .option-item {
 const themeToggle = document.getElementById('themeToggle');
 const themeText = document.getElementById('themeText');
 const langToggle = document.getElementById('langToggle');
+const downloadBtn = document.getElementById('downloadBtn');
+const attentionText = document.getElementById('attentionText');
+const developerText = document.getElementById('developerText');
 const body = document.body;
 const noticeRu = document.querySelector('.notice-ru');
 const noticeEn = document.querySelector('.notice-en');
@@ -319,20 +317,21 @@ if (savedTheme === 'light-theme') {
   updateButtonText();
 }
 
-themeToggle.addEventListener('click', () => {
+themeToggle.addEventListener('click', (e) => {
+  e.preventDefault();
   body.classList.toggle('light-theme');
   const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
   localStorage.setItem('theme', currentTheme);
   updateButtonText();
-  themeToggle.style.transform = 'scale(0.95)';
-  setTimeout(() => {
-    themeToggle.style.transform = '';
-  }, 150);
 });
 
 function updateButtonText() {
   const isLight = body.classList.contains('light-theme');
-  themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+  if (noticeRu.classList.contains('active')) {
+    themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+  } else {
+    themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
+  }
   themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
 
@@ -343,10 +342,6 @@ langToggle.addEventListener('click', () => {
   const currentLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
   updateLanguage(currentLang);
   localStorage.setItem('lang', currentLang);
-  langToggle.style.transform = 'scale(0.95)';
-  setTimeout(() => {
-    langToggle.style.transform = '';
-  }, 150);
 });
 
 function updateLanguage(lang) {
@@ -354,14 +349,18 @@ function updateLanguage(lang) {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
     langToggle.textContent = 'EN';
-    themeText.textContent = body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема';
+    downloadBtn.textContent = 'Скачать игру';
+    attentionText.textContent = 'Внимание!';
+    developerText.textContent = 'Меню разработчика';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
     langToggle.textContent = 'RU';
-    themeText.textContent = body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme';
+    downloadBtn.textContent = 'Download game';
+    attentionText.textContent = 'Attention!';
+    developerText.textContent = 'Developer Menu';
   }
-  themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + themeText.textContent;
+  updateButtonText();
 }
 
 updateButtonText();
