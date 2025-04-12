@@ -1,86 +1,179 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <meta charset="UTF-8">
-      <title>Half-Life Ɣ developer menu information</title>
-   </head>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 20px;
-    line-height: 1.6;
-}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Half-Life Ɣ developer menu information</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-h2.attention {
-    text-align: center;
-    color: #ff0000;
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
+        /* Контейнер с рамкой */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
 
-h2.test {
-    text-align: center;
-    font-size: 1.2em;
-    color: #555;
-    background-color: #ffe6e6;
-    padding: 15px;
-    border-left: 5px solid #ff0000;
-    margin-bottom: 30px;
-}
+        /* Кнопка переключения темы */
+        .theme-btn {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 8px 15px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
 
-h2.developer {
-    text-align: center;
-    color: #0000ff; /* Синий цвет */
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
+        .theme-btn:hover {
+            background-color: #666;
+        }
 
-h2 {
-    font-size: 1.1em;
-    color: #444;
-    margin: 10px 0;
-    padding-left: 20px;
-    border-left: 3px solid #0000ff;
-}
+        /* Заголовки */
+        h2.attention {
+            text-align: center;
+            color: #ff0000;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-br {
-    display: none;
-}
+        h2.test {
+            text-align: center;
+            font-size: 1.2em;
+            color: #555;
+            background-color: #ffe6e6;
+            padding: 15px;
+            border-left: 5px solid #ff0000;
+            margin-bottom: 30px;
+        }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-</style>
-   <body>
-   <div class="container">
-<h2 class="attention"> «Внимание!» («Attention!») </h2> <br>
-<h2 class="test">Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам! (Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!) </h2> <br>
-<h2 class="developer"> «Меню разработчика» («Developer menu»):</h2>
-<h2>• Debug: true/false - Включить/выключить режим отладки</h1> <br>
-<h2>• Open all levels - Открыть все уровни</h2> <br>
-<h2>• Show QFPS: true/false - Показывать/не показывать частоту кадров</h2> <br>
-<h2>• Show RAM: true/false - Показывать/не показывать использование оперативной памяти</h2> <br>
-<h2>• Show room ID: true/false - Показывать/не показывать ID комнаты </h2> <br>
-<h2>• Draw portals: true/false - Рисовать/не рисовать порталы</h2> <br>
-<h2>• Show player pos: true/false - Показывать/не показывать позицию игрока</h2> <br>
-<h2>• God mode: true/false - Включить/выключить режим "Бога"</h2> <br>
-<h2>• Show level objects: true/false - Показывать/не показывать объекты уровня</h2> <br>
-<h2>• Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</h2> <br>
-<h2>• Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</h2> <br>
-<h2>• Fly: On/Off - Включить/выключить режим полета</h2> <br>
-<h2>• Play video!!! :D - Воспроизвести видео (пока не работает)</h2>
-   </div>
-   </body>
+        h2.developer {
+            text-align: center;
+            color: #0000ff;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.1em;
+            color: #444;
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 3px solid #0000ff;
+        }
+
+        br {
+            display: none;
+        }
+
+        /* Тёмная тема */
+        body.dark-theme {
+            background-color: #222;
+            color: #f4f4f4;
+        }
+
+        body.dark-theme .container {
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-theme h2.attention {
+            color: #ff5555;
+        }
+
+        body.dark-theme h2.test {
+            color: #ccc;
+            background-color: #3a2525;
+            border-left-color: #ff5555;
+        }
+
+        body.dark-theme h2.developer {
+            color: #5555ff;
+        }
+
+        body.dark-theme h2 {
+            color: #ccc;
+            border-left-color: #5555ff;
+        }
+
+        body.dark-theme .theme-btn {
+            background-color: #777;
+        }
+
+        body.dark-theme .theme-btn:hover {
+            background-color: #888;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-btn" id="themeToggle">Сменить тему (светлая, тёмная)</button>
+    
+    <div class="container">
+        <h2 class="attention">«Внимание!» («Attention!»)</h2>
+        <h2 class="test">Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам! (Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!)</h2>
+        <h2 class="developer">«Меню разработчика» («Developer menu»):</h2>
+        <h2>• Debug: true/false - Включить/выключить режим отладки</h2>
+        <h2>• Open all levels - Открыть все уровни</h2>
+        <h2>• Show QFPS: true/false - Показывать/не показывать частоту кадров</h2>
+        <h2>• Show RAM: true/false - Показывать/не показывать использование оперативной памяти</h2>
+        <h2>• Show room ID: true/false - Показывать/не показывать ID комнаты</h2>
+        <h2>• Draw portals: true/false - Рисовать/не рисовать порталы</h2>
+        <h2>• Show player pos: true/false - Показывать/не показывать позицию игрока</h2>
+        <h2>• God mode: true/false - Включить/выключить режим "Бога"</h2>
+        <h2>• Show level objects: true/false - Показывать/не показывать объекты уровня</h2>
+        <h2>• Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</h2>
+        <h2>• Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</h2>
+        <h2>• Fly: On/Off - Включить/выключить режим полета</h2>
+        <h2>• Play video!!! :D - Воспроизвести видео (пока не работает)</h2>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Проверяем сохранённую тему (если есть)
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            updateButtonText();
+        }
+        
+        // Обработчик клика по кнопке
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            
+            // Сохраняем выбранную тему
+            const currentTheme = body.classList.contains('dark-theme') ? 'dark-theme' : '';
+            localStorage.setItem('theme', currentTheme);
+            
+            updateButtonText();
+        });
+        
+        // Обновляем текст кнопки
+        function updateButtonText() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.textContent = isDark 
+                ? 'Сменить тему (тёмная, светлая)' 
+                : 'Сменить тему (светлая, тёмная)';
+        }
+    </script>
+</body>
 </html>
