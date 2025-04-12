@@ -54,6 +54,7 @@ body.light-theme {
   padding: 0;
   overflow: hidden;
 }
+
 .theme-btn, .download-btn {
   display: flex;
   align-items: center;
@@ -112,6 +113,7 @@ body.light-theme {
   border: 1px solid rgba(108, 92, 231, 0.3);
   backdrop-filter: blur(5px);
 }
+
 body.light-theme .card {
   background-color: var(--card-light);
   border: 1px solid rgba(108, 92, 231, 0.2);
@@ -180,6 +182,58 @@ body.light-theme .test-notice {
   background-color: rgba(108, 92, 231, 0.08);
   box-shadow: inset 0 0 8px rgba(108, 92, 231, 0.05);
 }
+
+.developer {
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.options-list {
+  list-style-type: none;
+}
+
+.option-item {
+  padding: 12px 15px 12px 25px;
+  margin-bottom: 8px;
+  background-color: rgba(108, 92, 231, 0.1);
+  border-radius: 6px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.option-item:hover {
+  background-color: rgba(108, 92, 231, 0.2);
+  transform: translateX(5px);
+}
+
+.option-item::before {
+  content: '•';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 1.5em;
+  line-height: 1;
+}
+
+.option-item:hover::before {
+  color: var(--accent);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
 </style>
 </head>
 <body>
@@ -196,6 +250,7 @@ body.light-theme .test-notice {
       <div class="game-subtitle">DEVELOPER MENU</div>
       <h2 class="attention">Внимание!</h2>
     </div>
+
     <div class="test-notice">
       Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам!<br><br>
       Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!
@@ -204,19 +259,19 @@ body.light-theme .test-notice {
     <h2 class="developer">Меню разработчика</h2>
 
     <ul class="options-list">
-      <li class="option-item">• Debug: true/false - Включить/выключить режим отладки</li>
-      <li class="option-item">• Open all levels - Открыть все уровни</li>
-      <li class="option-item">• Show QFPS: true/false - Показывать/не показывать частоту кадров</li>
-      <li class="option-item">• Show RAM: true/false - Показывать/не показывать использование оперативной памяти</li>
-      <li class="option-item">• Show room ID: true/false - Показывать/не показывать ID комнаты</li>
-      <li class="option-item">• Draw portals: true/false - Рисовать/не рисовать порталы</li>
-      <li class="option-item">• Show player pos: true/false - Показывать/не показывать позицию игрока</li>
-      <li class="option-item">• God mode: true/false - Включить/выключить режим "Бога"</li>
-      <li class="option-item">• Show level objects: true/false - Показывать/не показывать объекты уровня</li>
-      <li class="option-item">• Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</li>
-      <li class="option-item">• Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</li>
-      <li class="option-item">• Fly: On/Off - Включить/выключить режим полета</li>
-      <li class="option-item">• Play video!!! :D - Воспроизвести видео (пока не работает)</li>
+      <li class="option-item">Debug: true/false - Включить/выключить режим отладки</li>
+      <li class="option-item">Open all levels - Открыть все уровни</li>
+      <li class="option-item">Show QFPS: true/false - Показывать/не показывать частоту кадров</li>
+      <li class="option-item">Show RAM: true/false - Показывать/не показывать использование оперативной памяти</li>
+      <li class="option-item">Show room ID: true/false - Показывать/не показывать ID комнаты</li>
+      <li class="option-item">Draw portals: true/false - Рисовать/не рисовать порталы</li>
+      <li class="option-item">Show player pos: true/false - Показывать/не показывать позицию игрока</li>
+      <li class="option-item">God mode: true/false - Включить/выключить режим "Бога"</li>
+      <li class="option-item">Show level objects: true/false - Показывать/не показывать объекты уровня</li>
+      <li class="option-item">Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</li>
+      <li class="option-item">Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</li>
+      <li class="option-item">Fly: On/Off - Включить/выключить режим полета</li>
+      <li class="option-item">Play video!!! :D - Воспроизвести видео (пока не работает)</li>
     </ul>
   </div>
 </div>
