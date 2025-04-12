@@ -6,20 +6,20 @@
 <title>Half-Life Ɣ | Developer Menu</title>
 <style>
 :root {
---primary: #6c5ce7;
---primary-dark: #5649c0;
---secondary: #a55eea;
---accent: #fdcb6e;
---danger: #e84393;
---text-light: #f5f6fa;
---text-dark: #2f3640;
---bg-light: #f5f6fa;
+--primary: #5d6df5;
+--primary-dark: #4a59d1;
+--secondary: #7b68ee;
+--accent: #ffd166;
+--danger: #6c5ce7;
+--text-light: #f8f9fa;
+--text-dark: #2d3436;
+--bg-light: #f8f9fa;
 --bg-dark: #1e272e;
 --card-light: #ffffff;
---card-dark: #2f3640;
+--card-dark: #2d3436;
 --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
---shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
---shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.3);
+--shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+--shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 * {
 margin: 0;
@@ -33,12 +33,12 @@ color: var(--text-light);
 line-height: 1.7;
 padding: 20px;
 transition: var(--transition);
-background-image: radial-gradient(circle at 15% 50%, rgba(108, 92, 231, 0.1) 0%, transparent 28%);
+background-image: radial-gradient(circle at 15% 50%, rgba(93, 109, 245, 0.1) 0%, transparent 28%);
 }
 body.light-theme {
 background-color: var(--bg-light);
 color: var(--text-dark);
-background-image: radial-gradient(circle at 15% 50%, rgba(108, 92, 231, 0.05) 0%, transparent 28%);
+background-image: radial-gradient(circle at 15% 50%, rgba(93, 109, 245, 0.05) 0%, transparent 28%);
 }
 .container {
 max-width: 900px;
@@ -50,22 +50,23 @@ overflow: hidden;
 display: flex;
 align-items: center;
 justify-content: center;
-margin: 0 auto 20px;
-padding: 15px 30px;
+margin: 0 auto 15px;
+padding: 12px 20px;
 color: white;
 border: none;
-border-radius: 50px;
+border-radius: 8px;
 cursor: pointer;
-font-size: 18px;
+font-size: 16px;
 font-weight: 600;
 transition: var(--transition);
 box-shadow: var(--shadow);
 position: relative;
 overflow: hidden;
-min-width: 280px;
-z-index: 1;
+width: 100%;
+max-width: 300px;
 text-decoration: none;
 }
+
 .theme-btn {
 background: linear-gradient(45deg, var(--primary), var(--secondary));
 }
@@ -76,48 +77,44 @@ background: linear-gradient(45deg, var(--primary-dark), var(--secondary));
 }
 
 .download-btn {
-background: linear-gradient(45deg, var(--primary), #8c7ae6);
+background: linear-gradient(45deg, var(--primary), #6c5ce7);
+margin-top: 5px;
 }
 .download-btn:hover {
 transform: translateY(-2px);
 box-shadow: var(--shadow-hover);
-background: linear-gradient(45deg, var(--primary-dark), #7d6ae0);
+background: linear-gradient(45deg, var(--primary-dark), #5d4acf);
 }
 .download-btn::before {
 content: '🎮';
-margin-right: 10px;
-font-size: 1.2em;
+margin-right: 8px;
+font-size: 1em;
 }
 
 .card {
 background-color: var(--card-dark);
-border-radius: 15px;
+border-radius: 12px;
 box-shadow: var(--shadow);
-padding: 30px;
-margin-bottom: 30px;
+padding: 20px;
+margin-bottom: 25px;
 transition: var(--transition);
-transform: translateY(0);
-border: 1px solid rgba(108, 92, 231, 0.2);
+border: 1px solid rgba(93, 109, 245, 0.2);
 }
 .card:hover {
-transform: translateY(-5px);
+transform: translateY(-3px);
 box-shadow: var(--shadow-hover);
-border-color: rgba(108, 92, 231, 0.4);
+border-color: rgba(93, 109, 245, 0.4);
 }
-body.light-theme .card {
-background-color: var(--card-light);
-border-color: rgba(108, 92, 231, 0.1);
-}
+
 .header {
 text-align: center;
-margin-bottom: 30px;
-position: relative;
+margin-bottom: 25px;
 }
 .header::after {
 content: '';
 display: block;
-width: 100px;
-height: 4px;
+width: 80px;
+height: 3px;
 background: linear-gradient(to right, var(--primary), var(--secondary));
 margin: 15px auto;
 border-radius: 2px;
@@ -126,12 +123,10 @@ border-radius: 2px;
 .game-title {
 font-family: 'Arial Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 color: var(--primary);
-font-size: 2.8rem;
+font-size: 2.2rem;
 font-weight: 800;
 margin-bottom: 5px;
 line-height: 1.2;
-letter-spacing: -1px;
-text-shadow: 0 2px 10px rgba(108, 92, 231, 0.3);
 }
 .game-title span {
 color: var(--secondary);
@@ -140,37 +135,35 @@ font-style: italic;
 
 .attention {
 color: var(--danger);
-font-size: 2.5rem;
+font-size: 1.8rem;
 font-weight: 800;
 margin-bottom: 10px;
 text-transform: uppercase;
-letter-spacing: 1px;
-text-shadow: 0 2px 5px rgba(232, 67, 147, 0.3);
 }
 
 .test-notice {
-background-color: rgba(232, 67, 147, 0.15);
-border-left: 5px solid var(--danger);
-padding: 20px;
-border-radius: 0 8px 8px 0;
-margin-bottom: 30px;
+background-color: rgba(108, 92, 231, 0.15);
+border-left: 4px solid var(--danger);
+padding: 15px;
+border-radius: 0 6px 6px 0;
+margin-bottom: 25px;
 }
 
 .options-list {
 list-style-type: none;
 }
 .option-item {
-padding: 15px 20px;
-margin-bottom: 10px;
-background-color: rgba(108, 92, 231, 0.1);
-border-radius: 8px;
+padding: 12px 15px;
+margin-bottom: 8px;
+background-color: rgba(93, 109, 245, 0.1);
+border-radius: 6px;
 transition: var(--transition);
 position: relative;
 overflow: hidden;
 }
 .option-item:hover {
-background-color: rgba(108, 92, 231, 0.2);
-transform: translateX(5px);
+background-color: rgba(93, 109, 245, 0.2);
+transform: translateX(3px);
 }
 .option-item::before {
 content: '';
@@ -183,7 +176,7 @@ background: var(--primary);
 transition: var(--transition);
 }
 .option-item:hover::before {
-width: 5px;
+width: 4px;
 background: var(--accent);
 }
 </style>
