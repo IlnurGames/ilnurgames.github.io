@@ -91,7 +91,7 @@ body.light-theme {
 }
 
 .theme-btn, .download-btn, .lang-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 20px;
@@ -101,12 +101,13 @@ body.light-theme {
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  transition: var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
   text-decoration: none;
   min-width: 120px;
+  transform: translateY(0);
 }
 
 .download-btn {
@@ -115,14 +116,8 @@ body.light-theme {
   order: 1;
 }
 .download-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.02);
   box-shadow: var(--shadow-hover), 0 0 15px rgba(38, 166, 154, 0.4);
-  background: linear-gradient(135deg, #1e887e, #00796b);
-}
-.download-btn::before {
-  content: '🎮';
-  margin-right: 10px;
-  font-size: 1.1em;
 }
 
 .theme-btn {
@@ -131,9 +126,8 @@ body.light-theme {
   order: 2;
 }
 .theme-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.02);
   box-shadow: var(--shadow-hover), 0 0 15px rgba(92, 107, 192, 0.4);
-  background: linear-gradient(135deg, #4a5ab0, #303f9f);
 }
 
 .lang-btn {
@@ -142,9 +136,8 @@ body.light-theme {
   order: 3;
 }
 .lang-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.02);
   box-shadow: var(--shadow-hover), 0 0 15px rgba(126, 87, 194, 0.4);
-  background: linear-gradient(135deg, #6a45b8, #512da8);
 }
 
 .card {
@@ -181,7 +174,7 @@ body.light-theme .card {
 }
 
 .test-notice {
-  background-color: rgba(70, 80, 90, 0.3);
+  background-color: rgba(108, 92, 231, 0.2);
   border-left: 4px solid var(--primary);
   padding: 18px;
   border-radius: 0 8px 8px 0;
@@ -189,7 +182,7 @@ body.light-theme .card {
 }
 
 body.light-theme .test-notice {
-  background-color: rgba(108, 92, 231, 0.05);
+  background-color: rgba(108, 92, 231, 0.08);
 }
 
 .notice-ru, .notice-en {
@@ -216,7 +209,7 @@ body.light-theme .test-notice {
 .option-item {
   padding: 12px 15px 12px 25px;
   margin-bottom: 8px;
-  background-color: rgba(70, 80, 90, 0.25);
+  background-color: rgba(108, 92, 231, 0.15);
   border-radius: 6px;
   transition: var(--transition);
   position: relative;
@@ -227,7 +220,7 @@ body.light-theme .option-item {
 }
 
 .option-item:hover {
-  background-color: rgba(70, 80, 90, 0.4);
+  background-color: rgba(108, 92, 231, 0.25);
   transform: translateX(5px);
 }
 
