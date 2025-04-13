@@ -11,17 +11,15 @@
   --primary-light: #a29bfe;
   --secondary: #7b68ee;
   --accent: #ffd166;
-  --danger: #6c5ce7;
   --text-light: #f8f9fa;
   --text-dark: #2d3436;
   --bg-light: #f8f9fa;
   --bg-dark: #1e272e;
   --card-light: #ffffff;
   --card-dark: #2d3436;
-  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
-  --glow: 0 0 15px rgba(108, 92, 231, 0.4);
+  --transition: all 0.2s ease;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -36,7 +34,6 @@ body {
   color: var(--text-light);
   line-height: 1.7;
   padding: 20px;
-  transition: var(--transition);
   background-image: 
     radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
     radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
@@ -51,102 +48,82 @@ body.light-theme {
 .container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0;
-  overflow: hidden;
 }
 
 .game-header {
   text-align: center;
-  margin-bottom: 20px;
-  padding: 20px 0;
+  margin-bottom: 25px;
+  padding-top: 20px;
 }
 
 .game-title {
-  font-family: 'Arial Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Arial Black', sans-serif;
   font-size: 3rem;
   font-weight: 800;
-  margin-bottom: 5px;
-  line-height: 1.2;
-  letter-spacing: -1px;
   background: linear-gradient(90deg, #ff8a00, #e52e71, #6a11cb);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   animation: shine 3s linear infinite;
+  margin-bottom: 5px;
 }
 
 @keyframes shine {
-  to {
-    background-position: 200% center;
-  }
+  to { background-position: 200% center; }
 }
 
-.button-group {
+.buttons-container {
   display: flex;
-  gap: 15px;
   justify-content: center;
+  gap: 12px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
-.theme-btn, .download-btn, .lang-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  color: white;
-  border: none;
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
   box-shadow: var(--shadow);
+  border: none;
   position: relative;
   overflow: hidden;
-  text-decoration: none;
-  min-width: 120px;
   transform: translateY(0);
+  min-width: 140px;
 }
 
-.download-btn {
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-download {
   background: linear-gradient(135deg, #26a69a, #00897b);
-  border: 1px solid rgba(255,255,255,0.1);
-  order: 1;
-}
-.download-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(38, 166, 154, 0.4);
+  color: white;
 }
 
-.theme-btn {
+.btn-theme {
   background: linear-gradient(135deg, #5c6bc0, #3949ab);
-  border: 1px solid rgba(255,255,255,0.1);
-  order: 2;
-}
-.theme-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(92, 107, 192, 0.4);
+  color: white;
 }
 
-.lang-btn {
+.btn-lang {
   background: linear-gradient(135deg, #7e57c2, #5e35b1);
-  border: 1px solid rgba(255,255,255,0.1);
-  order: 3;
-}
-.lang-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(126, 87, 194, 0.4);
+  color: white;
+  width: 60px;
 }
 
 .card {
-  background-color: rgba(45, 52, 54, 0.85);
+  background-color: rgba(108, 92, 231, 0.1);
   border-radius: 14px;
-  box-shadow: var(--shadow);
   padding: 25px;
   margin-bottom: 30px;
-  transition: var(--transition);
   border: 1px solid rgba(108, 92, 231, 0.3);
   backdrop-filter: blur(5px);
 }
@@ -154,35 +131,22 @@ body.light-theme {
 body.light-theme .card {
   background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(108, 92, 231, 0.2);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover), var(--glow);
-  border-color: rgba(108, 92, 231, 0.5);
 }
 
 .attention {
   color: #ff5252;
   font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 15px;
   text-align: center;
+  margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 2px;
 }
 
-.test-notice {
+.notice {
   background-color: rgba(108, 92, 231, 0.2);
   border-left: 4px solid var(--primary);
   padding: 18px;
   border-radius: 0 8px 8px 0;
-  margin-bottom: 30px;
-}
-
-body.light-theme .test-notice {
-  background-color: rgba(108, 92, 231, 0.08);
+  margin-bottom: 25px;
 }
 
 .notice-ru, .notice-en {
@@ -192,18 +156,16 @@ body.light-theme .test-notice {
   display: block;
 }
 
-.developer {
+.developer-title {
   color: #4fc3f7;
   font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 20px;
   text-align: center;
+  margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .options-list {
-  list-style-type: none;
+  list-style: none;
 }
 
 .option-item {
@@ -211,17 +173,12 @@ body.light-theme .test-notice {
   margin-bottom: 8px;
   background-color: rgba(108, 92, 231, 0.15);
   border-radius: 6px;
-  transition: var(--transition);
   position: relative;
-}
-
-body.light-theme .option-item {
-  background-color: rgba(108, 92, 231, 0.05);
+  transition: var(--transition);
 }
 
 .option-item:hover {
   background-color: rgba(108, 92, 231, 0.25);
-  transform: translateX(5px);
 }
 
 .option-item::before {
@@ -232,16 +189,6 @@ body.light-theme .option-item {
   transform: translateY(-50%);
   color: var(--accent);
   font-size: 1.5em;
-  line-height: 1;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.card {
-  animation: fadeIn 0.6s ease-out forwards;
 }
 </style>
 </head>
@@ -251,20 +198,20 @@ body.light-theme .option-item {
     <h1 class="game-title">HALF-LIFE <span>Ɣ</span></h1>
   </div>
 
-  <div class="button-group">
-    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank" id="downloadBtn">
+  <div class="buttons-container">
+    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="btn btn-download" id="downloadBtn">
       Скачать игру
     </a>
-    <button class="theme-btn" id="themeToggle">
+    <button class="btn btn-theme" id="themeBtn">
       <span id="themeText">Сменить тему</span>
     </button>
-    <button class="lang-btn" id="langToggle">EN</button>
+    <button class="btn btn-lang" id="langBtn">EN</button>
   </div>
   
   <div class="card">
     <h2 class="attention" id="attentionText">Внимание!</h2>
 
-    <div class="test-notice">
+    <div class="notice">
       <div class="notice-ru active">
         Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам!
       </div>
@@ -273,7 +220,7 @@ body.light-theme .option-item {
       </div>
     </div>
 
-    <h2 class="developer" id="developerText">Меню разработчика</h2>
+    <h2 class="developer-title" id="developerText">Меню разработчика</h2>
 
     <ul class="options-list">
       <li class="option-item">Debug: true/false - Включить/выключить режим отладки</li>
@@ -294,9 +241,9 @@ body.light-theme .option-item {
 </div>
 
 <script>
-const themeToggle = document.getElementById('themeToggle');
+const themeBtn = document.getElementById('themeBtn');
 const themeText = document.getElementById('themeText');
-const langToggle = document.getElementById('langToggle');
+const langBtn = document.getElementById('langBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 const attentionText = document.getElementById('attentionText');
 const developerText = document.getElementById('developerText');
@@ -305,58 +252,53 @@ const noticeRu = document.querySelector('.notice-ru');
 const noticeEn = document.querySelector('.notice-en');
 
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light-theme') {
+if (savedTheme === 'light') {
   body.classList.add('light-theme');
-  updateButtonText();
+  updateThemeText();
 }
 
-themeToggle.addEventListener('click', (e) => {
-  e.preventDefault();
+const savedLang = localStorage.getItem('lang') || 'ru';
+updateLanguage(savedLang);
+
+themeBtn.addEventListener('click', () => {
   body.classList.toggle('light-theme');
-  const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
-  localStorage.setItem('theme', currentTheme);
-  updateButtonText();
+  localStorage.setItem('theme', body.classList.contains('light-theme') ? 'light' : 'dark');
+  updateThemeText();
 });
 
-function updateButtonText() {
+langBtn.addEventListener('click', () => {
+  const newLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
+  localStorage.setItem('lang', newLang);
+  updateLanguage(newLang);
+});
+
+function updateThemeText() {
   const isLight = body.classList.contains('light-theme');
   if (noticeRu.classList.contains('active')) {
     themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
   } else {
     themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
   }
-  themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
-
-const savedLang = localStorage.getItem('lang') || 'ru';
-updateLanguage(savedLang);
-
-langToggle.addEventListener('click', () => {
-  const currentLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
-  updateLanguage(currentLang);
-  localStorage.setItem('lang', currentLang);
-});
 
 function updateLanguage(lang) {
   if (lang === 'ru') {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
-    langToggle.textContent = 'EN';
+    langBtn.textContent = 'EN';
     downloadBtn.textContent = 'Скачать игру';
     attentionText.textContent = 'Внимание!';
     developerText.textContent = 'Меню разработчика';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
-    langToggle.textContent = 'RU';
+    langBtn.textContent = 'RU';
     downloadBtn.textContent = 'Download game';
     attentionText.textContent = 'Attention!';
     developerText.textContent = 'Developer Menu';
   }
-  updateButtonText();
+  updateThemeText();
 }
-
-updateButtonText();
 </script>
 </body>
 </html>
