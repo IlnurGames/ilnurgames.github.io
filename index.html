@@ -10,8 +10,9 @@
   --primary-dark: #5649c0;
   --primary-light: #a29bfe;
   --secondary: #7b68ee;
-  --accent: #ffd166;
-  --danger: #6c5ce7;
+  --accent: #00e5ff;
+  --accent-dark: #00b8d4;
+  --danger: #e84393;
   --text-light: #f8f9fa;
   --text-dark: #2d3436;
   --bg-light: #f8f9fa;
@@ -19,15 +20,16 @@
   --card-light: #ffffff;
   --card-dark: #2d3436;
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
-  --glow: 0 0 15px rgba(108, 92, 231, 0.4);
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --glow: 0 4px 12px rgba(108, 92, 231, 0.4);
+  --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -38,8 +40,8 @@ body {
   padding: 20px;
   transition: var(--transition);
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
+    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.1) 0%, transparent 40%);
 }
 
 body.light-theme {
@@ -68,7 +70,7 @@ body.light-theme {
   margin-bottom: 5px;
   line-height: 1.2;
   letter-spacing: -1px;
-  background: linear-gradient(90deg, #ff8a00, #e52e71, #6a11cb);
+  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -88,6 +90,7 @@ body.light-theme {
   justify-content: center;
   margin-bottom: 30px;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .theme-btn, .download-btn, .lang-btn {
@@ -102,87 +105,145 @@ body.light-theme {
   font-size: 14px;
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
   text-decoration: none;
   min-width: 120px;
+  gap: 8px;
   transform: translateY(0);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
 }
 
 .download-btn {
-  background: linear-gradient(135deg, #26a69a, #00897b);
-  border: 1px solid rgba(255,255,255,0.1);
-  order: 1;
+  background: linear-gradient(135deg, #7e57c2, #6a5acd);
+  position: relative;
 }
-.download-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(38, 166, 154, 0.4);
+
+.download-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, #6a5acd, #5c6bc0);
 }
 
 .theme-btn {
-  background: linear-gradient(135deg, #5c6bc0, #3949ab);
-  border: 1px solid rgba(255,255,255,0.1);
-  order: 2;
+  background: linear-gradient(135deg, #5c6bc0, #4a5acf);
+  position: relative;
 }
-.theme-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(92, 107, 192, 0.4);
+
+.theme-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, #7e57c2, #5c6bc0);
+}
+
+.theme-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, #5c6bc0, #5e35b1);
 }
 
 .lang-btn {
-  background: linear-gradient(135deg, #7e57c2, #5e35b1);
-  border: 1px solid rgba(255,255,255,0.1);
-  order: 3;
+  background: linear-gradient(135deg, #5e35b1, #4a2d91);
+  position: relative;
 }
+
+.lang-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, #5c6bc0, #5e35b1);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(126, 87, 194, 0.4);
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(92, 107, 192, 0.4);
+}
+
 .lang-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--shadow-hover), 0 0 15px rgba(126, 87, 194, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(94, 53, 177, 0.4);
 }
 
 .card {
   background-color: rgba(45, 52, 54, 0.85);
   border-radius: 14px;
-  box-shadow: var(--shadow);
   padding: 25px;
   margin-bottom: 30px;
   transition: var(--transition);
   border: 1px solid rgba(108, 92, 231, 0.3);
   backdrop-filter: blur(5px);
+  position: relative;
 }
 
 body.light-theme .card {
   background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(108, 92, 231, 0.2);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover), var(--glow);
-  border-color: rgba(108, 92, 231, 0.5);
+  box-shadow: var(--glow);
 }
 
 .attention {
-  color: #ff5252;
+  color: var(--danger);
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 15px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-shadow: var(--text-shadow);
 }
 
 .test-notice {
   background-color: rgba(108, 92, 231, 0.2);
-  border-left: 4px solid var(--primary);
   padding: 18px;
-  border-radius: 0 8px 8px 0;
+  border-radius: 6px;
   margin-bottom: 30px;
+  position: relative;
+  transition: var(--transition);
 }
 
 body.light-theme .test-notice {
   background-color: rgba(108, 92, 231, 0.08);
+}
+
+.test-notice:hover {
+  background-color: rgba(108, 92, 231, 0.25);
+  transform: translateX(5px);
+}
+
+.test-notice:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(0, 229, 255, 0.2));
+  z-index: -1;
 }
 
 .notice-ru, .notice-en {
@@ -193,13 +254,14 @@ body.light-theme .test-notice {
 }
 
 .developer {
-  color: #00d1d1;
+  color: var(--accent);
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 20px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: var(--text-shadow);
 }
 
 .options-list {
@@ -213,6 +275,7 @@ body.light-theme .test-notice {
   border-radius: 6px;
   transition: var(--transition);
   position: relative;
+  cursor: pointer;
 }
 
 body.light-theme .option-item {
@@ -230,9 +293,27 @@ body.light-theme .option-item {
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--accent);
+  color: var(--accent-dark);
   font-size: 1.5em;
   line-height: 1;
+  transition: var(--transition);
+}
+
+.option-item:hover::before {
+  color: var(--accent);
+  transform: translateY(-50%) scale(1.3);
+}
+
+.option-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(0, 229, 255, 0.2));
+  z-index: -1;
 }
 
 @keyframes fadeIn {
@@ -242,6 +323,18 @@ body.light-theme .option-item {
 
 .card {
   animation: fadeIn 0.6s ease-out forwards;
+}
+
+button, a {
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+button:active, a:active {
+  transform: translateY(2px) !important;
+}
+
+.option-item:active, .test-notice:active {
+  transform: translateX(5px) scale(0.98) !important;
 }
 </style>
 </head>
@@ -253,12 +346,12 @@ body.light-theme .option-item {
 
   <div class="button-group">
     <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank" id="downloadBtn">
-      Скачать игру
+      🎮 Скачать игру
     </a>
     <button class="theme-btn" id="themeToggle">
       <span id="themeText">Сменить тему</span>
     </button>
-    <button class="lang-btn" id="langToggle">EN</button>
+    <button class="lang-btn" id="langToggle">🌐 EN</button>
   </div>
   
   <div class="card">
@@ -341,20 +434,29 @@ function updateLanguage(lang) {
   if (lang === 'ru') {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
-    langToggle.textContent = 'EN';
-    downloadBtn.textContent = 'Скачать игру';
+    langToggle.textContent = '🌐 EN';
+    downloadBtn.textContent = '🎮 Скачать игру';
     attentionText.textContent = 'Внимание!';
     developerText.textContent = 'Меню разработчика';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
-    langToggle.textContent = 'RU';
-    downloadBtn.textContent = 'Download game';
+    langToggle.textContent = '🌐 RU';
+    downloadBtn.textContent = '🎮 Download game';
     attentionText.textContent = 'Attention!';
     developerText.textContent = 'Developer Menu';
   }
   updateButtonText();
 }
+
+document.addEventListener('touchend', function(e) {
+  const activeElements = document.querySelectorAll('button:active, a:active, .option-item:active, .test-notice:active');
+  activeElements.forEach(el => {
+    setTimeout(() => {
+      el.style.transform = '';
+    }, 200);
+  });
+}, true);
 
 updateButtonText();
 </script>
