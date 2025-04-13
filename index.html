@@ -11,15 +11,18 @@
   --primary-light: #a29bfe;
   --secondary: #7b68ee;
   --accent: #ffd166;
+  --cyber-teal: #00f5d4;
   --text-light: #f8f9fa;
   --text-dark: #2d3436;
   --bg-light: #f8f9fa;
   --bg-dark: #1e272e;
-  --card-light: #ffffff;
-  --card-dark: #2d3436;
-  --transition: all 0.2s ease;
-  --shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.2);
+  --card-light: rgba(255, 255, 255, 0.92);
+  --card-dark: rgba(45, 52, 54, 0.88);
+  --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  --shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.3);
+  --glow: 0 0 20px rgba(108, 92, 231, 0.5);
+  --neon-glow: 0 0 15px rgba(0, 245, 212, 0.7);
 }
 
 * {
@@ -34,161 +37,276 @@ body {
   color: var(--text-light);
   line-height: 1.7;
   padding: 20px;
+  transition: var(--transition);
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.2) 0%, transparent 30%),
+    radial-gradient(circle at 90% 80%, rgba(123, 104, 238, 0.2) 0%, transparent 30%),
+    linear-gradient(to bottom, rgba(28, 37, 46, 0.9), rgba(10, 15, 20, 0.95));
+  background-attachment: fixed;
 }
 
 body.light-theme {
   background-color: var(--bg-light);
   color: var(--text-dark);
-  background-image: none;
+  background-image: 
+    linear-gradient(to bottom, rgba(248, 249, 250, 0.95), rgba(230, 235, 240, 0.98));
 }
 
 .container {
   max-width: 900px;
   margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
 }
 
 .game-header {
   text-align: center;
   margin-bottom: 25px;
-  padding-top: 20px;
+  padding: 30px 0 20px;
+  position: relative;
+}
+
+.game-header::after {
+  content: '';
+  display: block;
+  width: 150px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  margin: 15px auto 0;
+  opacity: 0.6;
 }
 
 .game-title {
-  font-family: 'Arial Black', sans-serif;
-  font-size: 3rem;
+  font-family: 'Arial Black', 'Segoe UI', sans-serif;
+  font-size: 3.2rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #ff8a00, #e52e71, #6a11cb);
-  background-size: 200% auto;
+  margin-bottom: 5px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71, #6a11cb, #2575fc);
+  background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shine 3s linear infinite;
-  margin-bottom: 5px;
+  animation: shine 4s linear infinite;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes shine {
-  to { background-position: 200% center; }
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
-.buttons-container {
+.button-group {
   display: flex;
+  gap: 15px;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
   flex-wrap: wrap;
+  perspective: 1000px;
 }
 
-.btn {
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-  text-align: center;
+.theme-btn, .download-btn, .lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px;
+  color: white;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
   transition: var(--transition);
   box-shadow: var(--shadow);
-  border: none;
   position: relative;
   overflow: hidden;
-  transform: translateY(0);
-  min-width: 140px;
+  text-decoration: none;
+  min-width: 150px;
+  transform: translateY(0) rotateX(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+.download-btn {
+  background: linear-gradient(135deg, rgba(38, 166, 154, 0.9), rgba(0, 137, 123, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  order: 1;
+  z-index: 2;
+}
+.download-btn:hover {
+  transform: translateY(-5px) rotateX(10deg);
+  box-shadow: var(--shadow-hover), 0 0 20px rgba(38, 166, 154, 0.5);
+}
+.download-btn::before {
+  content: '🎮';
+  margin-right: 10px;
+  font-size: 1.2em;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
 }
 
-.btn-download {
-  background: linear-gradient(135deg, #26a69a, #00897b);
-  color: white;
+.theme-btn {
+  background: linear-gradient(135deg, rgba(92, 107, 192, 0.9), rgba(57, 73, 171, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  order: 2;
+  z-index: 1;
+}
+.theme-btn:hover {
+  transform: translateY(-5px) rotateX(10deg);
+  box-shadow: var(--shadow-hover), 0 0 20px rgba(92, 107, 192, 0.5);
 }
 
-.btn-theme {
-  background: linear-gradient(135deg, #5c6bc0, #3949ab);
-  color: white;
+.lang-btn {
+  background: linear-gradient(135deg, rgba(126, 87, 194, 0.9), rgba(94, 53, 177, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  order: 3;
+  min-width: 70px;
+  z-index: 0;
 }
-
-.btn-lang {
-  background: linear-gradient(135deg, #7e57c2, #5e35b1);
-  color: white;
-  width: 60px;
+.lang-btn:hover {
+  transform: translateY(-5px) rotateX(10deg);
+  box-shadow: var(--shadow-hover), 0 0 20px rgba(126, 87, 194, 0.5);
 }
 
 .card {
-  background-color: rgba(108, 92, 231, 0.1);
-  border-radius: 14px;
-  padding: 25px;
-  margin-bottom: 30px;
-  border: 1px solid rgba(108, 92, 231, 0.3);
-  backdrop-filter: blur(5px);
+  background-color: var(--card-dark);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 30px;
+  margin-bottom: 40px;
+  transition: var(--transition);
+  border: 1px solid rgba(108, 92, 231, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    rgba(108, 92, 231, 0.1), 
+    rgba(123, 104, 238, 0.1), 
+    rgba(0, 245, 212, 0.1));
+  z-index: -1;
+  border-radius: 18px;
+  animation: borderGlow 6s linear infinite;
+}
+
+@keyframes borderGlow {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
 }
 
 body.light-theme .card {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(108, 92, 231, 0.2);
+  background-color: var(--card-light);
+  border: 1px solid rgba(108, 92, 231, 0.25);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover), var(--glow);
 }
 
 .attention {
   color: #ff5252;
-  font-size: 1.8rem;
-  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 20px;
+  text-align: center;
   text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 5px rgba(255, 82, 82, 0.2);
+  position: relative;
+  display: inline-block;
+  padding: 0 15px;
 }
 
-.notice {
-  background-color: rgba(108, 92, 231, 0.2);
-  border-left: 4px solid var(--primary);
-  padding: 18px;
-  border-radius: 0 8px 8px 0;
-  margin-bottom: 25px;
+.attention::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff5252, transparent);
+  opacity: 0.6;
+}
+
+.test-notice {
+  background-color: rgba(108, 92, 231, 0.25);
+  border-left: 5px solid var(--primary);
+  padding: 20px;
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 35px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 15px rgba(108, 92, 231, 0.1);
+}
+
+.test-notice::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.05), 
+    transparent);
+  pointer-events: none;
+}
+
+body.light-theme .test-notice {
+  background-color: rgba(108, 92, 231, 0.1);
 }
 
 .notice-ru, .notice-en {
   display: none;
+  position: relative;
+  z-index: 2;
 }
 .notice-ru.active, .notice-en.active {
   display: block;
+  animation: fadeIn 0.6s ease-out;
 }
 
-.developer-title {
-  color: #4fc3f7;
-  font-size: 1.8rem;
+.developer {
+  color: var(--cyber-teal);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
   text-align: center;
-  margin-bottom: 20px;
   text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: var(--neon-glow);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.developer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-teal), transparent);
+  opacity: 0.7;
 }
 
 .options-list {
-  list-style: none;
-}
-
-.option-item {
-  padding: 12px 15px 12px 25px;
-  margin-bottom: 8px;
-  background-color: rgba(108, 92, 231, 0.15);
-  border-radius: 6px;
-  position: relative;
-  transition: var(--transition);
-}
-
-.option-item:hover {
-  background-color: rgba(108, 92, 231, 0.25);
-}
-
-.option-item::before {
-  content: '•';
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent);
-  font-size: 1.5em;
+  list-style-type: none;
 }
 </style>
 </head>
@@ -198,20 +316,20 @@ body.light-theme .card {
     <h1 class="game-title">HALF-LIFE <span>Ɣ</span></h1>
   </div>
 
-  <div class="buttons-container">
-    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="btn btn-download" id="downloadBtn">
+  <div class="button-group">
+    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank" id="downloadBtn">
       Скачать игру
     </a>
-    <button class="btn btn-theme" id="themeBtn">
+    <button class="theme-btn" id="themeToggle">
       <span id="themeText">Сменить тему</span>
     </button>
-    <button class="btn btn-lang" id="langBtn">EN</button>
+    <button class="lang-btn" id="langToggle">EN</button>
   </div>
   
   <div class="card">
     <h2 class="attention" id="attentionText">Внимание!</h2>
 
-    <div class="notice">
+    <div class="test-notice">
       <div class="notice-ru active">
         Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам!
       </div>
@@ -220,7 +338,7 @@ body.light-theme .card {
       </div>
     </div>
 
-    <h2 class="developer-title" id="developerText">Меню разработчика</h2>
+    <h2 class="developer" id="developerText">Меню разработчика</h2>
 
     <ul class="options-list">
       <li class="option-item">Debug: true/false - Включить/выключить режим отладки</li>
@@ -239,11 +357,10 @@ body.light-theme .card {
     </ul>
   </div>
 </div>
-
 <script>
-const themeBtn = document.getElementById('themeBtn');
+const themeToggle = document.getElementById('themeToggle');
 const themeText = document.getElementById('themeText');
-const langBtn = document.getElementById('langBtn');
+const langToggle = document.getElementById('langToggle');
 const downloadBtn = document.getElementById('downloadBtn');
 const attentionText = document.getElementById('attentionText');
 const developerText = document.getElementById('developerText');
@@ -252,53 +369,108 @@ const noticeRu = document.querySelector('.notice-ru');
 const noticeEn = document.querySelector('.notice-en');
 
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light') {
+if (savedTheme === 'light-theme') {
   body.classList.add('light-theme');
-  updateThemeText();
+  updateButtonText();
 }
 
-const savedLang = localStorage.getItem('lang') || 'ru';
-updateLanguage(savedLang);
-
-themeBtn.addEventListener('click', () => {
+themeToggle.addEventListener('click', (e) => {
+  e.preventDefault();
   body.classList.toggle('light-theme');
-  localStorage.setItem('theme', body.classList.contains('light-theme') ? 'light' : 'dark');
-  updateThemeText();
+  const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
+  localStorage.setItem('theme', currentTheme);
+  updateButtonText();
+  
+  themeToggle.style.transform = 'translateY(-5px) rotateX(10deg)';
+  setTimeout(() => {
+    themeToggle.style.transform = 'translateY(0) rotateX(0)';
+  }, 300);
 });
 
-langBtn.addEventListener('click', () => {
-  const newLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
-  localStorage.setItem('lang', newLang);
-  updateLanguage(newLang);
-});
-
-function updateThemeText() {
+function updateButtonText() {
   const isLight = body.classList.contains('light-theme');
   if (noticeRu.classList.contains('active')) {
     themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
   } else {
     themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
   }
+  themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
+
+const savedLang = localStorage.getItem('lang') || 'ru';
+updateLanguage(savedLang);
+
+langToggle.addEventListener('click', () => {
+  const currentLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
+  updateLanguage(currentLang);
+  localStorage.setItem('lang', currentLang);
+  
+  langToggle.style.transform = 'translateY(-5px) rotateX(10deg)';
+  setTimeout(() => {
+    langToggle.style.transform = 'translateY(0) rotateX(0)';
+  }, 300);
+});
 
 function updateLanguage(lang) {
   if (lang === 'ru') {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
-    langBtn.textContent = 'EN';
+    langToggle.textContent = 'EN';
     downloadBtn.textContent = 'Скачать игру';
     attentionText.textContent = 'Внимание!';
     developerText.textContent = 'Меню разработчика';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
-    langBtn.textContent = 'RU';
+    langToggle.textContent = 'RU';
     downloadBtn.textContent = 'Download game';
     attentionText.textContent = 'Attention!';
     developerText.textContent = 'Developer Menu';
   }
-  updateThemeText();
+  updateButtonText();
 }
+
+updateButtonText();
+
+document.querySelectorAll('.option-item').forEach(item => {
+  item.addEventListener('mouseenter', function() {
+    this.style.transition = 'all 0.3s ease-out';
+  });
+  item.addEventListener('mouseleave', function() {
+    this.style.transition = 'var(--transition)';
+  });
+});
+
+window.addEventListener('load', () => {
+  document.querySelector('.card').style.animation = 'fadeIn 0.8s ease-out forwards';
+});
 </script>
+
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2.5rem;
+  }
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  .theme-btn, .download-btn, .lang-btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+</style>
+
 </body>
 </html>
