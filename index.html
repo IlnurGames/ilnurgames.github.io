@@ -311,6 +311,35 @@ body.light-theme .feature-item {
   flex-wrap: wrap;
 }
 
+.image-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -378,8 +407,8 @@ button:active, a:active {
     </div>
 
     <div class="credits">
-      <span id="creditsDev">разработчик:</span> <span id="developerName">Ильнур Шарапов</span><br>
-      <span id="creditsYear">год выпуска:</span> 2020-2025
+      <span id="creditsDev">Разработчик:</span> <span id="developerName">Ильнур Шарапов</span><br>
+      <span id="creditsYear">Год выпуска:</span> 2020-2025
     </div>
   </div>
 </div>
@@ -390,6 +419,10 @@ button:active, a:active {
     <button class="btn config-btn-small" id="controlsBtn">Управление</button>
     <button class="btn config-btn-small" id="gameConfigBtn">Настройки игры</button>
     <button class="btn config-btn-small" id="launcherConfigBtn">Настройки лаунчера</button>
+  </div>
+  <div class="image-navigation">
+    <button class="nav-btn" id="prevBtn">❮</button>
+    <button class="nav-btn" id="nextBtn">❯</button>
   </div>
   <img class="modal-content" id="modalImage">
 </div>
@@ -408,7 +441,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalImg = document.getElementById('modalImage');
   const closeBtn = document.querySelector('.close');
   const developerName = document.getElementById('developerName');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
   const body = document.body;
+
+  const images = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+  let currentImageIndex = 0;
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -449,22 +487,37 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   configToggle.addEventListener('click', function() {
+    currentImageIndex = 0;
+    modalImg.src = images[currentImageIndex];
     modal.style.display = "block";
   });
 
   controlsBtn.addEventListener('click', function() {
-    modalImg.src = 'controls.png';
+    currentImageIndex = 0;
+    modalImg.src = images[currentImageIndex];
     modal.style.display = "block";
   });
 
   gameConfigBtn.addEventListener('click', function() {
-    modalImg.src = 'game_config.jpg';
+    currentImageIndex = 1;
+    modalImg.src = images[currentImageIndex];
     modal.style.display = "block";
   });
 
   launcherConfigBtn.addEventListener('click', function() {
-    modalImg.src = 'launcher_config.jpg';
+    currentImageIndex = 2;
+    modalImg.src = images[currentImageIndex];
     modal.style.display = "block";
+  });
+
+  prevBtn.addEventListener('click', function() {
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    modalImg.src = images[currentImageIndex];
+  });
+
+  nextBtn.addEventListener('click', function() {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    modalImg.src = images[currentImageIndex];
   });
 
   closeBtn.addEventListener('click', function() {
@@ -492,8 +545,8 @@ document.addEventListener('DOMContentLoaded', function() {
       feature5: {ru: '<strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.', en: '<strong>Dark atmosphere:</strong> dark locations, tense dialogues and sound design in the spirit of original Half-Life.'},
       targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
       targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
-      creditsDev: {ru: 'разработчик:', en: 'developer:'},
-      creditsYear: {ru: 'год выпуска:', en: 'release year:'},
+      creditsDev: {ru: 'Разработчик:', en: 'Developer:'},
+      creditsYear: {ru: 'Год выпуска:', en: 'Release year:'},
       controlsBtn: {ru: 'Управление', en: 'Controls'},
       gameConfigBtn: {ru: 'Настройки игры', en: 'Game Settings'},
       launcherConfigBtn: {ru: 'Настройки лаунчера', en: 'Launcher Settings'}
