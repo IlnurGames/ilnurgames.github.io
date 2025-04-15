@@ -203,9 +203,10 @@ body.light-theme {
 
 .config-btn-small {
   background: linear-gradient(135deg, #4a2d91, #3a1d71);
-  padding: 8px 12px;
-  font-size: 12px;
-  min-width: auto;
+  padding: 12px 16px;
+  font-size: 14px;
+  min-width: 120px;
+  margin: 5px;
 }
 
 .btn:hover {
@@ -320,10 +321,11 @@ body.light-theme .feature-item {
 .modal-content {
   margin: auto;
   display: block;
-  max-width: 90%;
-  max-height: 90%;
-  margin-top: 50px;
+  max-width: 95%;
+  max-height: 80vh;
+  margin-top: 10vh;
   animation: zoom 0.3s;
+  position: relative;
 }
 
 @keyframes zoom {
@@ -332,18 +334,27 @@ body.light-theme .feature-item {
 }
 
 .close {
-  position: absolute;
-  top: 15px;
-  right: 35px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
   color: #f1f1f1;
   font-size: 40px;
   font-weight: bold;
   transition: 0.3s;
   cursor: pointer;
+  z-index: 101;
+  background: rgba(0, 0, 0, 0.5);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
 .close:hover {
   color: var(--accent);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .config-buttons {
@@ -352,6 +363,44 @@ body.light-theme .feature-item {
   justify-content: center;
   margin-top: 15px;
   flex-wrap: wrap;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 600px) {
+  .config-buttons {
+    flex-direction: column;
+    align-items: center;
+    top: 10px;
+  }
+  
+  .config-btn-small {
+    width: 90%;
+    max-width: 250px;
+  }
+  
+  .game-title {
+    font-size: 2.2rem;
+  }
+  
+  .game-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 250px;
+  }
 }
 
 @keyframes fadeIn {
