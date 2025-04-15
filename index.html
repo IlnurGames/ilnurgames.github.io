@@ -60,56 +60,13 @@ body.light-theme {
 
 .game-logo {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   height: auto;
   margin: 0 auto 20px;
   display: block;
   border-radius: 12px;
   box-shadow: var(--shadow);
   border: 2px solid rgba(108, 92, 231, 0.5);
-}
-
-.gallery-container {
-  position: relative;
-  margin: 0 auto 20px;
-  max-width: 800px;
-}
-
-.gallery-image {
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  border: 2px solid rgba(108, 92, 231, 0.5);
-  display: block;
-}
-
-.gallery-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.gallery-btn {
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gallery-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
 }
 
 .game-header {
@@ -298,6 +255,18 @@ body.light-theme .feature-item {
   transform: translateY(-50%) scale(1.3);
 }
 
+.feature-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
+  z-index: -1;
+}
+
 .credits {
   margin-top: 30px;
   font-size: 0.9rem;
@@ -332,14 +301,15 @@ body.light-theme .feature-item {
 }
 
 .close {
-  position: absolute;
-  top: 15px;
-  right: 35px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
   color: #f1f1f1;
   font-size: 40px;
   font-weight: bold;
   transition: 0.3s;
   cursor: pointer;
+  z-index: 101;
 }
 
 .close:hover {
@@ -352,6 +322,26 @@ body.light-theme .feature-item {
   justify-content: center;
   margin-top: 15px;
   flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2.2rem;
+  }
+  
+  .game-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 250px;
+  }
 }
 
 @keyframes fadeIn {
@@ -383,13 +373,7 @@ button:active, a:active {
     <div class="game-subtitle">Ilnur Games</div>
   </div>
 
-  <div class="gallery-container">
-    <img src="logo.png" alt="HALF-LIFE Ɣ Screenshot" class="gallery-image" id="galleryImage">
-    <div class="gallery-navigation">
-      <button class="gallery-btn" id="prevBtn">❮</button>
-      <button class="gallery-btn" id="nextBtn">❯</button>
-    </div>
-  </div>
+  <img src="logo.png" alt="HALF-LIFE Ɣ Logo" class="game-logo">
 
   <div class="button-group">
     <a href="https://disk.yandex.ru/d/KAcBxOIAlnIFkQ" class="btn download-btn" target="_blank" id="downloadBtn">
@@ -457,19 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalImg = document.getElementById('modalImage');
   const closeBtn = document.querySelector('.close');
   const developerName = document.getElementById('developerName');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const galleryImage = document.getElementById('galleryImage');
   const body = document.body;
-
-  const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
-  let currentGalleryIndex = 0;
-
-  const configImages = {
-    controls: 'controls.png',
-    game: 'game_config.jpg',
-    launcher: 'launcher_config.jpg'
-  };
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -509,32 +481,22 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
-  prevBtn.addEventListener('click', function() {
-    currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
-    galleryImage.src = galleryImages[currentGalleryIndex];
-  });
-
-  nextBtn.addEventListener('click', function() {
-    currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
-    galleryImage.src = galleryImages[currentGalleryIndex];
-  });
-
   configToggle.addEventListener('click', function() {
     modal.style.display = "block";
   });
 
   controlsBtn.addEventListener('click', function() {
-    modalImg.src = configImages.controls;
+    modalImg.src = 'controls.png';
     modal.style.display = "block";
   });
 
   gameConfigBtn.addEventListener('click', function() {
-    modalImg.src = configImages.game;
+    modalImg.src = 'game_config.jpg';
     modal.style.display = "block";
   });
 
   launcherConfigBtn.addEventListener('click', function() {
-    modalImg.src = configImages.launcher;
+    modalImg.src = 'launcher_config.jpg';
     modal.style.display = "block";
   });
 
