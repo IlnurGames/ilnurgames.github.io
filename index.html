@@ -118,7 +118,7 @@ body.light-theme {
   position: relative;
 }
 
-.theme-btn, .download-btn, .lang-btn, .dev-btn, .config-btn {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -130,8 +130,6 @@ body.light-theme {
   font-size: 14px;
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  overflow: hidden;
   text-decoration: none;
   min-width: 120px;
   gap: 8px;
@@ -142,112 +140,34 @@ body.light-theme {
 
 .download-btn {
   background: linear-gradient(135deg, #7e57c2, #6a5acd);
-  position: relative;
-}
-
-.download-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #6a5acd, #5c6bc0);
 }
 
 .theme-btn {
   background: linear-gradient(135deg, #5c6bc0, #4a5acf);
-  position: relative;
-}
-
-.theme-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #7e57c2, #5c6bc0);
-}
-
-.theme-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #5c6bc0, #5e35b1);
 }
 
 .lang-btn {
   background: linear-gradient(135deg, #5e35b1, #4a2d91);
-  position: relative;
-}
-
-.lang-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #5c6bc0, #5e35b1);
 }
 
 .dev-btn {
   background: linear-gradient(135deg, #4a2d91, #3a1d71);
-  position: relative;
-}
-
-.dev-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #5e35b1, #4a2d91);
 }
 
 .config-btn {
   background: linear-gradient(135deg, #3a1d71, #2a0d51);
-  position: relative;
 }
 
-.config-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #4a2d91, #3a1d71);
+.config-btn-small {
+  background: linear-gradient(135deg, #4a2d91, #3a1d71);
+  padding: 8px 12px;
+  font-size: 12px;
+  min-width: auto;
 }
 
-.download-btn:hover {
+.btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(126, 87, 194, 0.4);
-}
-
-.theme-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(92, 107, 192, 0.4);
-}
-
-.lang-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(94, 53, 177, 0.4);
-}
-
-.dev-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(74, 45, 145, 0.4);
-}
-
-.config-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(58, 29, 113, 0.4);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .card {
@@ -335,18 +255,6 @@ body.light-theme .feature-item {
   transform: translateY(-50%) scale(1.3);
 }
 
-.feature-item:hover::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
-  z-index: -1;
-}
-
 .credits {
   margin-top: 30px;
   font-size: 0.9rem;
@@ -403,12 +311,6 @@ body.light-theme .feature-item {
   flex-wrap: wrap;
 }
 
-.config-btn-small {
-  padding: 8px 12px;
-  font-size: 12px;
-  min-width: auto;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -441,17 +343,17 @@ button:active, a:active {
   <img src="logo.png" alt="HALF-LIFE Ɣ Logo" class="game-logo">
 
   <div class="button-group">
-    <a href="https://disk.yandex.ru/d/KAcBxOIAlnIFkQ" class="download-btn" target="_blank" id="downloadBtn">
+    <a href="https://disk.yandex.ru/d/KAcBxOIAlnIFkQ" class="btn download-btn" target="_blank" id="downloadBtn">
       🎮 Скачать игру
     </a>
-    <button class="theme-btn" id="themeToggle">
+    <button class="btn theme-btn" id="themeToggle">
       <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
     </button>
-    <button class="lang-btn" id="langToggle">🌐 EN</button>
-    <a href="help.html" class="dev-btn" id="devBtn">
+    <button class="btn lang-btn" id="langToggle">🌐 EN</button>
+    <a href="help.html" class="btn dev-btn" id="devBtn">
       🛠️ Меню разработчика
     </a>
-    <button class="config-btn" id="configToggle">
+    <button class="btn config-btn" id="configToggle">
       ⚙️ Настройки
     </button>
   </div>
@@ -485,145 +387,131 @@ button:active, a:active {
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
   <div class="config-buttons">
-    <button class="config-btn config-btn-small" onclick="openConfigImage('controls.png')" id="controlsBtn">Управление</button>
-    <button class="config-btn config-btn-small" onclick="openConfigImage('game_config.jpg')" id="gameConfigBtn">Настройки игры</button>
-    <button class="config-btn config-btn-small" onclick="openConfigImage('launcher_config.jpg')" id="launcherConfigBtn">Настройки лаунчера</button>
+    <button class="btn config-btn-small" id="controlsBtn">Управление</button>
+    <button class="btn config-btn-small" id="gameConfigBtn">Настройки игры</button>
+    <button class="btn config-btn-small" id="launcherConfigBtn">Настройки лаунчера</button>
   </div>
   <img class="modal-content" id="modalImage">
 </div>
 
 <script>
-const themeToggle = document.getElementById('themeToggle');
-const themeText = document.getElementById('themeText');
-const themeIcon = document.getElementById('themeIcon');
-const langToggle = document.getElementById('langToggle');
-const downloadBtn = document.getElementById('downloadBtn');
-const descriptionText = document.getElementById('descriptionText');
-const featuresTitle = document.getElementById('featuresTitle');
-const targetTitle = document.getElementById('targetTitle');
-const targetDesc = document.getElementById('targetDesc');
-const creditsDev = document.getElementById('creditsDev');
-const creditsYear = document.getElementById('creditsYear');
-const feature1 = document.getElementById('feature1');
-const feature2 = document.getElementById('feature2');
-const feature3 = document.getElementById('feature3');
-const feature4 = document.getElementById('feature4');
-const feature5 = document.getElementById('feature5');
-const configToggle = document.getElementById('configToggle');
-const devBtn = document.getElementById('devBtn');
-const controlsBtn = document.getElementById('controlsBtn');
-const gameConfigBtn = document.getElementById('gameConfigBtn');
-const launcherConfigBtn = document.getElementById('launcherConfigBtn');
-const modal = document.getElementById('configModal');
-const modalImg = document.getElementById('modalImage');
-const span = document.getElementsByClassName('close')[0];
-const body = document.body;
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.getElementById('themeToggle');
+  const themeText = document.getElementById('themeText');
+  const themeIcon = document.getElementById('themeIcon');
+  const langToggle = document.getElementById('langToggle');
+  const configToggle = document.getElementById('configToggle');
+  const controlsBtn = document.getElementById('controlsBtn');
+  const gameConfigBtn = document.getElementById('gameConfigBtn');
+  const launcherConfigBtn = document.getElementById('launcherConfigBtn');
+  const modal = document.getElementById('configModal');
+  const modalImg = document.getElementById('modalImage');
+  const closeBtn = document.querySelector('.close');
+  const body = document.body;
 
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light-theme') {
-  body.classList.add('light-theme');
-  updateThemeIcon();
-}
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light-theme') {
+    body.classList.add('light-theme');
+    updateThemeIcon();
+  }
 
-themeToggle.addEventListener('click', (e) => {
-  e.preventDefault();
-  body.classList.toggle('light-theme');
-  const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
-  localStorage.setItem('theme', currentTheme);
+  themeToggle.addEventListener('click', function() {
+    body.classList.toggle('light-theme');
+    const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
+    localStorage.setItem('theme', currentTheme);
+    updateThemeIcon();
+    updateButtonText();
+  });
+
+  function updateThemeIcon() {
+    const isLight = body.classList.contains('light-theme');
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
+  }
+
+  function updateButtonText() {
+    const isLight = body.classList.contains('light-theme');
+    const currentLang = localStorage.getItem('lang') || 'ru';
+    if (currentLang === 'ru') {
+      themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+    } else {
+      themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
+    }
+  }
+
+  const savedLang = localStorage.getItem('lang') || 'ru';
+  updateLanguage(savedLang);
+
+  langToggle.addEventListener('click', function() {
+    const currentLang = localStorage.getItem('lang') === 'ru' ? 'en' : 'ru';
+    updateLanguage(currentLang);
+    localStorage.setItem('lang', currentLang);
+  });
+
+  configToggle.addEventListener('click', function() {
+    modal.style.display = "block";
+  });
+
+  controlsBtn.addEventListener('click', function() {
+    modalImg.src = 'controls.png';
+    modal.style.display = "block";
+  });
+
+  gameConfigBtn.addEventListener('click', function() {
+    modalImg.src = 'game_config.jpg';
+    modal.style.display = "block";
+  });
+
+  launcherConfigBtn.addEventListener('click', function() {
+    modalImg.src = 'launcher_config.jpg';
+    modal.style.display = "block";
+  });
+
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  function updateLanguage(lang) {
+    const elements = {
+      downloadBtn: {ru: '🎮 Скачать игру', en: '🎮 Download game'},
+      themeText: {ru: body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема', en: body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme'},
+      devBtn: {ru: '🛠️ Меню разработчика', en: '🛠️ Developer Menu'},
+      configToggle: {ru: '⚙️ Настройки', en: '⚙️ Settings'},
+      descriptionText: {ru: 'HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
+      featuresTitle: {ru: 'Особенности игры', en: 'Game Features'},
+      feature1: {ru: '<strong>Динамичный сюжет:</strong> Шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.', en: '<strong>Dynamic story:</strong> Six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.'},
+      feature2: {ru: '<strong>Разнообразие противников:</strong> Хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.', en: '<strong>Variety of enemies:</strong> Headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.'},
+      feature3: {ru: '<strong>Классический арсенал:</strong> Монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.', en: '<strong>Classic arsenal:</strong> Crowbar, USP pistol, powerful experimental weapons and useful items like medkits and flashlight.'},
+      feature4: {ru: '<strong>Гибкость управления:</strong> Поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.', en: '<strong>Control flexibility:</strong> Support for different input schemes - gamepad, touch screen or virtual buttons.'},
+      feature5: {ru: '<strong>Мрачная атмосфера:</strong> Темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.', en: '<strong>Dark atmosphere:</strong> Dark locations, tense dialogues and sound design in the spirit of original Half-Life.'},
+      targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
+      targetDesc: {ru: 'Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'For fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
+      creditsDev: {ru: 'Разработчик:', en: 'Developer:'},
+      creditsYear: {ru: 'Год выпуска:', en: 'Release year:'},
+      controlsBtn: {ru: 'Управление', en: 'Controls'},
+      gameConfigBtn: {ru: 'Настройки игры', en: 'Game Settings'},
+      launcherConfigBtn: {ru: 'Настройки лаунчера', en: 'Launcher Settings'}
+    };
+
+    for (const [id, texts] of Object.entries(elements)) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = texts[lang];
+      }
+    }
+
+    langToggle.textContent = lang === 'ru' ? '🌐 EN' : '🌐 RU';
+    updateThemeIcon();
+  }
+
   updateThemeIcon();
   updateButtonText();
 });
-
-function updateThemeIcon() {
-  const isLight = body.classList.contains('light-theme');
-  themeIcon.textContent = isLight ? '🌙' : '☀️';
-}
-
-function updateButtonText() {
-  const isLight = body.classList.contains('light-theme');
-  const currentLang = localStorage.getItem('lang') || 'ru';
-  if (currentLang === 'ru') {
-    themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
-  } else {
-    themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
-  }
-}
-
-const savedLang = localStorage.getItem('lang') || 'ru';
-updateLanguage(savedLang);
-
-langToggle.addEventListener('click', () => {
-  const currentLang = localStorage.getItem('lang') === 'ru' ? 'en' : 'ru';
-  updateLanguage(currentLang);
-  localStorage.setItem('lang', currentLang);
-});
-
-function updateLanguage(lang) {
-  if (lang === 'ru') {
-    langToggle.textContent = '🌐 EN';
-    downloadBtn.innerHTML = '🎮 Скачать игру';
-    themeText.innerHTML = (body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема';
-    devBtn.innerHTML = '🛠️ Меню разработчика';
-    configToggle.innerHTML = '⚙️ Настройки';
-    descriptionText.textContent = 'HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.';
-    featuresTitle.textContent = 'Особенности игры';
-    feature1.innerHTML = '<strong>Динамичный сюжет:</strong> Шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.';
-    feature2.innerHTML = '<strong>Разнообразие противников:</strong> Хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.';
-    feature3.innerHTML = '<strong>Классический арсенал:</strong> Монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.';
-    feature4.innerHTML = '<strong>Гибкость управления:</strong> Поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.';
-    feature5.innerHTML = '<strong>Мрачная атмосфера:</strong> Темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.';
-    targetTitle.textContent = 'Для кого эта игра:';
-    targetDesc.textContent = 'Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.';
-    creditsDev.textContent = 'Разработчик:';
-    creditsYear.textContent = 'Год выпуска:';
-    controlsBtn.textContent = 'Управление';
-    gameConfigBtn.textContent = 'Настройки игры';
-    launcherConfigBtn.textContent = 'Настройки лаунчера';
-  } else {
-    langToggle.textContent = '🌐 RU';
-    downloadBtn.innerHTML = '🎮 Download game';
-    themeText.innerHTML = (body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme');
-    devBtn.innerHTML = '🛠️ Developer Menu';
-    configToggle.innerHTML = '⚙️ Settings';
-    descriptionText.textContent = 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.';
-    featuresTitle.textContent = 'Game Features';
-    feature1.innerHTML = '<strong>Dynamic story:</strong> Six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.';
-    feature2.innerHTML = '<strong>Variety of enemies:</strong> Headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.';
-    feature3.innerHTML = '<strong>Classic arsenal:</strong> Crowbar, USP pistol, powerful experimental weapons and useful items like medkits and flashlight.';
-    feature4.innerHTML = '<strong>Control flexibility:</strong> Support for different input schemes - gamepad, touch screen or virtual buttons.';
-    feature5.innerHTML = '<strong>Dark atmosphere:</strong> Dark locations, tense dialogues and sound design in the spirit of original Half-Life.';
-    targetTitle.textContent = 'Who is this game for:';
-    targetDesc.textContent = 'For fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.';
-    creditsDev.textContent = 'Developer:';
-    creditsYear.textContent = 'Release year:';
-    controlsBtn.textContent = 'Controls';
-    gameConfigBtn.textContent = 'Game Settings';
-    launcherConfigBtn.textContent = 'Launcher Settings';
-  }
-  updateThemeIcon();
-}
-
-configToggle.addEventListener('click', () => {
-  modal.style.display = "block";
-});
-
-span.addEventListener('click', () => {
-  modal.style.display = "none";
-});
-
-window.addEventListener('click', (event) => {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-});
-
-function openConfigImage(imgSrc) {
-  modalImg.src = imgSrc;
-  modal.style.display = "block";
-}
-
-updateThemeIcon();
-updateButtonText();
 </script>
 </body>
 </html>
