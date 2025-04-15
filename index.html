@@ -42,6 +42,7 @@ body {
   background-image: 
     radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
     radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
+  word-spacing: normal;
 }
 
 body.light-theme {
@@ -117,7 +118,7 @@ body.light-theme {
   position: relative;
 }
 
-.theme-btn, .download-btn, .lang-btn, .dev-btn {
+.theme-btn, .download-btn, .lang-btn, .dev-btn, .config-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -209,6 +210,21 @@ body.light-theme {
   background: linear-gradient(to right, #5e35b1, #4a2d91);
 }
 
+.config-btn {
+  background: linear-gradient(135deg, #3a1d71, #2a0d51);
+  position: relative;
+}
+
+.config-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, #4a2d91, #3a1d71);
+}
+
 .download-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(126, 87, 194, 0.4);
@@ -227,6 +243,11 @@ body.light-theme {
 .dev-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(74, 45, 145, 0.4);
+}
+
+.config-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(58, 29, 113, 0.4);
 }
 
 .card {
@@ -254,6 +275,7 @@ body.light-theme .card {
 .game-description {
   margin-bottom: 20px;
   text-align: justify;
+  word-spacing: normal;
 }
 
 .features-title {
@@ -280,11 +302,18 @@ body.light-theme .card {
   transition: var(--transition);
   position: relative;
   border: 1px solid rgba(108, 92, 231, 0.25);
+  cursor: pointer;
 }
 
 body.light-theme .feature-item {
   background-color: rgba(108, 92, 231, 0.05);
   border: 1px solid rgba(108, 92, 231, 0.15);
+}
+
+.feature-item:hover {
+  background-color: rgba(108, 92, 231, 0.3);
+  transform: translateX(5px);
+  border: 1px solid rgba(108, 92, 231, 0.35);
 }
 
 .feature-item::before {
@@ -299,11 +328,83 @@ body.light-theme .feature-item {
   transition: var(--transition);
 }
 
+.feature-item:hover::before {
+  color: var(--accent);
+  transform: translateY(-50%) scale(1.3);
+}
+
+.feature-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
+  z-index: -1;
+}
+
 .credits {
   margin-top: 30px;
   font-size: 0.9rem;
   text-align: center;
   color: var(--primary-light);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  margin-top: 50px;
+  animation: zoom 0.3s;
+}
+
+@keyframes zoom {
+  from {transform: scale(0.5); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--accent);
+}
+
+.config-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.config-btn-small {
+  padding: 8px 12px;
+  font-size: 12px;
+  min-width: auto;
 }
 
 @keyframes fadeIn {
@@ -322,6 +423,10 @@ button, a {
 button:active, a:active {
   transform: translateY(2px) !important;
 }
+
+.feature-item:active {
+  transform: translateX(5px) scale(0.98) !important;
+}
 </style>
 </head>
 <body>
@@ -334,7 +439,7 @@ button:active, a:active {
   <img src="logo.png" alt="HALF-LIFE Ɣ Logo" class="game-logo">
 
   <div class="button-group">
-    <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank" id="downloadBtn">
+    <a href="https://disk.yandex.ru/d/KAcBxOIAlnIFkQ" class="download-btn" target="_blank" id="downloadBtn">
       🎮 Скачать игру
     </a>
     <button class="theme-btn" id="themeToggle">
@@ -344,6 +449,9 @@ button:active, a:active {
     <a href="help.html" class="dev-btn">
       🛠️ Меню разработчика
     </a>
+    <button class="config-btn" id="configToggle">
+      ⚙️ Настройки
+    </button>
   </div>
   
   <div class="card">
@@ -354,22 +462,32 @@ button:active, a:active {
     <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
 
     <ul class="features-list">
-      <li class="feature-item"><strong>Динамичный сюжет:</strong> Шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
-      <li class="feature-item"><strong>Разнообразие противников:</strong> Хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
-      <li class="feature-item"><strong>Классический арсенал:</strong> Монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
-      <li class="feature-item"><strong>Гибкость управления:</strong> Поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
-      <li class="feature-item"><strong>Мрачная атмосфера:</strong> Темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.</li>
+      <li class="feature-item" id="feature1"><strong>Динамичный сюжет:</strong> Шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
+      <li class="feature-item" id="feature2"><strong>Разнообразие противников:</strong> Хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
+      <li class="feature-item" id="feature3"><strong>Классический арсенал:</strong> Монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
+      <li class="feature-item" id="feature4"><strong>Гибкость управления:</strong> Поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
+      <li class="feature-item" id="feature5"><strong>Мрачная атмосфера:</strong> Темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.</li>
     </ul>
 
     <div class="game-description" id="targetText">
-      <strong>Для кого эта игра:</strong> Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.
+      <strong id="targetTitle">Для кого эта игра:</strong> <span id="targetDesc">Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.</span>
     </div>
 
     <div class="credits">
-      Разработчик: Ilnur Games<br>
-      Год выпуска: 2020-2025
+      <span id="creditsDev">Разработчик:</span> Ilnur Games<br>
+      <span id="creditsYear">Год выпуска:</span> 2020-2025
     </div>
   </div>
+</div>
+
+<div id="configModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="config-buttons">
+    <button class="config-btn config-btn-small" onclick="openConfigImage('controls.png')">Управление</button>
+    <button class="config-btn config-btn-small" onclick="openConfigImage('game_config.png')">Настройки игры</button>
+    <button class="config-btn config-btn-small" onclick="openConfigImage('launcher_config.png')">Настройки лаунчера</button>
+  </div>
+  <img class="modal-content" id="modalImage">
 </div>
 
 <script>
@@ -379,7 +497,19 @@ const langToggle = document.getElementById('langToggle');
 const downloadBtn = document.getElementById('downloadBtn');
 const descriptionText = document.getElementById('descriptionText');
 const featuresTitle = document.getElementById('featuresTitle');
-const targetText = document.getElementById('targetText');
+const targetTitle = document.getElementById('targetTitle');
+const targetDesc = document.getElementById('targetDesc');
+const creditsDev = document.getElementById('creditsDev');
+const creditsYear = document.getElementById('creditsYear');
+const feature1 = document.getElementById('feature1');
+const feature2 = document.getElementById('feature2');
+const feature3 = document.getElementById('feature3');
+const feature4 = document.getElementById('feature4');
+const feature5 = document.getElementById('feature5');
+const configToggle = document.getElementById('configToggle');
+const modal = document.getElementById('configModal');
+const modalImg = document.getElementById('modalImage');
+const span = document.getElementsByClassName('close')[0];
 const body = document.body;
 
 const savedTheme = localStorage.getItem('theme');
@@ -414,18 +544,57 @@ langToggle.addEventListener('click', () => {
 function updateLanguage(lang) {
   if (lang === 'ru') {
     langToggle.textContent = '🌐 EN';
-    downloadBtn.textContent = '🎮 Скачать игру';
+    downloadBtn.innerHTML = '🎮 Скачать игру';
+    themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + (body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема');
     descriptionText.textContent = 'HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.';
     featuresTitle.textContent = 'Особенности игры';
-    targetText.innerHTML = '<strong>Для кого эта игра:</strong> Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.';
+    feature1.innerHTML = '<strong>Динамичный сюжет:</strong> Шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.';
+    feature2.innerHTML = '<strong>Разнообразие противников:</strong> Хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.';
+    feature3.innerHTML = '<strong>Классический арсенал:</strong> Монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.';
+    feature4.innerHTML = '<strong>Гибкость управления:</strong> Поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.';
+    feature5.innerHTML = '<strong>Мрачная атмосфера:</strong> Темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.';
+    targetTitle.textContent = 'Для кого эта игра:';
+    targetDesc.textContent = 'Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.';
+    creditsDev.textContent = 'Разработчик:';
+    creditsYear.textContent = 'Год выпуска:';
+    configToggle.innerHTML = '⚙️ Настройки';
   } else {
     langToggle.textContent = '🌐 RU';
-    downloadBtn.textContent = '🎮 Download game';
+    downloadBtn.innerHTML = '🎮 Download game';
+    themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + (body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme');
     descriptionText.textContent = 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.';
     featuresTitle.textContent = 'Game Features';
-    targetText.innerHTML = '<strong>Who is this game for:</strong> For fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.';
+    feature1.innerHTML = '<strong>Dynamic story:</strong> Six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.';
+    feature2.innerHTML = '<strong>Variety of enemies:</strong> Headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.';
+    feature3.innerHTML = '<strong>Classic arsenal:</strong> Crowbar, USP pistol, powerful experimental weapons and useful items like medkits and flashlight.';
+    feature4.innerHTML = '<strong>Control flexibility:</strong> Support for different input schemes - gamepad, touch screen or virtual buttons.';
+    feature5.innerHTML = '<strong>Dark atmosphere:</strong> Dark locations, tense dialogues and sound design in the spirit of original Half-Life.';
+    targetTitle.textContent = 'Who is this game for:';
+    targetDesc.textContent = 'For fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.';
+    creditsDev.textContent = 'Developer:';
+    creditsYear.textContent = 'Release year:';
+    configToggle.innerHTML = '⚙️ Settings';
   }
   updateButtonText();
+}
+
+configToggle.addEventListener('click', () => {
+  modal.style.display = "block";
+});
+
+span.addEventListener('click', () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+});
+
+function openConfigImage(imgSrc) {
+  modalImg.src = imgSrc;
+  modal.style.display = "block";
 }
 
 updateButtonText();
