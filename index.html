@@ -445,7 +445,7 @@ button:active, a:active {
       🎮 Скачать игру
     </a>
     <button class="theme-btn" id="themeToggle">
-      <span id="themeText">Сменить тему</span>
+      <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
     </button>
     <button class="lang-btn" id="langToggle">🌐 EN</button>
     <a href="help.html" class="dev-btn" id="devBtn">
@@ -495,6 +495,7 @@ button:active, a:active {
 <script>
 const themeToggle = document.getElementById('themeToggle');
 const themeText = document.getElementById('themeText');
+const themeIcon = document.getElementById('themeIcon');
 const langToggle = document.getElementById('langToggle');
 const downloadBtn = document.getElementById('downloadBtn');
 const descriptionText = document.getElementById('descriptionText');
@@ -521,7 +522,7 @@ const body = document.body;
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light-theme') {
   body.classList.add('light-theme');
-  updateButtonText();
+  updateThemeIcon();
 }
 
 themeToggle.addEventListener('click', (e) => {
@@ -529,8 +530,14 @@ themeToggle.addEventListener('click', (e) => {
   body.classList.toggle('light-theme');
   const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
   localStorage.setItem('theme', currentTheme);
+  updateThemeIcon();
   updateButtonText();
 });
+
+function updateThemeIcon() {
+  const isLight = body.classList.contains('light-theme');
+  themeIcon.textContent = isLight ? '🌙' : '☀️';
+}
 
 function updateButtonText() {
   const isLight = body.classList.contains('light-theme');
@@ -540,7 +547,6 @@ function updateButtonText() {
   } else {
     themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
   }
-  themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
 
 const savedLang = localStorage.getItem('lang') || 'ru';
@@ -556,7 +562,7 @@ function updateLanguage(lang) {
   if (lang === 'ru') {
     langToggle.textContent = '🌐 EN';
     downloadBtn.innerHTML = '🎮 Скачать игру';
-    themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + (body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема');
+    themeText.innerHTML = (body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема';
     devBtn.innerHTML = '🛠️ Меню разработчика';
     configToggle.innerHTML = '⚙️ Настройки';
     descriptionText.textContent = 'HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.';
@@ -576,7 +582,7 @@ function updateLanguage(lang) {
   } else {
     langToggle.textContent = '🌐 RU';
     downloadBtn.innerHTML = '🎮 Download game';
-    themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + (body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme';
+    themeText.innerHTML = (body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme');
     devBtn.innerHTML = '🛠️ Developer Menu';
     configToggle.innerHTML = '⚙️ Settings';
     descriptionText.textContent = 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.';
@@ -594,7 +600,7 @@ function updateLanguage(lang) {
     gameConfigBtn.textContent = 'Game Settings';
     launcherConfigBtn.textContent = 'Launcher Settings';
   }
-  updateButtonText();
+  updateThemeIcon();
 }
 
 configToggle.addEventListener('click', () => {
@@ -616,6 +622,7 @@ function openConfigImage(imgSrc) {
   modal.style.display = "block";
 }
 
+updateThemeIcon();
 updateButtonText();
 </script>
 </body>
