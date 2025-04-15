@@ -284,7 +284,7 @@ body.light-theme .card {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 25px 0 15px;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: var(--text-shadow);
@@ -350,7 +350,7 @@ body.light-theme .feature-item {
 .credits {
   margin-top: 30px;
   font-size: 0.9rem;
-  text-align: left;
+  text-align: center;
   color: var(--primary-light);
 }
 
@@ -476,7 +476,7 @@ button:active, a:active {
     </div>
 
     <div class="credits">
-      <span id="creditsDev">Разработчик:</span> Ilnur Games<br>
+      <span id="creditsDev">Разработчик:</span> Ильнур Шарапов<br>
       <span id="creditsYear">Год выпуска:</span> 2020-2025
     </div>
   </div>
@@ -534,7 +534,12 @@ themeToggle.addEventListener('click', (e) => {
 
 function updateButtonText() {
   const isLight = body.classList.contains('light-theme');
-  themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+  const currentLang = localStorage.getItem('lang') || 'ru';
+  if (currentLang === 'ru') {
+    themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+  } else {
+    themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
+  }
   themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
 
@@ -571,7 +576,7 @@ function updateLanguage(lang) {
   } else {
     langToggle.textContent = '🌐 RU';
     downloadBtn.innerHTML = '🎮 Download game';
-    themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + (body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme');
+    themeText.innerHTML = (body.classList.contains('light-theme') ? '🌙' : '☀️') + ' ' + (body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme';
     devBtn.innerHTML = '🛠️ Developer Menu';
     configToggle.innerHTML = '⚙️ Settings';
     descriptionText.textContent = 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.';
