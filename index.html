@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Half-Life Ɣ | Developer Menu</title>
+<title>HALF-LIFE Ɣ | Ilnur Games</title>
 <style>
 :root {
   --primary: #6c5ce7;
@@ -57,6 +57,17 @@ body.light-theme {
   overflow: hidden;
 }
 
+.game-logo {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin: 0 auto 20px;
+  display: block;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+}
+
 .game-header {
   text-align: center;
   margin-bottom: 20px;
@@ -106,7 +117,7 @@ body.light-theme {
   position: relative;
 }
 
-.theme-btn, .download-btn, .lang-btn {
+.theme-btn, .download-btn, .lang-btn, .dev-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -183,6 +194,21 @@ body.light-theme {
   background: linear-gradient(to right, #5c6bc0, #5e35b1);
 }
 
+.dev-btn {
+  background: linear-gradient(135deg, #4a2d91, #3a1d71);
+  position: relative;
+}
+
+.dev-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, #5e35b1, #4a2d91);
+}
+
 .download-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(126, 87, 194, 0.4);
@@ -196,6 +222,11 @@ body.light-theme {
 .lang-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(94, 53, 177, 0.4);
+}
+
+.dev-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(74, 45, 145, 0.4);
 }
 
 .card {
@@ -220,94 +251,43 @@ body.light-theme .card {
   box-shadow: 0 0 25px rgba(108, 92, 231, 0.25);
 }
 
-.attention {
-  color: var(--danger);
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: var(--text-shadow);
-}
-
-.test-notice {
-  background-color: rgba(108, 92, 231, 0.25);
-  padding: 18px;
-  border-radius: 6px;
-  margin-bottom: 30px;
-  position: relative;
-  transition: var(--transition);
-  border: 1px solid rgba(108, 92, 231, 0.35);
-}
-
-body.light-theme .test-notice {
-  background-color: rgba(108, 92, 231, 0.08);
-  border: 1px solid rgba(108, 92, 231, 0.2);
-}
-
-.test-notice:hover {
-  background-color: rgba(108, 92, 231, 0.35);
-  transform: translateX(5px);
-}
-
-.test-notice:hover::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
-  z-index: -1;
-}
-
-.notice-ru, .notice-en {
-  display: none;
-}
-.notice-ru.active, .notice-en.active {
-  display: block;
-}
-
-.developer {
-  color: var(--accent);
-  font-size: 1.8rem;
-  font-weight: 700;
+.game-description {
   margin-bottom: 20px;
+  text-align: justify;
+}
+
+.features-title {
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 25px 0 15px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: var(--text-shadow);
 }
 
-.options-list {
+.features-list {
   list-style-type: none;
+  margin-bottom: 20px;
 }
 
-.option-item {
+.feature-item {
   padding: 12px 15px 12px 25px;
   margin-bottom: 8px;
   background-color: rgba(108, 92, 231, 0.2);
   border-radius: 6px;
   transition: var(--transition);
   position: relative;
-  cursor: pointer;
   border: 1px solid rgba(108, 92, 231, 0.25);
 }
 
-body.light-theme .option-item {
+body.light-theme .feature-item {
   background-color: rgba(108, 92, 231, 0.05);
   border: 1px solid rgba(108, 92, 231, 0.15);
 }
 
-.option-item:hover {
-  background-color: rgba(108, 92, 231, 0.3);
-  transform: translateX(5px);
-  border: 1px solid rgba(108, 92, 231, 0.35);
-}
-
-.option-item::before {
+.feature-item::before {
   content: '•';
   position: absolute;
   left: 10px;
@@ -319,21 +299,11 @@ body.light-theme .option-item {
   transition: var(--transition);
 }
 
-.option-item:hover::before {
-  color: var(--accent);
-  transform: translateY(-50%) scale(1.3);
-}
-
-.option-item:hover::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
-  z-index: -1;
+.credits {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--primary-light);
 }
 
 @keyframes fadeIn {
@@ -352,10 +322,6 @@ button, a {
 button:active, a:active {
   transform: translateY(2px) !important;
 }
-
-.option-item:active, .test-notice:active {
-  transform: translateX(5px) scale(0.98) !important;
-}
 </style>
 </head>
 <body>
@@ -365,6 +331,8 @@ button:active, a:active {
     <div class="game-subtitle">Ilnur Games</div>
   </div>
 
+  <img src="logo.png" alt="HALF-LIFE Ɣ Logo" class="game-logo">
+
   <div class="button-group">
     <a href="https://disk.yandex.ru/d/GxOCn5PvbXx7ig" class="download-btn" target="_blank" id="downloadBtn">
       🎮 Скачать игру
@@ -373,37 +341,34 @@ button:active, a:active {
       <span id="themeText">Сменить тему</span>
     </button>
     <button class="lang-btn" id="langToggle">🌐 EN</button>
+    <a href="help.html" class="dev-btn">
+      🛠️ Меню разработчика
+    </a>
   </div>
   
   <div class="card">
-    <h2 class="attention" id="attentionText">Внимание!</h2>
-
-    <div class="test-notice">
-      <div class="notice-ru active">
-        Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам!
-      </div>
-      <div class="notice-en">
-        Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!
-      </div>
+    <div class="game-description" id="descriptionText">
+      HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
     </div>
 
-    <h2 class="developer" id="developerText">Меню разработчика</h2>
+    <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
 
-    <ul class="options-list">
-      <li class="option-item">Debug: true/false - Включить/выключить режим отладки</li>
-      <li class="option-item">Open all levels - Открыть все уровни</li>
-      <li class="option-item">Show QFPS: true/false - Показывать/не показывать частоту кадров</li>
-      <li class="option-item">Show RAM: true/false - Показывать/не показывать использование оперативной памяти</li>
-      <li class="option-item">Show room ID: true/false - Показывать/не показывать ID комнаты</li>
-      <li class="option-item">Draw portals: true/false - Рисовать/не рисовать порталы</li>
-      <li class="option-item">Show player pos: true/false - Показывать/не показывать позицию игрока</li>
-      <li class="option-item">God mode: true/false - Включить/выключить режим "Бога"</li>
-      <li class="option-item">Show level objects: true/false - Показывать/не показывать объекты уровня</li>
-      <li class="option-item">Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</li>
-      <li class="option-item">Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</li>
-      <li class="option-item">Fly: On/Off - Включить/выключить режим полета</li>
-      <li class="option-item">Play video!!! :D - Воспроизвести видео (пока не работает)</li>
+    <ul class="features-list">
+      <li class="feature-item"><strong>Динамичный сюжет:</strong> Шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
+      <li class="feature-item"><strong>Разнообразие противников:</strong> Хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
+      <li class="feature-item"><strong>Классический арсенал:</strong> Монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
+      <li class="feature-item"><strong>Гибкость управления:</strong> Поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
+      <li class="feature-item"><strong>Мрачная атмосфера:</strong> Темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.</li>
     </ul>
+
+    <div class="game-description" id="targetText">
+      <strong>Для кого эта игра:</strong> Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.
+    </div>
+
+    <div class="credits">
+      Разработчик: Ilnur Games<br>
+      Год выпуска: 2020-2025
+    </div>
   </div>
 </div>
 
@@ -412,11 +377,10 @@ const themeToggle = document.getElementById('themeToggle');
 const themeText = document.getElementById('themeText');
 const langToggle = document.getElementById('langToggle');
 const downloadBtn = document.getElementById('downloadBtn');
-const attentionText = document.getElementById('attentionText');
-const developerText = document.getElementById('developerText');
+const descriptionText = document.getElementById('descriptionText');
+const featuresTitle = document.getElementById('featuresTitle');
+const targetText = document.getElementById('targetText');
 const body = document.body;
-const noticeRu = document.querySelector('.notice-ru');
-const noticeEn = document.querySelector('.notice-en');
 
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light-theme') {
@@ -434,11 +398,7 @@ themeToggle.addEventListener('click', (e) => {
 
 function updateButtonText() {
   const isLight = body.classList.contains('light-theme');
-  if (noticeRu.classList.contains('active')) {
-    themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
-  } else {
-    themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
-  }
+  themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
   themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
 
@@ -446,38 +406,27 @@ const savedLang = localStorage.getItem('lang') || 'ru';
 updateLanguage(savedLang);
 
 langToggle.addEventListener('click', () => {
-  const currentLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
+  const currentLang = localStorage.getItem('lang') === 'ru' ? 'en' : 'ru';
   updateLanguage(currentLang);
   localStorage.setItem('lang', currentLang);
 });
 
 function updateLanguage(lang) {
   if (lang === 'ru') {
-    noticeRu.classList.add('active');
-    noticeEn.classList.remove('active');
     langToggle.textContent = '🌐 EN';
     downloadBtn.textContent = '🎮 Скачать игру';
-    attentionText.textContent = 'Внимание!';
-    developerText.textContent = 'Меню разработчика';
+    descriptionText.textContent = 'HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.';
+    featuresTitle.textContent = 'Особенности игры';
+    targetText.innerHTML = '<strong>Для кого эта игра:</strong> Для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.';
   } else {
-    noticeRu.classList.remove('active');
-    noticeEn.classList.add('active');
     langToggle.textContent = '🌐 RU';
     downloadBtn.textContent = '🎮 Download game';
-    attentionText.textContent = 'Attention!';
-    developerText.textContent = 'Developer Menu';
+    descriptionText.textContent = 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.';
+    featuresTitle.textContent = 'Game Features';
+    targetText.innerHTML = '<strong>Who is this game for:</strong> For fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.';
   }
   updateButtonText();
 }
-
-document.addEventListener('touchend', function(e) {
-  const activeElements = document.querySelectorAll('button:active, a:active, .option-item:active, .test-notice:active');
-  activeElements.forEach(el => {
-    setTimeout(() => {
-      el.style.transform = '';
-    }, 200);
-  });
-}, true);
 
 updateButtonText();
 </script>
