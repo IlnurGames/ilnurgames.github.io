@@ -69,6 +69,49 @@ body.light-theme {
   border: 2px solid rgba(108, 92, 231, 0.5);
 }
 
+.gallery-container {
+  position: relative;
+  margin: 0 auto 20px;
+  max-width: 800px;
+}
+
+.gallery-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  display: block;
+}
+
+.gallery-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gallery-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .game-header {
   text-align: center;
   margin-bottom: 20px;
@@ -311,35 +354,6 @@ body.light-theme .feature-item {
   flex-wrap: wrap;
 }
 
-.image-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 20px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.nav-btn {
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -369,7 +383,13 @@ button:active, a:active {
     <div class="game-subtitle">Ilnur Games</div>
   </div>
 
-  <img src="logo.png" alt="HALF-LIFE Ɣ Logo" class="game-logo">
+  <div class="gallery-container">
+    <img src="logo.png" alt="HALF-LIFE Ɣ Screenshot" class="gallery-image" id="galleryImage">
+    <div class="gallery-navigation">
+      <button class="gallery-btn" id="prevBtn">❮</button>
+      <button class="gallery-btn" id="nextBtn">❯</button>
+    </div>
+  </div>
 
   <div class="button-group">
     <a href="https://disk.yandex.ru/d/KAcBxOIAlnIFkQ" class="btn download-btn" target="_blank" id="downloadBtn">
@@ -420,10 +440,6 @@ button:active, a:active {
     <button class="btn config-btn-small" id="gameConfigBtn">Настройки игры</button>
     <button class="btn config-btn-small" id="launcherConfigBtn">Настройки лаунчера</button>
   </div>
-  <div class="image-navigation">
-    <button class="nav-btn" id="prevBtn">❮</button>
-    <button class="nav-btn" id="nextBtn">❯</button>
-  </div>
   <img class="modal-content" id="modalImage">
 </div>
 
@@ -443,10 +459,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const developerName = document.getElementById('developerName');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
+  const galleryImage = document.getElementById('galleryImage');
   const body = document.body;
 
-  const images = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
-  let currentImageIndex = 0;
+  const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+  let currentGalleryIndex = 0;
+
+  const configImages = {
+    controls: 'controls.png',
+    game: 'game_config.jpg',
+    launcher: 'launcher_config.jpg'
+  };
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -486,38 +509,33 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
+  prevBtn.addEventListener('click', function() {
+    currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+    galleryImage.src = galleryImages[currentGalleryIndex];
+  });
+
+  nextBtn.addEventListener('click', function() {
+    currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
+    galleryImage.src = galleryImages[currentGalleryIndex];
+  });
+
   configToggle.addEventListener('click', function() {
-    currentImageIndex = 0;
-    modalImg.src = images[currentImageIndex];
     modal.style.display = "block";
   });
 
   controlsBtn.addEventListener('click', function() {
-    currentImageIndex = 0;
-    modalImg.src = images[currentImageIndex];
+    modalImg.src = configImages.controls;
     modal.style.display = "block";
   });
 
   gameConfigBtn.addEventListener('click', function() {
-    currentImageIndex = 1;
-    modalImg.src = images[currentImageIndex];
+    modalImg.src = configImages.game;
     modal.style.display = "block";
   });
 
   launcherConfigBtn.addEventListener('click', function() {
-    currentImageIndex = 2;
-    modalImg.src = images[currentImageIndex];
+    modalImg.src = configImages.launcher;
     modal.style.display = "block";
-  });
-
-  prevBtn.addEventListener('click', function() {
-    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-    modalImg.src = images[currentImageIndex];
-  });
-
-  nextBtn.addEventListener('click', function() {
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-    modalImg.src = images[currentImageIndex];
   });
 
   closeBtn.addEventListener('click', function() {
