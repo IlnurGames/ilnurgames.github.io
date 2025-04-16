@@ -308,14 +308,12 @@ body.light-theme .feature-item {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.9);
-  overflow: auto;
+  overflow: hidden;
   touch-action: none;
 }
 
 .modal-content-container {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -324,23 +322,19 @@ body.light-theme .feature-item {
   overflow: hidden;
 }
 
-.modal-content {
+.modal-content-wrapper {
+  position: relative;
   max-width: 100%;
   max-height: 100%;
-  display: block;
-  margin: auto;
-  animation: zoom 0.3s;
   transform-origin: center center;
-  transition: transform 0.1s ease-out;
-  touch-action: none;
-  object-fit: contain;
-  transform: scale(1);
-  position: absolute;
+  transition: transform 0.25s ease-out;
 }
 
-@keyframes zoom {
-  from {transform: scale(0.5); opacity: 0;}
-  to {transform: scale(1); opacity: 1;}
+.modal-content {
+  max-width: 100%;
+  max-height: 100vh;
+  display: block;
+  object-fit: contain;
 }
 
 .close {
@@ -483,7 +477,9 @@ body.light-theme .feature-item {
 <div id="imageModal" class="modal">
   <span class="close">&times;</span>
   <div class="modal-content-container">
-    <img class="modal-content" id="modalImage">
+    <div class="modal-content-wrapper">
+      <img class="modal-content" id="modalImage">
+    </div>
   </div>
 </div>
 
@@ -509,6 +505,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const langToggle = document.getElementById('langToggle');
   const configToggle = document.getElementById('configToggle');
   const imageModal = document.getElementById('imageModal');
+  const modalContainer = document.querySelector('.modal-content-container');
+  const modalWrapper = document.querySelector('.modal-content-wrapper');
   const modalImg = document.getElementById('modalImage');
   const configModal = document.getElementById('configModal');
   const closeBtns = document.querySelectorAll('.close');
@@ -533,12 +531,12 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentConfigIndex = 0;
 
   let scale = 1;
-  let posX = 0;
-  let posY = 0;
+  let lastScale = 1;
+  let pos = { x: 0, y: 0 };
+  let lastPos = { x: 0, y: 0 };
   let isDragging = false;
-  let startX, startY;
+  let startPos = { x: 0, y: 0 };
   let initialDistance = null;
-  let initialScale = 1;
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -642,94 +640,133 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function resetZoom() {
     scale = 1;
-    posX = 0;
-    posY = 0;
-    modalImg.style.transform = `translate(0, 0) scale(1)`;
-    modalImg.style.position = 'absolute';
+    pos = { x: 0, y: 0 };
+    updateTransform();
+    modalWrapper.style.cursor = 'default';
   }
 
-  function handleTouchStart(e) {
-    if (e.touches.length === 2) {
+  function updateTransform() {
+    modalWrapper.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${scale})`;
+  }
+
+  modalWrapper.addEventListener('mousedown', (e) => {
+    if (scale <= 1) return;
+    isDragging = true;
+    startPos = {
+      x: e.clientX - pos.x,
+      y: e.clientY - pos.y
+    };
+    modalWrapper.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    pos = {
+      x: e.clientX - startPos.x,
+      y: e.clientY - startPos.y
+    };
+    constrainPosition();
+    updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    modalWrapper.style.cursor = scale > 1 ? 'grab' : 'default';
+  });
+
+  modalWrapper.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1 && scale > 1) {
+      isDragging = true;
+      startPos = {
+        x: e.touches[0].clientX - pos.x,
+        y: e.touches[0].clientY - pos.y
+      };
+    } else if (e.touches.length === 2) {
       e.preventDefault();
       const touch1 = e.touches[0];
       const touch2 = e.touches[1];
-      initialDistance = Math.hypot(
+      const dist = Math.hypot(
         touch2.clientX - touch1.clientX,
         touch2.clientY - touch1.clientY
       );
-      initialScale = scale;
-      startX = (touch1.clientX + touch2.clientX) / 2 - posX;
-      startY = (touch1.clientY + touch2.clientY) / 2 - posY;
-    } else if (e.touches.length === 1) {
-      isDragging = true;
-      startX = e.touches[0].clientX - posX;
-      startY = e.touches[0].clientY - posY;
+      lastScale = scale;
+      startPos = {
+        x: (touch1.clientX + touch2.clientX) / 2 - pos.x,
+        y: (touch1.clientY + touch2.clientY) / 2 - pos.y
+      };
+      initialDistance = dist;
     }
-  }
+  }, { passive: false });
 
-  function handleTouchMove(e) {
-    if (e.touches.length === 2) {
+  modalWrapper.addEventListener('touchmove', (e) => {
+    if (isDragging && e.touches.length === 1) {
+      pos = {
+        x: e.touches[0].clientX - startPos.x,
+        y: e.touches[0].clientY - startPos.y
+      };
+      constrainPosition();
+      updateTransform();
+    } else if (e.touches.length === 2) {
       e.preventDefault();
       const touch1 = e.touches[0];
       const touch2 = e.touches[1];
-      const currentDistance = Math.hypot(
+      const dist = Math.hypot(
         touch2.clientX - touch1.clientX,
         touch2.clientY - touch1.clientY
       );
       
       if (initialDistance) {
-        scale = Math.max(1, Math.min(initialScale * (currentDistance / initialDistance), 4));
+        scale = Math.max(1, Math.min(lastScale * (dist / initialDistance), 4));
         
         const centerX = (touch1.clientX + touch2.clientX) / 2;
         const centerY = (touch1.clientY + touch2.clientY) / 2;
         
-        posX = centerX - startX * (scale / initialScale);
-        posY = centerY - startY * (scale / initialScale);
+        pos.x = centerX - startPos.x * (scale / lastScale);
+        pos.y = centerY - startPos.y * (scale / lastScale);
         
         constrainPosition();
-        applyTransform();
+        updateTransform();
       }
-    } else if (e.touches.length === 1 && isDragging) {
-      e.preventDefault();
-      posX = e.touches[0].clientX - startX;
-      posY = e.touches[0].clientY - startY;
-      constrainPosition();
-      applyTransform();
     }
-  }
+  }, { passive: false });
 
-  function handleTouchEnd() {
+  modalWrapper.addEventListener('touchend', () => {
     isDragging = false;
     initialDistance = null;
-  }
-
-  function applyTransform() {
-    modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
-  }
+  });
 
   function constrainPosition() {
-    const imgWidth = modalImg.naturalWidth * scale;
-    const imgHeight = modalImg.naturalHeight * scale;
-    const containerWidth = document.querySelector('.modal-content-container').offsetWidth;
-    const containerHeight = document.querySelector('.modal-content-container').offsetHeight;
+    const wrapperRect = modalWrapper.getBoundingClientRect();
+    const imgRect = modalImg.getBoundingClientRect();
+    const containerRect = modalContainer.getBoundingClientRect();
     
-    const maxX = Math.max(0, (imgWidth - containerWidth) / 2);
+    const maxX = Math.max(0, (imgRect.width * scale - containerRect.width) / 2);
     const minX = -maxX;
-    const maxY = Math.max(0, (imgHeight - containerHeight) / 2);
+    const maxY = Math.max(0, (imgRect.height * scale - containerRect.height) / 2);
     const minY = -maxY;
     
-    posX = Math.max(minX, Math.min(posX, maxX));
-    posY = Math.max(minY, Math.min(posY, maxY));
+    pos.x = Math.max(minX, Math.min(pos.x, maxX));
+    pos.y = Math.max(minY, Math.min(pos.y, maxY));
   }
 
-  modalImg.addEventListener('touchstart', handleTouchStart, { passive: false });
-  modalImg.addEventListener('touchmove', handleTouchMove, { passive: false });
-  modalImg.addEventListener('touchend', handleTouchEnd);
-
-  // Добавляем обработчик для загрузки изображения
-  modalImg.addEventListener('load', function() {
-    resetZoom();
-  });
+  modalWrapper.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = -e.deltaY / 100;
+    const newScale = Math.max(1, Math.min(scale + delta, 4));
+    
+    if (newScale !== scale) {
+      const mouseX = e.clientX - modalContainer.getBoundingClientRect().left;
+      const mouseY = e.clientY - modalContainer.getBoundingClientRect().top;
+      
+      pos.x = mouseX - (mouseX - pos.x) * (newScale / scale);
+      pos.y = mouseY - (mouseY - pos.y) * (newScale / scale);
+      
+      scale = newScale;
+      constrainPosition();
+      updateTransform();
+      modalWrapper.style.cursor = scale > 1 ? 'grab' : 'default';
+    }
+  }, { passive: false });
 
   function updateLanguage(lang) {
     const elements = {
