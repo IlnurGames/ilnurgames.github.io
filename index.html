@@ -88,7 +88,7 @@ body.light-theme {
 }
 
 .gallery-btn {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   color: white;
   border: none;
   border-radius: 50%;
@@ -103,7 +103,7 @@ body.light-theme {
 }
 
 .gallery-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .game-header {
@@ -308,26 +308,25 @@ body.light-theme .feature-item {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.9);
-  overflow: hidden;
-  touch-action: none;
+  overflow: auto;
 }
 
 .modal-content-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  overflow: hidden;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px;
 }
 
 .modal-content {
   max-width: 100%;
-  max-height: 100%;
-  display: block;
-  object-fit: contain;
+  max-height: 90vh;
+  transform: scale(2);
+  transform-origin: center center;
   transition: transform 0.3s ease-out;
+  object-fit: contain;
+  cursor: grab;
 }
 
 .modal-navigation {
@@ -335,29 +334,31 @@ body.light-theme .feature-item {
   justify-content: space-between;
   width: 100%;
   padding: 0 20px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1001;
+  pointer-events: none;
 }
 
 .modal-nav-btn {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.2);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 }
 
 .modal-nav-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .close {
@@ -369,10 +370,18 @@ body.light-theme .feature-item {
   font-weight: bold;
   cursor: pointer;
   z-index: 1001;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close:hover {
   color: var(--accent);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .config-title {
@@ -425,13 +434,18 @@ body.light-theme .feature-item {
     min-width: 120px;
   }
   .modal-content {
-    width: 100%;
-    height: auto;
+    transform: scale(1.5);
+    max-height: 80vh;
   }
-  .modal-nav-btn {
+  .modal-nav-btn, .gallery-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .close {
     width: 40px;
     height: 40px;
-    font-size: 20px;
+    font-size: 30px;
   }
 }
 
@@ -515,7 +529,7 @@ body.light-theme .feature-item {
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 600px;">
+  <div class="card" style="margin: 20px auto; max-width: 600px; overflow-x: auto;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
     <div class="config-gallery-container">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
@@ -536,7 +550,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const configToggle = document.getElementById('configToggle');
   const imageModal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImage');
-  const modalContainer = document.querySelector('.modal-content-container');
   const configModal = document.getElementById('configModal');
   const closeBtns = document.querySelectorAll('.close');
   const developerName = document.getElementById('developerName');
@@ -623,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
   configToggle.addEventListener('click', function() {
     updateConfigGallery();
     configModal.style.display = "block";
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "auto"; // Разблокируем скроллинг
   });
 
   configPrevBtn.addEventListener('click', function() {
@@ -641,9 +654,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentImageType === 'gallery') {
       currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
-    } else {
-      currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
-      modalImg.src = configData[currentConfigIndex].image;
     }
     resetImagePosition();
   });
@@ -653,9 +663,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentImageType === 'gallery') {
       currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
-    } else {
-      currentConfigIndex = (currentConfigIndex + 1) % configData.length;
-      modalImg.src = configData[currentConfigIndex].image;
     }
     resetImagePosition();
   });
@@ -666,12 +673,6 @@ document.addEventListener('DOMContentLoaded', function() {
     configTitle.textContent = currentConfig.title;
   }
 
-  configGalleryImage.addEventListener('click', function() {
-    currentImageType = 'config';
-    modalImg.src = configData[currentConfigIndex].image;
-    openModal();
-  });
-
   function openModal() {
     imageModal.style.display = "block";
     document.body.style.overflow = "hidden";
@@ -680,7 +681,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
-    modalImg.style.transform = `translate(0, 0)`;
+    modalImg.style.transform = `translate(0, 0) scale(${window.innerWidth < 768 ? 1.5 : 2})`;
   }
 
   closeBtns.forEach(btn => {
@@ -692,8 +693,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   window.addEventListener('click', function(event) {
-    if (event.target == imageModal || event.target == configModal) {
+    if (event.target == imageModal) {
       imageModal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+    if (event.target == configModal) {
       configModal.style.display = "none";
       document.body.style.overflow = "auto";
     }
@@ -718,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.clientY - startPos.y
     };
     
-    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${window.innerWidth < 768 ? 1.5 : 2})`;
   });
 
   window.addEventListener('mouseup', function() {
@@ -745,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.touches[0].clientY - startPos.y
     };
     
-    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${window.innerWidth < 768 ? 1.5 : 2})`;
     e.preventDefault();
   }, { passive: false });
 
