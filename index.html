@@ -319,22 +319,31 @@ body.light-theme .feature-item {
   touch-action: none;
 }
 
-.modal-content {
-  display: block;
-  max-width: 95%;
-  max-height: 95%;
-  margin: auto;
+.modal-content-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 95%;
+  height: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: auto;
   animation: zoom 0.3s;
-  touch-action: manipulation;
+  touch-action: none;
+  transform-origin: center center;
 }
 
 @keyframes zoom {
-  from {transform: translate(-50%, -50%) scale(0.5); opacity: 0;}
-  to {transform: translate(-50%, -50%) scale(1); opacity: 1;}
+  from {transform: scale(0.5); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
 }
 
 .close {
@@ -368,6 +377,12 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
+}
+
+.config-description {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
 }
 
 .config-gallery-image {
@@ -500,15 +515,17 @@ button:active, a:active {
 
 <div id="imageModal" class="modal">
   <span class="close">&times;</span>
-  <img class="modal-content" id="modalImage">
+  <div class="modal-content-container">
+    <img class="modal-content" id="modalImage">
+  </div>
 </div>
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
   <div class="card" style="margin: 20px auto; max-width: 600px;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
+    <div class="config-description" id="configDescription">Управление в игре</div>
     <div class="config-gallery-container">
-      <div id="configDescription" style="text-align: center; margin-bottom: 15px;">Управление в игре</div>
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
         <button class="gallery-btn" id="configPrevBtn">❮</button>
@@ -538,6 +555,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const configGalleryImage = document.getElementById('configGalleryImage');
   const configDescription = document.getElementById('configDescription');
   const configTitle = document.getElementById('configTitle');
+  const modalContentContainer = document.querySelector('.modal-content-container');
   const body = document.body;
 
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
@@ -549,6 +567,12 @@ document.addEventListener('DOMContentLoaded', function() {
     { image: 'launcher_config.jpg', title: 'Настройки лаунчера', description: 'Настройки лаунчера' }
   ];
   let currentConfigIndex = 0;
+
+  // Zoom variables
+  let scale = 1;
+  let lastScale = 1;
+  let start = { x: 0, y: 0 };
+  let isDragging = false;
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -600,6 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   galleryImage.addEventListener('click', function() {
     modalImg.src = galleryImages[currentGalleryIndex];
+    resetZoom();
     imageModal.style.display = "block";
     document.body.style.overflow = "hidden";
   });
@@ -629,6 +654,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   configGalleryImage.addEventListener('click', function() {
     modalImg.src = configData[currentConfigIndex].image;
+    resetZoom();
     imageModal.style.display = "block";
     document.body.style.overflow = "hidden";
   });
@@ -649,35 +675,68 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Enable pinch zoom for modal images
-  let initialDistance = null;
-  let initialScale = 1;
+  // Improved pinch zoom functionality
+  function resetZoom() {
+    scale = 1;
+    lastScale = 1;
+    modalImg.style.transform = `translate(0, 0) scale(1)`;
+  }
 
   modalImg.addEventListener('touchstart', function(e) {
     if (e.touches.length === 2) {
       e.preventDefault();
-      initialDistance = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      );
-      initialScale = parseFloat(modalImg.style.transform.replace('scale(', '')) || 1;
+      // Calculate initial distance between two fingers
+      const x1 = e.touches[0].clientX;
+      const y1 = e.touches[0].clientY;
+      const x2 = e.touches[1].clientX;
+      const y2 = e.touches[1].clientY;
+      start.distance = Math.hypot(x2 - x1, y2 - y1);
+      start.scale = scale;
+    } else if (e.touches.length === 1) {
+      // Start drag
+      isDragging = true;
+      start.x = e.touches[0].clientX - modalImg.offsetLeft;
+      start.y = e.touches[0].clientY - modalImg.offsetTop;
     }
   });
 
   modalImg.addEventListener('touchmove', function(e) {
     if (e.touches.length === 2) {
       e.preventDefault();
-      const currentDistance = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      );
-      const scale = initialScale * (currentDistance / initialDistance);
-      modalImg.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      // Calculate current distance between two fingers
+      const x1 = e.touches[0].clientX;
+      const y1 = e.touches[0].clientY;
+      const x2 = e.touches[1].clientX;
+      const y2 = e.touches[1].clientY;
+      const currentDistance = Math.hypot(x2 - x1, y2 - y1);
+      
+      // Calculate new scale
+      if (start.distance) {
+        scale = start.scale * (currentDistance / start.distance);
+        scale = Math.max(1, Math.min(scale, 4)); // Limit scale between 1 and 4
+        
+        // Apply scale
+        modalImg.style.transform = `translate(0, 0) scale(${scale})`;
+      }
+    } else if (e.touches.length === 1 && isDragging) {
+      e.preventDefault();
+      // Calculate new position
+      const x = e.touches[0].clientX - start.x;
+      const y = e.touches[0].clientY - start.y;
+      
+      // Apply position (limited to prevent dragging too far)
+      const maxX = (modalImg.offsetWidth * (scale - 1)) / 2;
+      const maxY = (modalImg.offsetHeight * (scale - 1)) / 2;
+      const limitedX = Math.max(-maxX, Math.min(x, maxX));
+      const limitedY = Math.max(-maxY, Math.min(y, maxY));
+      
+      modalImg.style.transform = `translate(${limitedX}px, ${limitedY}px) scale(${scale})`;
     }
   });
 
   modalImg.addEventListener('touchend', function() {
-    initialDistance = null;
+    isDragging = false;
+    start.distance = null;
   });
 
   function updateLanguage(lang) {
@@ -700,12 +759,6 @@ document.addEventListener('DOMContentLoaded', function() {
       configTitle: {ru: 'Настройки', en: 'Settings'},
     };
 
-    const configDescriptions = {
-      controls: {ru: 'Управление в игре', en: 'Game controls'},
-      game: {ru: 'Настройки игры', en: 'Game settings'},
-      launcher: {ru: 'Настройки лаунчера', en: 'Launcher settings'}
-    };
-
     for (const [id, texts] of Object.entries(elements)) {
       const element = document.getElementById(id);
       if (element) {
@@ -714,9 +767,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (configData) {
-      configData[0].description = lang === 'ru' ? 'Управление в игре' : 'Game controls';
+      configData[0].description = lang === 'ru' ? 'Настройки управления в игре' : 'Game controls';
       configData[0].title = lang === 'ru' ? 'Управление' : 'Controls';
-      configData[1].description = lang === 'ru' ? 'Настройки игры' : 'Game settings';
+      configData[1].description = lang === 'ru' ? 'Основные настройки игры' : 'Game settings';
       configData[1].title = lang === 'ru' ? 'Настройки игры' : 'Game Settings';
       configData[2].description = lang === 'ru' ? 'Настройки лаунчера' : 'Launcher settings';
       configData[2].title = lang === 'ru' ? 'Настройки лаунчера' : 'Launcher Settings';
