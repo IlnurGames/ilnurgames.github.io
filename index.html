@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><strong>Half-Life Ɣ</strong> | Ilnur Games</title>
+<title><strong>Half-Life Ɣ</strong></title>
 <style>
 :root {
   --primary: #6c5ce7;
@@ -71,6 +71,11 @@ body.light-theme {
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
   cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.gallery-image:hover {
+  transform: scale(1.02);
 }
 
 .gallery-navigation {
@@ -311,27 +316,31 @@ body.light-theme .feature-item {
 .modal {
   display: none;
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   overflow: auto;
+  touch-action: pan-y;
 }
 
 .modal-content {
-  margin: auto;
   display: block;
-  max-width: 90%;
-  max-height: 90%;
-  margin-top: 50px;
+  max-width: 95%;
+  max-height: 95%;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   animation: zoom 0.3s;
 }
 
 @keyframes zoom {
-  from {transform: scale(0.5); opacity: 0;}
-  to {transform: scale(1); opacity: 1;}
+  from {transform: translate(-50%, -50%) scale(0.5); opacity: 0;}
+  to {transform: translate(-50%, -50%) scale(1); opacity: 1;}
 }
 
 .close {
@@ -343,7 +352,7 @@ body.light-theme .feature-item {
   font-weight: bold;
   transition: 0.3s;
   cursor: pointer;
-  z-index: 101;
+  z-index: 1001;
 }
 
 .close:hover {
@@ -390,6 +399,13 @@ body.light-theme .feature-item {
   .config-btn-small {
     margin: 1px 0;
   }
+
+  .modal-content {
+    max-width: 100%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+  }
 }
 
 @keyframes fadeIn {
@@ -430,7 +446,7 @@ button:active, a:active {
   </div>
 
   <div class="button-group">
-    <a href="https://objects.githubusercontent.com/github-production-release-asset-2e65be/951430289/d6db0b96-977e-434e-b391-17142839f072?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250416T093204Z&X-Amz-Expires=300&X-Amz-Signature=c8b0ed6f1d10a66dd461eadb21b9c7130acbaa1604e9f78995b3844d569ab50c&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dlauncher_v3.3.2.apk&response-content-type=application%2Fvnd.android.package-archive" class="btn download-btn" target="_blank" id="downloadBtn">
+    <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.2/launcher_v3.3.2.apk" class="btn download-btn" target="_blank" id="downloadBtn">
       🎮 Скачать игру
     </a>
     <button class="btn theme-btn" id="themeToggle">
@@ -447,13 +463,13 @@ button:active, a:active {
 
   <div class="card">
     <div class="game-description" id="descriptionText">
-      <strong>Half-Life Ɣ</strong> от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
+      <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
     </div>
 
     <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
 
     <ul class="features-list">
-      <li class="feature-item" id="feature1"><strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
+      <li class="feature-item" id="feature1"><strong>Динамичный сюжет:</strong> шесть уникальных глав, в��лючая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
       <li class="feature-item" id="feature2"><strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
       <li class="feature-item" id="feature3"><strong>Классический арсенал:</strong> монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
       <li class="feature-item" id="feature4"><strong>Гибкость управления:</strong> поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
@@ -567,31 +583,37 @@ document.addEventListener('DOMContentLoaded', function() {
   galleryImage.addEventListener('click', function() {
     modalImg.src = galleryImages[currentGalleryIndex];
     imageModal.style.display = "block";
+    document.body.style.overflow = "hidden";
   });
 
   configToggle.addEventListener('click', function() {
     configModal.style.display = "block";
+    document.body.style.overflow = "hidden";
   });
 
   controlsBtn.addEventListener('click', function() {
     configModalImg.src = configImages.controls;
     configModal.style.display = "block";
+    document.body.style.overflow = "hidden";
   });
 
   gameConfigBtn.addEventListener('click', function() {
     configModalImg.src = configImages.game;
     configModal.style.display = "block";
+    document.body.style.overflow = "hidden";
   });
 
   launcherConfigBtn.addEventListener('click', function() {
     configModalImg.src = configImages.launcher;
     configModal.style.display = "block";
+    document.body.style.overflow = "hidden";
   });
 
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       imageModal.style.display = "none";
       configModal.style.display = "none";
+      document.body.style.overflow = "auto";
     });
   });
 
@@ -599,6 +621,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.target == imageModal || event.target == configModal) {
       imageModal.style.display = "none";
       configModal.style.display = "none";
+      document.body.style.overflow = "auto";
     }
   });
 
@@ -608,7 +631,7 @@ document.addEventListener('DOMContentLoaded', function() {
       themeText: {ru: body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема', en: body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme'},
       devBtn: {ru: '🛠️ Меню разработчика', en: '🛠️ Developer Menu'},
       configToggle: {ru: '⚙️ Настройки', en: '⚙️ Settings'},
-      descriptionText: {ru: '<strong>Half-Life Ɣ</strong> от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: '<strong>Half-Life Ɣ</strong> by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
+      descriptionText: {ru: '<strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: '<strong>Half-Life Ɣ</strong> is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
       featuresTitle: {ru: 'Особенности игры', en: 'Game Features'},
       feature1: {ru: '<strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.', en: '<strong>Dynamic story:</strong> six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.'},
       feature2: {ru: '<strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.', en: '<strong>Variety of enemies:</strong> headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.'},
