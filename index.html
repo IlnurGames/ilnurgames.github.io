@@ -496,6 +496,7 @@ body.light-theme .feature-item {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Elements
   const themeToggle = document.getElementById('themeToggle');
   const themeText = document.getElementById('themeText');
   const themeIcon = document.getElementById('themeIcon');
@@ -515,6 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const configTitle = document.getElementById('configTitle');
   const body = document.body;
 
+  // Data
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
   let currentGalleryIndex = 0;
 
@@ -525,6 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
   let currentConfigIndex = 0;
 
+  // Zoom variables
   let scale = 1;
   let posX = 0;
   let posY = 0;
@@ -532,6 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let startX, startY;
   let initialDistance = null;
 
+  // Theme
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
     body.classList.add('light-theme');
@@ -561,6 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Language
   const savedLang = localStorage.getItem('lang') || 'ru';
   updateLanguage(savedLang);
 
@@ -570,6 +575,7 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
+  // Gallery navigation
   prevBtn.addEventListener('click', function() {
     currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
@@ -580,6 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
+  // Image modal
   galleryImage.addEventListener('click', function() {
     modalImg.src = galleryImages[currentGalleryIndex];
     resetZoom();
@@ -587,6 +594,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = "hidden";
   });
 
+  // Config modal
   configToggle.addEventListener('click', function() {
     updateConfigGallery();
     configModal.style.display = "block";
@@ -616,6 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = "hidden";
   });
 
+  // Close modals
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       imageModal.style.display = "none";
@@ -632,6 +641,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Zoom functionality
   function resetZoom() {
     scale = 1;
     posX = 0;
@@ -668,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
       );
       
       if (initialDistance) {
-        const newScale = Math.max(1, Math.min(scale * (currentDistance / initialDistance), 4);
+        const newScale = Math.max(1, Math.min(scale * (currentDistance / initialDistance), 4));
         const centerX = (touch1.clientX + touch2.clientX) / 2;
         const centerY = (touch1.clientY + touch2.clientY) / 2;
         
@@ -691,6 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initialDistance = null;
   });
 
+  // Language texts
   function updateLanguage(lang) {
     const elements = {
       downloadBtn: {ru: '🎮 Скачать игру', en: '🎮 Download game'},
@@ -731,6 +742,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThemeIcon();
   }
 
+  // Initialize
   updateThemeIcon();
   updateButtonText();
 });
