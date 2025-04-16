@@ -314,9 +314,8 @@ body.light-theme .feature-item {
 
 .modal-content-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -332,9 +331,11 @@ body.light-theme .feature-item {
   margin: auto;
   animation: zoom 0.3s;
   transform-origin: center center;
-  transition: transform 0.1s;
+  transition: transform 0.1s ease-out;
   touch-action: none;
   object-fit: contain;
+  transform: scale(1);
+  position: absolute;
 }
 
 @keyframes zoom {
@@ -643,7 +644,8 @@ document.addEventListener('DOMContentLoaded', function() {
     scale = 1;
     posX = 0;
     posY = 0;
-    modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+    modalImg.style.transform = `translate(0, 0) scale(1)`;
+    modalImg.style.position = 'absolute';
   }
 
   function handleTouchStart(e) {
@@ -706,8 +708,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function constrainPosition() {
-    const imgWidth = modalImg.offsetWidth * scale;
-    const imgHeight = modalImg.offsetHeight * scale;
+    const imgWidth = modalImg.naturalWidth * scale;
+    const imgHeight = modalImg.naturalHeight * scale;
     const containerWidth = document.querySelector('.modal-content-container').offsetWidth;
     const containerHeight = document.querySelector('.modal-content-container').offsetHeight;
     
@@ -723,6 +725,11 @@ document.addEventListener('DOMContentLoaded', function() {
   modalImg.addEventListener('touchstart', handleTouchStart, { passive: false });
   modalImg.addEventListener('touchmove', handleTouchMove, { passive: false });
   modalImg.addEventListener('touchend', handleTouchEnd);
+
+  // Добавляем обработчик для загрузки изображения
+  modalImg.addEventListener('load', function() {
+    resetZoom();
+  });
 
   function updateLanguage(lang) {
     const elements = {
