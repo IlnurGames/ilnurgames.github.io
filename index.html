@@ -317,11 +317,12 @@ body.light-theme .feature-item {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 95%;
-  height: 95%;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .modal-content {
@@ -333,6 +334,7 @@ body.light-theme .feature-item {
   transform-origin: center center;
   transition: transform 0.1s;
   touch-action: none;
+  object-fit: contain;
 }
 
 @keyframes zoom {
@@ -403,6 +405,10 @@ body.light-theme .feature-item {
   }
   .btn {
     min-width: 120px;
+  }
+  .modal-content {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -496,7 +502,6 @@ body.light-theme .feature-item {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Elements
   const themeToggle = document.getElementById('themeToggle');
   const themeText = document.getElementById('themeText');
   const themeIcon = document.getElementById('themeIcon');
@@ -516,7 +521,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const configTitle = document.getElementById('configTitle');
   const body = document.body;
 
-  // Data
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
   let currentGalleryIndex = 0;
 
@@ -527,15 +531,14 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
   let currentConfigIndex = 0;
 
-  // Zoom variables
   let scale = 1;
   let posX = 0;
   let posY = 0;
   let isDragging = false;
   let startX, startY;
   let initialDistance = null;
+  let initialScale = 1;
 
-  // Theme
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
     body.classList.add('light-theme');
@@ -565,7 +568,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Language
   const savedLang = localStorage.getItem('lang') || 'ru';
   updateLanguage(savedLang);
 
@@ -575,7 +577,6 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
-  // Gallery navigation
   prevBtn.addEventListener('click', function() {
     currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
@@ -586,7 +587,6 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  // Image modal
   galleryImage.addEventListener('click', function() {
     modalImg.src = galleryImages[currentGalleryIndex];
     resetZoom();
@@ -594,7 +594,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = "hidden";
   });
 
-  // Config modal
   configToggle.addEventListener('click', function() {
     updateConfigGallery();
     configModal.style.display = "block";
@@ -624,7 +623,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = "hidden";
   });
 
-  // Close modals
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       imageModal.style.display = "none";
@@ -641,7 +639,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Zoom functionality
   function resetZoom() {
     scale = 1;
     posX = 0;
@@ -649,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
   }
 
-  modalImg.addEventListener('touchstart', function(e) {
+  function handleTouchStart(e) {
     if (e.touches.length === 2) {
       e.preventDefault();
       const touch1 = e.touches[0];
@@ -658,16 +655,17 @@ document.addEventListener('DOMContentLoaded', function() {
         touch2.clientX - touch1.clientX,
         touch2.clientY - touch1.clientY
       );
-      startX = (touch1.clientX + touch2.clientX) / 2;
-      startY = (touch1.clientY + touch2.clientY) / 2;
+      initialScale = scale;
+      startX = (touch1.clientX + touch2.clientX) / 2 - posX;
+      startY = (touch1.clientY + touch2.clientY) / 2 - posY;
     } else if (e.touches.length === 1) {
       isDragging = true;
       startX = e.touches[0].clientX - posX;
       startY = e.touches[0].clientY - posY;
     }
-  });
+  }
 
-  modalImg.addEventListener('touchmove', function(e) {
+  function handleTouchMove(e) {
     if (e.touches.length === 2) {
       e.preventDefault();
       const touch1 = e.touches[0];
@@ -678,30 +676,54 @@ document.addEventListener('DOMContentLoaded', function() {
       );
       
       if (initialDistance) {
-        const newScale = Math.max(1, Math.min(scale * (currentDistance / initialDistance), 4));
+        scale = Math.max(1, Math.min(initialScale * (currentDistance / initialDistance), 4));
+        
         const centerX = (touch1.clientX + touch2.clientX) / 2;
         const centerY = (touch1.clientY + touch2.clientY) / 2;
         
-        posX = centerX - (centerX - posX) * (newScale / scale);
-        posY = centerY - (centerY - posY) * (newScale / scale);
-        scale = newScale;
+        posX = centerX - startX * (scale / initialScale);
+        posY = centerY - startY * (scale / initialScale);
         
-        modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+        constrainPosition();
+        applyTransform();
       }
     } else if (e.touches.length === 1 && isDragging) {
       e.preventDefault();
       posX = e.touches[0].clientX - startX;
       posY = e.touches[0].clientY - startY;
-      modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+      constrainPosition();
+      applyTransform();
     }
-  });
+  }
 
-  modalImg.addEventListener('touchend', function() {
+  function handleTouchEnd() {
     isDragging = false;
     initialDistance = null;
-  });
+  }
 
-  // Language texts
+  function applyTransform() {
+    modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  }
+
+  function constrainPosition() {
+    const imgWidth = modalImg.offsetWidth * scale;
+    const imgHeight = modalImg.offsetHeight * scale;
+    const containerWidth = document.querySelector('.modal-content-container').offsetWidth;
+    const containerHeight = document.querySelector('.modal-content-container').offsetHeight;
+    
+    const maxX = Math.max(0, (imgWidth - containerWidth) / 2);
+    const minX = -maxX;
+    const maxY = Math.max(0, (imgHeight - containerHeight) / 2);
+    const minY = -maxY;
+    
+    posX = Math.max(minX, Math.min(posX, maxX));
+    posY = Math.max(minY, Math.min(posY, maxY));
+  }
+
+  modalImg.addEventListener('touchstart', handleTouchStart, { passive: false });
+  modalImg.addEventListener('touchmove', handleTouchMove, { passive: false });
+  modalImg.addEventListener('touchend', handleTouchEnd);
+
   function updateLanguage(lang) {
     const elements = {
       downloadBtn: {ru: '🎮 Скачать игру', en: '🎮 Download game'},
@@ -742,7 +764,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThemeIcon();
   }
 
-  // Initialize
   updateThemeIcon();
   updateButtonText();
 });
