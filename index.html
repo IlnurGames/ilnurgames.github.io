@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HALF-LIFE Ɣ | Ilnur Games</title>
+<title><strong>Half-Life Ɣ</strong> | Ilnur Games</title>
 <style>
 :root {
   --primary: #6c5ce7;
@@ -70,6 +70,7 @@ body.light-theme {
   box-shadow: var(--shadow);
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
+  cursor: pointer;
 }
 
 .gallery-navigation {
@@ -363,17 +364,17 @@ body.light-theme .feature-item {
   .game-title {
     font-size: 2.2rem;
   }
-  
+
   .game-subtitle {
     font-size: 1.2rem;
   }
-  
+
   .button-group {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .btn {
     width: auto;
     min-width: 120px;
@@ -416,12 +417,12 @@ button:active, a:active {
 <body>
 <div class="container">
   <div class="game-header">
-    <h1 class="game-title">HALF-LIFE <span>Ɣ</span></h1>
+    <h1 class="game-title"><strong>Half-Life</strong> <span>Ɣ</span></h1>
     <div class="game-subtitle">Ilnur Games</div>
   </div>
 
   <div class="gallery-container">
-    <img src="logo.png" alt="HALF-LIFE Ɣ Screenshot" class="gallery-image" id="galleryImage">
+    <img src="logo.png" alt="Half-Life Ɣ Screenshot" class="gallery-image" id="galleryImage">
     <div class="gallery-navigation">
       <button class="gallery-btn" id="prevBtn">❮</button>
       <button class="gallery-btn" id="nextBtn">❯</button>
@@ -429,7 +430,7 @@ button:active, a:active {
   </div>
 
   <div class="button-group">
-    <a href="https://disk.yandex.ru/d/KAcBxOIAlnIFkQ" class="btn download-btn" target="_blank" id="downloadBtn">
+    <a href="https://objects.githubusercontent.com/github-production-release-asset-2e65be/951430289/d6db0b96-977e-434e-b391-17142839f072?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250416T093204Z&X-Amz-Expires=300&X-Amz-Signature=c8b0ed6f1d10a66dd461eadb21b9c7130acbaa1604e9f78995b3844d569ab50c&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dlauncher_v3.3.2.apk&response-content-type=application%2Fvnd.android.package-archive" class="btn download-btn" target="_blank" id="downloadBtn">
       🎮 Скачать игру
     </a>
     <button class="btn theme-btn" id="themeToggle">
@@ -443,10 +444,10 @@ button:active, a:active {
       ⚙️ Настройки
     </button>
   </div>
-  
+
   <div class="card">
     <div class="game-description" id="descriptionText">
-      HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
+      <strong>Half-Life Ɣ</strong> от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
     </div>
 
     <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
@@ -470,6 +471,11 @@ button:active, a:active {
   </div>
 </div>
 
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
   <div class="config-buttons">
@@ -477,7 +483,7 @@ button:active, a:active {
     <button class="btn config-btn-small" id="gameConfigBtn">Настройки игры</button>
     <button class="btn config-btn-small" id="launcherConfigBtn">Настройки лаунчера</button>
   </div>
-  <img class="modal-content" id="modalImage">
+  <img class="modal-content" id="configModalImage">
 </div>
 
 <script>
@@ -490,9 +496,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const controlsBtn = document.getElementById('controlsBtn');
   const gameConfigBtn = document.getElementById('gameConfigBtn');
   const launcherConfigBtn = document.getElementById('launcherConfigBtn');
-  const modal = document.getElementById('configModal');
+  const configModal = document.getElementById('configModal');
+  const imageModal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImage');
-  const closeBtn = document.querySelector('.close');
+  const configModalImg = document.getElementById('configModalImage');
+  const closeBtns = document.querySelectorAll('.close');
   const developerName = document.getElementById('developerName');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
@@ -556,32 +564,41 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
+  galleryImage.addEventListener('click', function() {
+    modalImg.src = galleryImages[currentGalleryIndex];
+    imageModal.style.display = "block";
+  });
+
   configToggle.addEventListener('click', function() {
-    modal.style.display = "block";
+    configModal.style.display = "block";
   });
 
   controlsBtn.addEventListener('click', function() {
-    modalImg.src = configImages.controls;
-    modal.style.display = "block";
+    configModalImg.src = configImages.controls;
+    configModal.style.display = "block";
   });
 
   gameConfigBtn.addEventListener('click', function() {
-    modalImg.src = configImages.game;
-    modal.style.display = "block";
+    configModalImg.src = configImages.game;
+    configModal.style.display = "block";
   });
 
   launcherConfigBtn.addEventListener('click', function() {
-    modalImg.src = configImages.launcher;
-    modal.style.display = "block";
+    configModalImg.src = configImages.launcher;
+    configModal.style.display = "block";
   });
 
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = "none";
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      imageModal.style.display = "none";
+      configModal.style.display = "none";
+    });
   });
 
   window.addEventListener('click', function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
+    if (event.target == imageModal || event.target == configModal) {
+      imageModal.style.display = "none";
+      configModal.style.display = "none";
     }
   });
 
@@ -591,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
       themeText: {ru: body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема', en: body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme'},
       devBtn: {ru: '🛠️ Меню разработчика', en: '🛠️ Developer Menu'},
       configToggle: {ru: '⚙️ Настройки', en: '⚙️ Settings'},
-      descriptionText: {ru: 'HALF-LIFE Ɣ от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: 'HALF-LIFE Ɣ by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
+      descriptionText: {ru: '<strong>Half-Life Ɣ</strong> от Ilnur Games — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: '<strong>Half-Life Ɣ</strong> by Ilnur Games is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
       featuresTitle: {ru: 'Особенности игры', en: 'Game Features'},
       feature1: {ru: '<strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.', en: '<strong>Dynamic story:</strong> six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.'},
       feature2: {ru: '<strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.', en: '<strong>Variety of enemies:</strong> headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.'},
