@@ -339,6 +339,7 @@ body.light-theme .feature-item {
   animation: zoom 0.3s;
   touch-action: none;
   transform-origin: center center;
+  transition: transform 0.1s;
 }
 
 @keyframes zoom {
@@ -377,12 +378,6 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
-}
-
-.config-description {
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
 }
 
 .config-gallery-image {
@@ -489,7 +484,7 @@ button:active, a:active {
 
   <div class="card">
     <div class="game-description" id="descriptionText">
-      <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
+      <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предс��оит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
     </div>
 
     <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
@@ -524,7 +519,6 @@ button:active, a:active {
   <span class="close">&times;</span>
   <div class="card" style="margin: 20px auto; max-width: 600px;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-description" id="configDescription">Управление в игре</div>
     <div class="config-gallery-container">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
@@ -553,7 +547,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const configPrevBtn = document.getElementById('configPrevBtn');
   const configNextBtn = document.getElementById('configNextBtn');
   const configGalleryImage = document.getElementById('configGalleryImage');
-  const configDescription = document.getElementById('configDescription');
   const configTitle = document.getElementById('configTitle');
   const modalContentContainer = document.querySelector('.modal-content-container');
   const body = document.body;
@@ -562,17 +555,19 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentGalleryIndex = 0;
 
   const configData = [
-    { image: 'controls.png', title: 'Управление', description: 'Настройки управления в игре' },
-    { image: 'game_config.jpg', title: 'Настройки игры', description: 'Основные настройки игры' },
-    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', description: 'Настройки лаунчера' }
+    { image: 'controls.png', title: 'Управление' },
+    { image: 'game_config.jpg', title: 'Настройки игры' },
+    { image: 'launcher_config.jpg', title: 'Настройки лаунчера' }
   ];
   let currentConfigIndex = 0;
 
-  // Zoom variables
   let scale = 1;
-  let lastScale = 1;
-  let start = { x: 0, y: 0 };
+  let posX = 0;
+  let posY = 0;
+  let lastX = 0;
+  let lastY = 0;
   let isDragging = false;
+  let startX, startY;
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -622,11 +617,13 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  galleryImage.addEventListener('click', function() {
-    modalImg.src = galleryImages[currentGalleryIndex];
-    resetZoom();
-    imageModal.style.display = "block";
-    document.body.style.overflow = "hidden";
+  galleryImage.addEventListener('click', function(e) {
+    if (e.target === galleryImage) {
+      modalImg.src = galleryImages[currentGalleryIndex];
+      resetZoom();
+      imageModal.style.display = "block";
+      document.body.style.overflow = "hidden";
+    }
   });
 
   configToggle.addEventListener('click', function() {
@@ -648,15 +645,16 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateConfigGallery() {
     const currentConfig = configData[currentConfigIndex];
     configGalleryImage.src = currentConfig.image;
-    configDescription.textContent = currentConfig.description;
     configTitle.textContent = currentConfig.title;
   }
 
-  configGalleryImage.addEventListener('click', function() {
-    modalImg.src = configData[currentConfigIndex].image;
-    resetZoom();
-    imageModal.style.display = "block";
-    document.body.style.overflow = "hidden";
+  configGalleryImage.addEventListener('click', function(e) {
+    if (e.target === configGalleryImage) {
+      modalImg.src = configData[currentConfigIndex].image;
+      resetZoom();
+      imageModal.style.display = "block";
+      document.body.style.overflow = "hidden";
+    }
   });
 
   closeBtns.forEach(btn => {
@@ -675,69 +673,92 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Improved pinch zoom functionality
   function resetZoom() {
     scale = 1;
-    lastScale = 1;
-    modalImg.style.transform = `translate(0, 0) scale(1)`;
+    posX = 0;
+    posY = 0;
+    modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
   }
 
-  modalImg.addEventListener('touchstart', function(e) {
+  function handleTouchStart(e) {
     if (e.touches.length === 2) {
       e.preventDefault();
-      // Calculate initial distance between two fingers
-      const x1 = e.touches[0].clientX;
-      const y1 = e.touches[0].clientY;
-      const x2 = e.touches[1].clientX;
-      const y2 = e.touches[1].clientY;
-      start.distance = Math.hypot(x2 - x1, y2 - y1);
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const dist = Math.hypot(
+        touch2.clientX - touch1.clientX,
+        touch2.clientY - touch1.clientY
+      );
+      startX = (touch1.clientX + touch2.clientX) / 2;
+      startY = (touch1.clientY + touch2.clientY) / 2;
+      lastX = posX;
+      lastY = posY;
+      start.distance = dist;
       start.scale = scale;
     } else if (e.touches.length === 1) {
-      // Start drag
       isDragging = true;
-      start.x = e.touches[0].clientX - modalImg.offsetLeft;
-      start.y = e.touches[0].clientY - modalImg.offsetTop;
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
     }
-  });
+  }
 
-  modalImg.addEventListener('touchmove', function(e) {
+  function handleTouchMove(e) {
     if (e.touches.length === 2) {
       e.preventDefault();
-      // Calculate current distance between two fingers
-      const x1 = e.touches[0].clientX;
-      const y1 = e.touches[0].clientY;
-      const x2 = e.touches[1].clientX;
-      const y2 = e.touches[1].clientY;
-      const currentDistance = Math.hypot(x2 - x1, y2 - y1);
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const currentDist = Math.hypot(
+        touch2.clientX - touch1.clientX,
+        touch2.clientY - touch1.clientY
+      );
       
-      // Calculate new scale
       if (start.distance) {
-        scale = start.scale * (currentDistance / start.distance);
-        scale = Math.max(1, Math.min(scale, 4)); // Limit scale between 1 and 4
+        const newScale = Math.max(1, Math.min(start.scale * (currentDist / start.distance), 4);
+        const centerX = (touch1.clientX + touch2.clientX) / 2;
+        const centerY = (touch1.clientY + touch2.clientY) / 2;
         
-        // Apply scale
-        modalImg.style.transform = `translate(0, 0) scale(${scale})`;
+        scale = newScale;
+        posX = centerX - (centerX - lastX) * (scale / start.scale);
+        posY = centerY - (centerY - lastY) * (scale / start.scale);
+        
+        applyTransform();
       }
     } else if (e.touches.length === 1 && isDragging) {
       e.preventDefault();
-      // Calculate new position
-      const x = e.touches[0].clientX - start.x;
-      const y = e.touches[0].clientY - start.y;
-      
-      // Apply position (limited to prevent dragging too far)
-      const maxX = (modalImg.offsetWidth * (scale - 1)) / 2;
-      const maxY = (modalImg.offsetHeight * (scale - 1)) / 2;
-      const limitedX = Math.max(-maxX, Math.min(x, maxX));
-      const limitedY = Math.max(-maxY, Math.min(y, maxY));
-      
-      modalImg.style.transform = `translate(${limitedX}px, ${limitedY}px) scale(${scale})`;
+      posX = e.touches[0].clientX - startX;
+      posY = e.touches[0].clientY - startY;
+      applyTransform();
     }
-  });
+  }
 
-  modalImg.addEventListener('touchend', function() {
+  function handleTouchEnd() {
     isDragging = false;
     start.distance = null;
-  });
+    constrainPosition();
+  }
+
+  function applyTransform() {
+    modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  }
+
+  function constrainPosition() {
+    const imgWidth = modalImg.offsetWidth * scale;
+    const imgHeight = modalImg.offsetHeight * scale;
+    const containerWidth = modalContentContainer.offsetWidth;
+    const containerHeight = modalContentContainer.offsetHeight;
+    
+    const maxX = Math.max(0, (imgWidth - containerWidth) / 2);
+    const maxY = Math.max(0, (imgHeight - containerHeight) / 2);
+    
+    posX = Math.max(-maxX, Math.min(posX, maxX));
+    posY = Math.max(-maxY, Math.min(posY, maxY));
+    
+    applyTransform();
+  }
+
+  modalImg.addEventListener('touchstart', handleTouchStart);
+  modalImg.addEventListener('touchmove', handleTouchMove);
+  modalImg.addEventListener('touchend', handleTouchEnd);
 
   function updateLanguage(lang) {
     const elements = {
@@ -767,11 +788,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (configData) {
-      configData[0].description = lang === 'ru' ? 'Настройки управления в игре' : 'Game controls';
       configData[0].title = lang === 'ru' ? 'Управление' : 'Controls';
-      configData[1].description = lang === 'ru' ? 'Основные настройки игры' : 'Game settings';
       configData[1].title = lang === 'ru' ? 'Настройки игры' : 'Game Settings';
-      configData[2].description = lang === 'ru' ? 'Настройки лаунчера' : 'Launcher settings';
       configData[2].title = lang === 'ru' ? 'Настройки лаунчера' : 'Launcher Settings';
       
       updateConfigGallery();
