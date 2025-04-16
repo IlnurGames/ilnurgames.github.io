@@ -322,23 +322,42 @@ body.light-theme .feature-item {
   overflow: hidden;
 }
 
-.modal-content-wrapper {
-  position: relative;
-  max-width: 90%;
-  max-height: 90%;
-  transform-origin: center center;
-  transition: transform 0.25s ease-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .modal-content {
   max-width: 100%;
   max-height: 100%;
   display: block;
   object-fit: contain;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.3s ease-out;
+}
+
+.modal-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+}
+
+.modal-nav-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .close {
@@ -408,6 +427,11 @@ body.light-theme .feature-item {
   .modal-content {
     width: 100%;
     height: auto;
+  }
+  .modal-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 }
 
@@ -480,10 +504,12 @@ body.light-theme .feature-item {
 
 <div id="imageModal" class="modal">
   <span class="close">&times;</span>
+  <div class="modal-navigation">
+    <button class="modal-nav-btn" id="modalPrevBtn">❮</button>
+    <button class="modal-nav-btn" id="modalNextBtn">❯</button>
+  </div>
   <div class="modal-content-container">
-    <div class="modal-content-wrapper">
-      <img class="modal-content" id="modalImage">
-    </div>
+    <img class="modal-content" id="modalImage">
   </div>
 </div>
 
@@ -509,9 +535,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const langToggle = document.getElementById('langToggle');
   const configToggle = document.getElementById('configToggle');
   const imageModal = document.getElementById('imageModal');
-  const modalContainer = document.querySelector('.modal-content-container');
-  const modalWrapper = document.querySelector('.modal-content-wrapper');
   const modalImg = document.getElementById('modalImage');
+  const modalContainer = document.querySelector('.modal-content-container');
   const configModal = document.getElementById('configModal');
   const closeBtns = document.querySelectorAll('.close');
   const developerName = document.getElementById('developerName');
@@ -522,6 +547,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const configNextBtn = document.getElementById('configNextBtn');
   const configGalleryImage = document.getElementById('configGalleryImage');
   const configTitle = document.getElementById('configTitle');
+  const modalPrevBtn = document.getElementById('modalPrevBtn');
+  const modalNextBtn = document.getElementById('modalNextBtn');
   const body = document.body;
 
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
@@ -534,13 +561,10 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
   let currentConfigIndex = 0;
 
-  let scale = 1;
-  let lastScale = 1;
-  let pos = { x: 0, y: 0 };
+  let currentImageType = 'gallery';
   let isDragging = false;
   let startPos = { x: 0, y: 0 };
-  let initialDistance = null;
-  let currentImageType = 'gallery';
+  let currentPos = { x: 0, y: 0 };
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -593,9 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
   galleryImage.addEventListener('click', function() {
     currentImageType = 'gallery';
     modalImg.src = galleryImages[currentGalleryIndex];
-    resetZoom();
-    imageModal.style.display = "block";
-    document.body.style.overflow = "hidden";
+    openModal();
   });
 
   configToggle.addEventListener('click', function() {
@@ -614,6 +636,30 @@ document.addEventListener('DOMContentLoaded', function() {
     updateConfigGallery();
   });
 
+  modalPrevBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (currentImageType === 'gallery') {
+      currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+      modalImg.src = galleryImages[currentGalleryIndex];
+    } else {
+      currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
+      modalImg.src = configData[currentConfigIndex].image;
+    }
+    resetImagePosition();
+  });
+
+  modalNextBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (currentImageType === 'gallery') {
+      currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
+      modalImg.src = galleryImages[currentGalleryIndex];
+    } else {
+      currentConfigIndex = (currentConfigIndex + 1) % configData.length;
+      modalImg.src = configData[currentConfigIndex].image;
+    }
+    resetImagePosition();
+  });
+
   function updateConfigGallery() {
     const currentConfig = configData[currentConfigIndex];
     configGalleryImage.src = currentConfig.image;
@@ -623,10 +669,19 @@ document.addEventListener('DOMContentLoaded', function() {
   configGalleryImage.addEventListener('click', function() {
     currentImageType = 'config';
     modalImg.src = configData[currentConfigIndex].image;
-    resetZoom();
+    openModal();
+  });
+
+  function openModal() {
     imageModal.style.display = "block";
     document.body.style.overflow = "hidden";
-  });
+    resetImagePosition();
+  }
+
+  function resetImagePosition() {
+    currentPos = { x: 0, y: 0 };
+    modalImg.style.transform = `translate(0, 0)`;
+  }
 
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function() {
@@ -644,158 +699,60 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  function resetZoom() {
-    scale = 1;
-    pos = { x: 0, y: 0 };
-    updateTransform();
-    modalWrapper.style.cursor = 'default';
-    
-    // Центрирование изображения после загрузки
-    modalImg.onload = function() {
-      centerImage();
-    };
-  }
-
-  function centerImage() {
-    const containerRect = modalContainer.getBoundingClientRect();
-    const imgRect = modalImg.getBoundingClientRect();
-    
-    // Для вертикальных изображений в настройках
-    if (currentImageType === 'config' && imgRect.height > imgRect.width) {
-      scale = Math.min(
-        containerRect.width * 0.9 / imgRect.width,
-        containerRect.height * 0.9 / imgRect.height
-      );
-    }
-    
-    updateTransform();
-  }
-
-  function updateTransform() {
-    modalWrapper.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${scale})`;
-  }
-
-  modalWrapper.addEventListener('mousedown', (e) => {
-    if (scale <= 1) return;
+  // Перетаскивание изображения
+  modalImg.addEventListener('mousedown', function(e) {
     isDragging = true;
     startPos = {
-      x: e.clientX - pos.x,
-      y: e.clientY - pos.y
+      x: e.clientX - currentPos.x,
+      y: e.clientY - currentPos.y
     };
-    modalWrapper.style.cursor = 'grabbing';
+    modalImg.style.cursor = 'grabbing';
+    e.preventDefault();
   });
 
-  window.addEventListener('mousemove', (e) => {
+  window.addEventListener('mousemove', function(e) {
     if (!isDragging) return;
-    pos = {
+    
+    currentPos = {
       x: e.clientX - startPos.x,
       y: e.clientY - startPos.y
     };
-    constrainPosition();
-    updateTransform();
+    
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`;
   });
 
-  window.addEventListener('mouseup', () => {
+  window.addEventListener('mouseup', function() {
     isDragging = false;
-    modalWrapper.style.cursor = scale > 1 ? 'grab' : 'default';
+    modalImg.style.cursor = 'grab';
   });
 
-  modalWrapper.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1 && scale > 1) {
-      isDragging = true;
-      startPos = {
-        x: e.touches[0].clientX - pos.x,
-        y: e.touches[0].clientY - pos.y
-      };
-    } else if (e.touches.length === 2) {
-      e.preventDefault();
-      const touch1 = e.touches[0];
-      const touch2 = e.touches[1];
-      const dist = Math.hypot(
-        touch2.clientX - touch1.clientX,
-        touch2.clientY - touch1.clientY
-      );
-      lastScale = scale;
-      startPos = {
-        x: (touch1.clientX + touch2.clientX) / 2 - pos.x,
-        y: (touch1.clientY + touch2.clientY) / 2 - pos.y
-      };
-      initialDistance = dist;
-    }
-  }, { passive: false });
-
-  modalWrapper.addEventListener('touchmove', (e) => {
-    if (isDragging && e.touches.length === 1) {
-      pos = {
-        x: e.touches[0].clientX - startPos.x,
-        y: e.touches[0].clientY - startPos.y
-      };
-      constrainPosition();
-      updateTransform();
-    } else if (e.touches.length === 2) {
-      e.preventDefault();
-      const touch1 = e.touches[0];
-      const touch2 = e.touches[1];
-      const dist = Math.hypot(
-        touch2.clientX - touch1.clientX,
-        touch2.clientY - touch1.clientY
-      );
-      
-      if (initialDistance) {
-        scale = Math.max(1, Math.min(lastScale * (dist / initialDistance), 4));
-        
-        const centerX = (touch1.clientX + touch2.clientX) / 2;
-        const centerY = (touch1.clientY + touch2.clientY) / 2;
-        
-        pos.x = centerX - startPos.x * (scale / lastScale);
-        pos.y = centerY - startPos.y * (scale / lastScale);
-        
-        constrainPosition();
-        updateTransform();
-      }
-    }
-  }, { passive: false });
-
-  modalWrapper.addEventListener('touchend', () => {
-    isDragging = false;
-    initialDistance = null;
-  });
-
-  function constrainPosition() {
-    const wrapperRect = modalWrapper.getBoundingClientRect();
-    const imgRect = modalImg.getBoundingClientRect();
-    const containerRect = modalContainer.getBoundingClientRect();
-    
-    const imgWidth = imgRect.width * scale;
-    const imgHeight = imgRect.height * scale;
-    
-    const maxX = Math.max(0, (imgWidth - containerRect.width) / 2);
-    const minX = -maxX;
-    const maxY = Math.max(0, (imgHeight - containerRect.height) / 2);
-    const minY = -maxY;
-    
-    pos.x = Math.max(minX, Math.min(pos.x, maxX));
-    pos.y = Math.max(minY, Math.min(pos.y, maxY));
-  }
-
-  modalWrapper.addEventListener('wheel', (e) => {
+  // Для сенсорных устройств
+  modalImg.addEventListener('touchstart', function(e) {
+    isDragging = true;
+    startPos = {
+      x: e.touches[0].clientX - currentPos.x,
+      y: e.touches[0].clientY - currentPos.y
+    };
+    modalImg.style.cursor = 'grabbing';
     e.preventDefault();
-    const delta = -e.deltaY / 100;
-    const newScale = Math.max(1, Math.min(scale + delta, 4));
-    
-    if (newScale !== scale) {
-      const mouseX = e.clientX - modalContainer.getBoundingClientRect().left;
-      const mouseY = e.clientY - modalContainer.getBoundingClientRect().top;
-      
-      pos.x = mouseX - (mouseX - pos.x) * (newScale / scale);
-      pos.y = mouseY - (mouseY - pos.y) * (newScale / scale);
-      
-      scale = newScale;
-      constrainPosition();
-      updateTransform();
-      modalWrapper.style.cursor = scale > 1 ? 'grab' : 'default';
-    }
   }, { passive: false });
+
+  window.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    
+    currentPos = {
+      x: e.touches[0].clientX - startPos.x,
+      y: e.touches[0].clientY - startPos.y
+    };
+    
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`;
+    e.preventDefault();
+  }, { passive: false });
+
+  window.addEventListener('touchend', function() {
+    isDragging = false;
+    modalImg.style.cursor = 'grab';
+  });
 
   function updateLanguage(lang) {
     const elements = {
