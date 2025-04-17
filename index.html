@@ -655,6 +655,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentConfig.zoomable) {
       currentImageType = 'config';
       modalImg.src = currentConfig.image;
+      imageModal.style.zIndex = "1001";
       openModal();
     }
   });
@@ -710,6 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
       imageModal.style.display = "none";
       configModal.style.display = "none";
       document.body.style.overflow = "auto";
+      imageModal.style.zIndex = "1000";
     });
   });
 
@@ -717,6 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.target == imageModal) {
       imageModal.style.display = "none";
       document.body.style.overflow = "auto";
+      imageModal.style.zIndex = "1000";
     }
     if (event.target == configModal) {
       configModal.style.display = "none";
