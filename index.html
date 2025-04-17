@@ -317,6 +317,7 @@ body.light-theme .feature-item {
   align-items: center;
   min-height: 100%;
   padding: 20px;
+  overflow: auto;
 }
 
 .modal-content {
@@ -434,7 +435,7 @@ body.light-theme .feature-item {
     min-width: 120px;
   }
   .modal-content {
-    transform: scale(1.5);
+    transform: scale(2);
     max-height: 80vh;
   }
   .modal-nav-btn, .gallery-btn {
@@ -529,9 +530,9 @@ body.light-theme .feature-item {
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 600px; overflow-x: auto;">
+  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-gallery-container">
+    <div class="config-gallery-container" style="overflow: auto; max-height: 70vh;">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
         <button class="gallery-btn" id="configPrevBtn">❮</button>
@@ -636,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
   configToggle.addEventListener('click', function() {
     updateConfigGallery();
     configModal.style.display = "block";
-    document.body.style.overflow = "auto"; // Разблокируем скроллинг
+    document.body.style.overflow = "hidden";
   });
 
   configPrevBtn.addEventListener('click', function() {
@@ -681,7 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
-    modalImg.style.transform = `translate(0, 0) scale(${window.innerWidth < 768 ? 1.5 : 2})`;
+    modalImg.style.transform = `translate(0, 0) scale(${window.innerWidth < 768 ? 2 : 2})`;
   }
 
   closeBtns.forEach(btn => {
@@ -703,7 +704,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Перетаскивание изображения
   modalImg.addEventListener('mousedown', function(e) {
     isDragging = true;
     startPos = {
@@ -722,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.clientY - startPos.y
     };
     
-    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${window.innerWidth < 768 ? 1.5 : 2})`;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${window.innerWidth < 768 ? 2 : 2})`;
   });
 
   window.addEventListener('mouseup', function() {
@@ -730,7 +730,6 @@ document.addEventListener('DOMContentLoaded', function() {
     modalImg.style.cursor = 'grab';
   });
 
-  // Для сенсорных устройств
   modalImg.addEventListener('touchstart', function(e) {
     isDragging = true;
     startPos = {
@@ -749,7 +748,7 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.touches[0].clientY - startPos.y
     };
     
-    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${window.innerWidth < 768 ? 1.5 : 2})`;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${window.innerWidth < 768 ? 2 : 2})`;
     e.preventDefault();
   }, { passive: false });
 
