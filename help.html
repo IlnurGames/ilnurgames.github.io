@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Half-Life Ɣ | Developer Menu</title>
+<title>HALF-LIFE Ɣ | Developer Menu</title>
 <style>
 :root {
   --primary: #6c5ce7;
@@ -57,46 +57,6 @@ body.light-theme {
   overflow: hidden;
 }
 
-.game-header {
-  text-align: center;
-  margin-bottom: 20px;
-  padding: 20px 0;
-}
-
-.game-title {
-  font-family: 'Arial Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 5px;
-  line-height: 1.2;
-  letter-spacing: -1px;
-  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shine 3s linear infinite;
-}
-
-.game-subtitle {
-  font-family: 'Arial Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.5rem;
-  margin-top: -5px;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shine 3s linear infinite;
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
 .button-group {
   display: flex;
   gap: 15px;
@@ -106,7 +66,7 @@ body.light-theme {
   position: relative;
 }
 
-.theme-btn, .download-btn, .lang-btn {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -118,8 +78,6 @@ body.light-theme {
   font-size: 14px;
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  overflow: hidden;
   text-decoration: none;
   min-width: 120px;
   gap: 8px;
@@ -128,74 +86,25 @@ body.light-theme {
   box-shadow: var(--shadow);
 }
 
-.download-btn {
+.back-btn {
   background: linear-gradient(135deg, #7e57c2, #6a5acd);
-  position: relative;
-}
-
-.download-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #6a5acd, #5c6bc0);
 }
 
 .theme-btn {
   background: linear-gradient(135deg, #5c6bc0, #4a5acf);
-  position: relative;
-}
-
-.theme-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #7e57c2, #5c6bc0);
-}
-
-.theme-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #5c6bc0, #5e35b1);
 }
 
 .lang-btn {
   background: linear-gradient(135deg, #5e35b1, #4a2d91);
-  position: relative;
 }
 
-.lang-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  height: 100%;
-  background: linear-gradient(to right, #5c6bc0, #5e35b1);
+.download-btn {
+  background: linear-gradient(135deg, #4a2d91, #3a1d71);
 }
 
-.download-btn:hover {
+.btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(126, 87, 194, 0.4);
-}
-
-.theme-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(92, 107, 192, 0.4);
-}
-
-.lang-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(94, 53, 177, 0.4);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .card {
@@ -207,7 +116,6 @@ body.light-theme {
   border: 1.5px solid rgba(108, 92, 231, 0.5);
   box-shadow: 0 0 18px rgba(108, 92, 231, 0.18);
   backdrop-filter: blur(5px);
-  position: relative;
 }
 
 body.light-theme .card {
@@ -360,19 +268,17 @@ button:active, a:active {
 </head>
 <body>
 <div class="container">
-  <div class="game-header">
-    <h1 class="game-title">HALF-LIFE <span>Ɣ</span></h1>
-    <div class="game-subtitle">Ilnur Games</div>
-  </div>
-
   <div class="button-group">
-    <a href="https://disk.yandex.ru/d/rRa_dpdER8rutA" class="download-btn" target="_blank" id="downloadBtn">
-      🎮 Старые версии игры
+    <a href="index.html" class="btn back-btn">
+      ↩️ На главную
     </a>
-    <button class="theme-btn" id="themeToggle">
+    <button class="btn theme-btn" id="themeToggle">
       <span id="themeText">Сменить тему</span>
     </button>
-    <button class="lang-btn" id="langToggle">🌐 EN</button>
+    <button class="btn lang-btn" id="langToggle">🌐 EN</button>
+    <a href="https://disk.yandex.ru/d/rRa_dpdER8rutA" class="btn download-btn" target="_blank" id="downloadBtn">
+      🎮 Старые версии игры
+    </a>
   </div>
   
   <div class="card">
