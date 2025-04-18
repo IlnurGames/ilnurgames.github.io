@@ -133,7 +133,12 @@ body.light-theme {
   font-size: 1.5rem;
   margin-top: -5px;
   letter-spacing: 1px;
-  color: var(--primary-light);
+  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 3s linear infinite;
 }
 
 @keyframes shine {
