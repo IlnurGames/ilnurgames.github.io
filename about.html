@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>О разработчиках | HALF-LIFE Ɣ</title>
+<style>
+:root {
+  --primary: #6c5ce7;
+  --primary-dark: #5649c0;
+  --primary-light: #a29bfe;
+  --secondary: #7b68ee;
+  --accent: #00e5ff;
+  --accent-dark: #00b8d4;
+  --danger: #e84393;
+  --text-light: #f8f9fa;
+  --text-dark: #2d3436;
+  --bg-light: #f8f9fa;
+  --bg-dark: #1a1528;
+  --card-light: #ffffff;
+  --card-dark: #1e1a34;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --glow: 0 4px 12px rgba(108, 92, 231, 0.4);
+  --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.7;
+  padding: 20px;
+  transition: var(--transition);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
+}
+
+body.light-theme {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  background-image: none;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  min-width: 120px;
+  gap: 8px;
+  transform: translateY(0);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #7e57c2, #6a5acd);
+}
+
+.theme-btn {
+  background: linear-gradient(135deg, #5c6bc0, #4a5acf);
+}
+
+.lang-btn {
+  background: linear-gradient(135deg, #5e35b1, #4a2d91);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  background-color: var(--card-dark);
+  border-radius: 14px;
+  padding: 25px;
+  margin-bottom: 30px;
+  transition: var(--transition);
+  border: 1.5px solid rgba(108, 92, 231, 0.5);
+  box-shadow: 0 0 18px rgba(108, 92, 231, 0.18);
+  backdrop-filter: blur(5px);
+}
+
+body.light-theme .card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(108, 92, 231, 0.35);
+  box-shadow: 0 0 12px rgba(108, 92, 231, 0.12);
+}
+
+.card:hover {
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.25);
+}
+
+.about-title {
+  color: var(--accent);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 15px 0 25px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: var(--text-shadow);
+}
+
+.team-list {
+  list-style-type: none;
+  margin-bottom: 30px;
+}
+
+.team-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: rgba(108, 92, 231, 0.15);
+  border-radius: 8px;
+  transition: var(--transition);
+  border: 1px solid rgba(108, 92, 231, 0.25);
+}
+
+body.light-theme .team-item {
+  background-color: rgba(108, 92, 231, 0.05);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+}
+
+.team-item:hover {
+  background-color: rgba(108, 92, 231, 0.25);
+  transform: translateX(5px);
+}
+
+.team-role {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+
+.team-name {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.team-nickname {
+  opacity: 0.8;
+  font-size: 0.9em;
+}
+
+.resource-link {
+  display: block;
+  margin-top: 30px;
+  padding: 15px;
+  background-color: rgba(0, 229, 255, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  transition: var(--transition);
+}
+
+.resource-link:hover {
+  background-color: rgba(0, 229, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.resource-title {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.resource-desc {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.release-years {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.1em;
+  color: var(--primary-light);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .btn {
+    min-width: 120px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="button-group">
+    <a href="index.html" class="btn back-btn" id="backBtn">
+      ↩️ На главную
+    </a>
+    <button class="btn theme-btn" id="themeToggle">
+      <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
+    </button>
+    <button class="btn lang-btn" id="langToggle">🌐 EN</button>
+  </div>
+
+  <div class="card">
+    <h2 class="about-title" id="aboutTitle">Команда разработчиков</h2>
+
+    <ul class="team-list">
+      <li class="team-item">
+        <div class="team-role" id="mainDevRole">Основной разработчик</div>
+        <div class="team-name" id="mainDevName">Ильнур Шарапов</div>
+        <div class="team-nickname">(NuruL)</div>
+      </li>
+      <li class="team-item">
+        <div class="team-role" id="assistantRole">Помощь в разработке</div>
+        <div class="team-name" id="assistantName">Мансур Шарапов</div>
+        <div class="team-nickname">(Docker)</div>
+      </li>
+    </ul>
+
+    <a href="https://hldoc.ru/" class="resource-link" target="_blank">
+      <div class="resource-title" id="resourceTitle">HLDOC.RU</div>
+      <div class="resource-desc" id="resourceDesc">Рекомендуемый ресурс по вселенной Half-Life от Docker</div>
+    </a>
+
+    <div class="release-years" id="releaseYears">2020-2025 гг.</div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.getElementById('themeToggle');
+  const themeText = document.getElementById('themeText');
+  const themeIcon = document.getElementById('themeIcon');
+  const langToggle = document.getElementById('langToggle');
+  const body = document.body;
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light-theme') {
+    body.classList.add('light-theme');
+    updateThemeIcon();
+  }
+
+  themeToggle.addEventListener('click', function() {
+    body.classList.toggle('light-theme');
+    const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
+    localStorage.setItem('theme', currentTheme);
+    updateThemeIcon();
+    updateButtonText();
+  });
+
+  function updateThemeIcon() {
+    const isLight = body.classList.contains('light-theme');
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
+  }
+
+  function updateButtonText() {
+    const isLight = body.classList.contains('light-theme');
+    const currentLang = localStorage.getItem('lang') || 'ru';
+    if (currentLang === 'ru') {
+      themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+    } else {
+      themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
+    }
+  }
+
+  const savedLang = localStorage.getItem('lang') || 'ru';
+  updateLanguage(savedLang);
+
+  langToggle.addEventListener('click', function() {
+    const currentLang = localStorage.getItem('lang') === 'ru' ? 'en' : 'ru';
+    updateLanguage(currentLang);
+    localStorage.setItem('lang', currentLang);
+  });
+
+  function updateLanguage(lang) {
+    const elements = {
+      backBtn: {ru: '↩️ На главную', en: '↩️ Back to main'},
+      themeText: {ru: body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема', en: body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme'},
+      aboutTitle: {ru: 'Команда разработчиков', en: 'Development Team'},
+      mainDevRole: {ru: 'Основной разработчик', en: 'Lead Developer'},
+      mainDevName: {ru: 'Ильнур Шарапов', en: 'Ilnur Sharapov'},
+      assistantRole: {ru: 'Помощь в разработке', en: 'Development Assistant'},
+      assistantName: {ru: 'Мансур Шарапов', en: 'Mansur Sharapov'},
+      resourceTitle: {ru: 'HLDOC.RU', en: 'HLDOC.RU'},
+      resourceDesc: {ru: 'Рекомендуемый ресурс по вселенной Half-Life от Docker', en: 'Recommended Half-Life universe resource by Docker'},
+      releaseYears: {ru: '2020-2025 гг.', en: '2020-2025'}
+    };
+
+    for (const [id, texts] of Object.entries(elements)) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.textContent = texts[lang];
+      }
+    }
+
+    langToggle.textContent = lang === 'ru' ? '🌐 EN' : '🌐 RU';
+    updateThemeIcon();
+  }
+
+  updateThemeIcon();
+  updateButtonText();
+});
+</script>
+</body>
+</html>
