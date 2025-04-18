@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Half-Life Ɣ</title>
+<title>HALF-LIFE Ɣ</title>
 <style>
 :root {
   --primary: #6c5ce7;
@@ -125,6 +125,7 @@ body.light-theme {
   background-clip: text;
   color: transparent;
   animation: shine 3s linear infinite;
+  text-transform: uppercase;
 }
 
 .game-subtitle {
@@ -132,12 +133,7 @@ body.light-theme {
   font-size: 1.5rem;
   margin-top: -5px;
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shine 3s linear infinite;
+  color: var(--primary-light);
 }
 
 @keyframes shine {
@@ -192,6 +188,10 @@ body.light-theme {
 
 .config-btn {
   background: linear-gradient(135deg, #3a1d71, #2a0d51);
+}
+
+.about-btn {
+  background: linear-gradient(135deg, #2a0d51, #1a0531);
 }
 
 .btn:hover {
@@ -290,13 +290,6 @@ body.light-theme .feature-item {
   border-radius: 6px;
   background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
   z-index: -1;
-}
-
-.credits {
-  margin-top: 30px;
-  font-size: 0.9rem;
-  text-align: center;
-  color: var(--primary-light);
 }
 
 .modal {
@@ -463,12 +456,12 @@ body.light-theme .feature-item {
 <body>
 <div class="container">
   <div class="game-header">
-    <h1 class="game-title"><strong>Half-Life</strong> <span>Ɣ</span></h1>
+    <h1 class="game-title">HALF-LIFE <span>Ɣ</span></h1>
     <div class="game-subtitle">Ilnur Games</div>
   </div>
 
   <div class="gallery-container">
-    <img src="logo.png" alt="Half-Life Ɣ Screenshot" class="gallery-image" id="galleryImage">
+    <img src="logo.png" alt="HALF-LIFE Ɣ Screenshot" class="gallery-image" id="galleryImage">
     <div class="gallery-navigation">
       <button class="gallery-btn" id="prevBtn">❮</button>
       <button class="gallery-btn" id="nextBtn">❯</button>
@@ -489,11 +482,14 @@ body.light-theme .feature-item {
     <button class="btn config-btn" id="configToggle">
       ⚙️ Настройки
     </button>
+    <a href="about.html" class="btn about-btn">
+      👥 О разработчиках
+    </a>
   </div>
 
   <div class="card">
     <div class="game-description" id="descriptionText">
-      <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
+      <strong>HALF-LIFE Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
     </div>
 
     <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
@@ -508,11 +504,6 @@ body.light-theme .feature-item {
 
     <div class="game-description" id="targetText">
       <strong id="targetTitle">Для кого эта игра:</strong> <span id="targetDesc">для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.</span>
-    </div>
-
-    <div class="credits">
-      <span id="creditsDev">Разработчик:</span> <span id="developerName">Ильнур Шарапов</span><br>
-      <span id="creditsYear">Год выпуска:</span> 2020-2025
     </div>
   </div>
 </div>
@@ -553,7 +544,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalImg = document.getElementById('modalImage');
   const configModal = document.getElementById('configModal');
   const closeBtns = document.querySelectorAll('.close');
-  const developerName = document.getElementById('developerName');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const galleryImage = document.getElementById('galleryImage');
@@ -788,7 +778,7 @@ document.addEventListener('DOMContentLoaded', function() {
       themeText: {ru: body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема', en: body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme'},
       devBtn: {ru: '🛠️ Меню разработчика', en: '🛠️ Developer Menu'},
       configToggle: {ru: '⚙️ Настройки', en: '⚙️ Settings'},
-      descriptionText: {ru: '<strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: '<strong>Half-Life Ɣ</strong> is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
+      descriptionText: {ru: '<strong>HALF-LIFE Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: '<strong>HALF-LIFE Ɣ</strong> is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
       featuresTitle: {ru: 'Особенности игры', en: 'Game Features'},
       feature1: {ru: '<strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.', en: '<strong>Dynamic story:</strong> six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.'},
       feature2: {ru: '<strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.', en: '<strong>Variety of enemies:</strong> headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.'},
@@ -797,8 +787,6 @@ document.addEventListener('DOMContentLoaded', function() {
       feature5: {ru: '<strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.', en: '<strong>Dark atmosphere:</strong> dark locations, tense dialogues and sound design in the spirit of original Half-Life.'},
       targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
       targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
-      creditsDev: {ru: 'Разработчик:', en: 'Developer:'},
-      creditsYear: {ru: 'Год выпуска:', en: 'Release year:'},
       configTitle: {ru: 'Настройки', en: 'Settings'},
     };
 
@@ -817,7 +805,6 @@ document.addEventListener('DOMContentLoaded', function() {
       updateConfigGallery();
     }
 
-    developerName.textContent = lang === 'ru' ? 'Ильнур Шарапов' : 'Ilnur Sharapov';
     langToggle.textContent = lang === 'ru' ? '🌐 EN' : '🌐 RU';
     updateThemeIcon();
   }
