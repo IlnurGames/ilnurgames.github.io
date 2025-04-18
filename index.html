@@ -173,30 +173,7 @@ body.light-theme {
   transform: translateY(0);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: var(--shadow);
-}
-
-.download-btn {
-  background: linear-gradient(135deg, #7e57c2, #6a5acd);
-}
-
-.theme-btn {
-  background: linear-gradient(135deg, #5c6bc0, #4a5acf);
-}
-
-.lang-btn {
-  background: linear-gradient(135deg, #5e35b1, #4a2d91);
-}
-
-.dev-btn {
-  background: linear-gradient(135deg, #4a2d91, #3a1d71);
-}
-
-.config-btn {
-  background: linear-gradient(135deg, #3a1d71, #2a0d51);
-}
-
-.about-btn {
-  background: linear-gradient(135deg, #2a0d51, #1a0531);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
 }
 
 .btn:hover {
@@ -487,7 +464,7 @@ body.light-theme .feature-item {
     <button class="btn config-btn" id="configToggle">
       ⚙️ Настройки
     </button>
-    <a href="about.html" class="btn about-btn">
+    <a href="about.html" class="btn about-btn" id="aboutBtn">
       👥 О разработчиках
     </a>
   </div>
@@ -559,6 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalPrevBtn = document.getElementById('modalPrevBtn');
   const modalNextBtn = document.getElementById('modalNextBtn');
   const body = document.body;
+  const aboutBtn = document.getElementById('aboutBtn');
 
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
   let currentGalleryIndex = 0;
@@ -793,6 +771,7 @@ document.addEventListener('DOMContentLoaded', function() {
       targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
       targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
       configTitle: {ru: 'Настройки', en: 'Settings'},
+      aboutBtn: {ru: '👥 О разработчиках', en: '👥 About Developers'}
     };
 
     for (const [id, texts] of Object.entries(elements)) {
