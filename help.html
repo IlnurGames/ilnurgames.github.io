@@ -87,7 +87,7 @@ body.light-theme {
 }
 
 .back-btn {
-  background: linear-gradient(135deg, #7e57c2, #6a5acd);
+  background: linear-gradient(135deg, #7e57c2, #5c6bc0);
 }
 
 .theme-btn {
@@ -95,11 +95,11 @@ body.light-theme {
 }
 
 .lang-btn {
-  background: linear-gradient(135deg, #5e35b1, #4a2d91);
+  background: linear-gradient(135deg, #4a5acf, #3949ab);
 }
 
 .download-btn {
-  background: linear-gradient(135deg, #4a2d91, #3a1d71);
+  background: linear-gradient(135deg, #3949ab, #303f9f);
 }
 
 .btn:hover {
@@ -269,11 +269,11 @@ button:active, a:active {
 <body>
 <div class="container">
   <div class="button-group">
-    <a href="index.html" class="btn back-btn">
-      ↩️ На главную
+    <a href="index.html" class="btn back-btn" id="backBtn">
+      ↩️ <span id="backText">На главную</span>
     </a>
     <button class="btn theme-btn" id="themeToggle">
-      <span id="themeText">Сменить тему</span>
+      <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
     </button>
     <button class="btn lang-btn" id="langToggle">🌐 EN</button>
     <a href="https://disk.yandex.ru/d/rRa_dpdER8rutA" class="btn download-btn" target="_blank" id="downloadBtn">
@@ -316,8 +316,11 @@ button:active, a:active {
 <script>
 const themeToggle = document.getElementById('themeToggle');
 const themeText = document.getElementById('themeText');
+const themeIcon = document.getElementById('themeIcon');
 const langToggle = document.getElementById('langToggle');
 const downloadBtn = document.getElementById('downloadBtn');
+const backBtn = document.getElementById('backBtn');
+const backText = document.getElementById('backText');
 const attentionText = document.getElementById('attentionText');
 const developerText = document.getElementById('developerText');
 const body = document.body;
@@ -327,6 +330,7 @@ const noticeEn = document.querySelector('.notice-en');
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light-theme') {
   body.classList.add('light-theme');
+  updateThemeIcon();
   updateButtonText();
 }
 
@@ -335,17 +339,23 @@ themeToggle.addEventListener('click', (e) => {
   body.classList.toggle('light-theme');
   const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
   localStorage.setItem('theme', currentTheme);
+  updateThemeIcon();
   updateButtonText();
 });
 
+function updateThemeIcon() {
+  const isLight = body.classList.contains('light-theme');
+  themeIcon.textContent = isLight ? '🌙' : '☀️';
+}
+
 function updateButtonText() {
   const isLight = body.classList.contains('light-theme');
-  if (noticeRu.classList.contains('active')) {
+  const currentLang = noticeRu.classList.contains('active') ? 'ru' : 'en';
+  if (currentLang === 'ru') {
     themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
   } else {
     themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
   }
-  themeText.innerHTML = (isLight ? '🌙' : '☀️') + ' ' + themeText.textContent;
 }
 
 const savedLang = localStorage.getItem('lang') || 'ru';
@@ -362,17 +372,20 @@ function updateLanguage(lang) {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
     langToggle.textContent = '🌐 EN';
-    downloadBtn.textContent = '🎮 Старые версии игры';
+    downloadBtn.innerHTML = '🎮 Старые версии игры';
+    backText.textContent = 'На главную';
     attentionText.textContent = 'Внимание!';
     developerText.textContent = 'Меню разработчика';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
     langToggle.textContent = '🌐 RU';
-    downloadBtn.textContent = '🎮 Old game versions';
+    downloadBtn.innerHTML = '🎮 Old game versions';
+    backText.textContent = 'Back to main';
     attentionText.textContent = 'Attention!';
     developerText.textContent = 'Developer Menu';
   }
+  updateThemeIcon();
   updateButtonText();
 }
 
@@ -385,6 +398,7 @@ document.addEventListener('touchend', function(e) {
   });
 }, true);
 
+updateThemeIcon();
 updateButtonText();
 </script>
 </body>
