@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HALF-LIFE Ɣ | Ilnur Games</title>
+<title>HALF-LIFE Ɣ</title>
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="application-name" content="Ilnur Games">
-<meta name="apple-mobile-web-app-title" content="Ilnur Games">
+<meta name="application-name" content="HL Ɣ | Ilnur Games">
+<meta name="apple-mobile-web-app-title" content="HL Ɣ | Ilnur Games">
 <meta name="msapplication-tooltip" content="HALF-LIFE Ɣ">
 <meta name="theme-color" content="#1a1528">
 <meta name="msapplication-navbutton-color" content="#1a1528">
@@ -634,6 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let isDragging = false;
   let startPos = { x: 0, y: 0 };
   let currentPos = { x: 0, y: 0 };
+  let isModalOpen = false;
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -750,6 +751,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function openModal() {
+    isModalOpen = true;
     imageModal.style.display = "block";
     document.body.style.overflow = "hidden";
     resetImagePosition();
@@ -762,15 +764,17 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   closeBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
       if (imageModal.style.display === "block") {
         resetImagePosition();
         imageModal.style.display = "none";
         imageModal.style.zIndex = "1000";
+        document.body.style.overflow = "auto";
       } else {
         configModal.style.display = "none";
+        document.body.style.overflow = "auto";
       }
-      document.body.style.overflow = "auto";
     });
   });
 
@@ -784,6 +788,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.target == configModal) {
       configModal.style.display = "none";
       document.body.style.overflow = "auto";
+    }
+  });
+
+  window.addEventListener('scroll', function() {
+    if (isModalOpen) {
+      window.scrollTo(0, 0);
     }
   });
 
