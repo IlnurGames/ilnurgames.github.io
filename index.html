@@ -110,10 +110,13 @@ body.light-theme {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.header-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.header-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .game-header {
@@ -163,7 +166,12 @@ body.light-theme {
   font-size: 1.2rem;
   margin-top: -5px;
   letter-spacing: 1px;
-  color: var(--primary-light);
+  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 3s linear infinite;
 }
 
 @keyframes shine {
@@ -471,35 +479,31 @@ body.light-theme .feature-item {
     height: 40px;
     font-size: 30px;
   }
-  .game-header {
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-  }
   .game-logo {
     height: 60px;
   }
-}
-
-@media (max-width: 480px) {
-  .game-header {
+  .header-content {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
   .game-title {
-    font-size: 1.8rem;
     text-align: center;
   }
   .game-subtitle {
-    font-size: 0.9rem;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 1.8rem;
+  }
+  .game-subtitle {
+    font-size: 0.9rem;
   }
   .game-logo {
     height: 50px;
-  }
-  .game-title-container {
-    text-align: center;
   }
 }
 
@@ -515,7 +519,7 @@ body.light-theme .feature-item {
 </head>
 <body>
 <div class="container">
-  <div class="header-wrapper">
+  <div class="header-content">
     <div class="game-header">
       <img src="icon.png" alt="HALF-LIFE Ɣ Logo" class="game-logo">
       <div class="game-title-container">
