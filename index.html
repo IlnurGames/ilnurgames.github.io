@@ -634,6 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let isDragging = false;
   let startPos = { x: 0, y: 0 };
   let currentPos = { x: 0, y: 0 };
+  let scrollPosition = 0;
   let isModalOpen = false;
 
   const savedTheme = localStorage.getItem('theme');
@@ -692,8 +693,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   configToggle.addEventListener('click', function() {
     updateConfigGallery();
+    scrollPosition = window.pageYOffset;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
     configModal.style.display = "block";
-    document.body.style.overflow = "hidden";
   });
 
   configPrevBtn.addEventListener('click', function() {
@@ -751,9 +754,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function openModal() {
+    scrollPosition = window.pageYOffset;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
     isModalOpen = true;
     imageModal.style.display = "block";
-    document.body.style.overflow = "hidden";
     resetImagePosition();
   }
 
@@ -763,31 +768,39 @@ document.addEventListener('DOMContentLoaded', function() {
     modalImg.style.transform = `translate(0, 0) scale(${scale})`;
   }
 
+  function closeModal() {
+    const body = document.body;
+    const scrollY = body.style.top;
+    body.style.position = '';
+    body.style.top = '';
+    if (scrollY) {
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+  }
+
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
       if (imageModal.style.display === "block") {
-        resetImagePosition();
+        closeModal();
         imageModal.style.display = "none";
         imageModal.style.zIndex = "1000";
-        document.body.style.overflow = "auto";
       } else {
+        closeModal();
         configModal.style.display = "none";
-        document.body.style.overflow = "auto";
       }
     });
   });
 
   window.addEventListener('click', function(event) {
     if (event.target == imageModal) {
-      resetImagePosition();
+      closeModal();
       imageModal.style.display = "none";
-      document.body.style.overflow = "auto";
       imageModal.style.zIndex = "1000";
     }
     if (event.target == configModal) {
+      closeModal();
       configModal.style.display = "none";
-      document.body.style.overflow = "auto";
     }
   });
 
