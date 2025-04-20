@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HALF-LIFE Ɣ</title>
+<title>HALF-LIFE Ɣ | Ilnur Games</title>
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="application-name" content="HALF-LIFE Ɣ">
-<meta name="apple-mobile-web-app-title" content="HALF-LIFE Ɣ">
+<meta name="application-name" content="Ilnur Games">
+<meta name="apple-mobile-web-app-title" content="Ilnur Games">
 <meta name="msapplication-tooltip" content="HALF-LIFE Ɣ">
 <meta name="theme-color" content="#1a1528">
 <meta name="msapplication-navbutton-color" content="#1a1528">
@@ -118,20 +118,18 @@ body.light-theme {
 }
 
 .header-content {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-bottom: 20px;
+  padding: 20px 0;
 }
 
 .game-header {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
-  padding: 20px 0;
 }
 
 .game-logo {
@@ -149,7 +147,7 @@ body.light-theme {
 }
 
 .game-title-container {
-  text-align: left;
+  text-align: center;
 }
 
 .game-title {
@@ -179,6 +177,7 @@ body.light-theme {
   background-clip: text;
   color: transparent;
   animation: shine 3s linear infinite;
+  text-align: center;
 }
 
 @keyframes shine {
@@ -489,17 +488,6 @@ body.light-theme .feature-item {
   .game-logo {
     height: 60px;
   }
-  .header-content {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .game-title {
-    text-align: center;
-  }
-  .game-subtitle {
-    text-align: center;
-  }
 }
 
 @media (max-width: 480px) {
@@ -775,15 +763,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function() {
-      imageModal.style.display = "none";
-      configModal.style.display = "none";
+      if (imageModal.style.display === "block") {
+        resetImagePosition();
+        imageModal.style.display = "none";
+        imageModal.style.zIndex = "1000";
+      } else {
+        configModal.style.display = "none";
+      }
       document.body.style.overflow = "auto";
-      imageModal.style.zIndex = "1000";
     });
   });
 
   window.addEventListener('click', function(event) {
     if (event.target == imageModal) {
+      resetImagePosition();
       imageModal.style.display = "none";
       document.body.style.overflow = "auto";
       imageModal.style.zIndex = "1000";
