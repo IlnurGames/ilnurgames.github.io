@@ -74,13 +74,18 @@ body.light-theme {
   max-width: 600px;
 }
 
+.gallery-image-wrapper {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
 .gallery-image {
   width: 100%;
   border-radius: 12px;
   box-shadow: var(--shadow);
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
-  cursor: pointer;
   transition: transform 0.3s;
 }
 
@@ -96,6 +101,7 @@ body.light-theme {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 .gallery-btn {
@@ -111,6 +117,7 @@ body.light-theme {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 }
 
 .gallery-btn:hover {
@@ -438,13 +445,18 @@ body.light-theme .feature-item {
   max-width: 600px;
 }
 
+.config-gallery-image-wrapper {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
 .config-gallery-image {
   width: 100%;
   border-radius: 12px;
   box-shadow: var(--shadow);
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
-  cursor: pointer;
 }
 
 .config-gallery-navigation {
@@ -455,6 +467,7 @@ body.light-theme .feature-item {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 @media (max-width: 768px) {
@@ -525,10 +538,12 @@ body.light-theme .feature-item {
   </div>
 
   <div class="gallery-container">
-    <img src="logo.png" alt="HALF-LIFE Ɣ Screenshot" class="gallery-image" id="galleryImage">
-    <div class="gallery-navigation">
-      <button class="gallery-btn" id="prevBtn">❮</button>
-      <button class="gallery-btn" id="nextBtn">❯</button>
+    <div class="gallery-image-wrapper">
+      <img src="logo.png" alt="HALF-LIFE Ɣ Screenshot" class="gallery-image" id="galleryImage">
+      <div class="gallery-navigation">
+        <button class="gallery-btn" id="prevBtn">❮</button>
+        <button class="gallery-btn" id="nextBtn">❯</button>
+      </div>
     </div>
   </div>
 
@@ -587,11 +602,13 @@ body.light-theme .feature-item {
   <span class="close">&times;</span>
   <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-gallery-container" style="overflow: auto; max-height: 70vh;">
-      <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
-      <div class="config-gallery-navigation">
-        <button class="gallery-btn" id="configPrevBtn">❮</button>
-        <button class="gallery-btn" id="configNextBtn">❯</button>
+    <div class="config-gallery-container">
+      <div class="config-gallery-image-wrapper">
+        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+        <div class="config-gallery-navigation">
+          <button class="gallery-btn" id="configPrevBtn">❮</button>
+          <button class="gallery-btn" id="configNextBtn">❯</button>
+        </div>
       </div>
     </div>
   </div>
@@ -611,9 +628,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const galleryImage = document.getElementById('galleryImage');
+  const galleryImageWrapper = document.querySelector('.gallery-image-wrapper');
   const configPrevBtn = document.getElementById('configPrevBtn');
   const configNextBtn = document.getElementById('configNextBtn');
   const configGalleryImage = document.getElementById('configGalleryImage');
+  const configGalleryImageWrapper = document.querySelector('.config-gallery-image-wrapper');
   const configTitle = document.getElementById('configTitle');
   const modalPrevBtn = document.getElementById('modalPrevBtn');
   const modalNextBtn = document.getElementById('modalNextBtn');
@@ -714,20 +733,24 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
-  prevBtn.addEventListener('click', function() {
+  prevBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  nextBtn.addEventListener('click', function() {
+  nextBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  galleryImage.addEventListener('click', function() {
-    currentImageType = 'gallery';
-    modalImg.src = galleryImages[currentGalleryIndex];
-    openModal(imageModal);
+  galleryImageWrapper.addEventListener('click', function(e) {
+    if (e.target === this || e.target === galleryImage) {
+      currentImageType = 'gallery';
+      modalImg.src = galleryImages[currentGalleryIndex];
+      openModal(imageModal);
+    }
   });
 
   configToggle.addEventListener('click', function() {
@@ -735,22 +758,26 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(configModal);
   });
 
-  configPrevBtn.addEventListener('click', function() {
+  configPrevBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
     updateConfigGallery();
   });
 
-  configNextBtn.addEventListener('click', function() {
+  configNextBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentConfigIndex = (currentConfigIndex + 1) % configData.length;
     updateConfigGallery();
   });
 
-  configGalleryImage.addEventListener('click', function() {
-    const currentConfig = configData[currentConfigIndex];
-    if (currentConfig.zoomable) {
-      currentImageType = 'config';
-      modalImg.src = currentConfig.image;
-      openModal(imageModal);
+  configGalleryImageWrapper.addEventListener('click', function(e) {
+    if (e.target === this || e.target === configGalleryImage) {
+      const currentConfig = configData[currentConfigIndex];
+      if (currentConfig.zoomable) {
+        currentImageType = 'config';
+        modalImg.src = currentConfig.image;
+        openModal(imageModal);
+      }
     }
   });
 
