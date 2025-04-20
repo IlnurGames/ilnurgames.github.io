@@ -635,7 +635,46 @@ document.addEventListener('DOMContentLoaded', function() {
   let startPos = { x: 0, y: 0 };
   let currentPos = { x: 0, y: 0 };
   let scrollPosition = 0;
-  let isModalOpen = false;
+  let modalStack = [];
+
+  function lockScroll() {
+    scrollPosition = window.pageYOffset;
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+  }
+
+  function unlockScroll() {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollPosition);
+  }
+
+  function openModal(modal) {
+    if (modalStack.length === 0) {
+      lockScroll();
+    }
+    modalStack.push(modal);
+    modal.style.display = "block";
+    if (modal === imageModal) {
+      resetImagePosition();
+    }
+  }
+
+  function closeModal(modal) {
+    const index = modalStack.indexOf(modal);
+    if (index !== -1) {
+      modalStack.splice(index, 1);
+    }
+    modal.style.display = "none";
+    
+    if (modalStack.length === 0) {
+      unlockScroll();
+    }
+  }
 
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light-theme') {
@@ -750,33 +789,6 @@ document.addEventListener('DOMContentLoaded', function() {
     configTitle.textContent = currentConfig.title;
   }
 
-  function openModal(modal) {
-    scrollPosition = window.pageYOffset;
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.width = '100%';
-    isModalOpen = true;
-    modal.style.display = "block";
-    if (modal === imageModal) {
-      resetImagePosition();
-    }
-  }
-
-  function closeModal(modal) {
-    const scrollY = parseInt(document.body.style.top || '0') * -1;
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.overflow = '';
-    document.body.style.width = '';
-    window.scrollTo(0, scrollY);
-    isModalOpen = false;
-    modal.style.display = "none";
-    if (modal === imageModal) {
-      imageModal.style.zIndex = "1000";
-    }
-  }
-
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
     const scale = window.innerWidth < 768 ? 2 : 1;
@@ -801,7 +813,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   window.addEventListener('scroll', function() {
-    if (isModalOpen) {
+    if (modalStack.length > 0) {
       window.scrollTo(0, parseInt(document.body.style.top || '0') * -1);
     }
   });
