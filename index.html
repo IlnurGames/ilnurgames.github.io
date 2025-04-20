@@ -724,7 +724,8 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  galleryImage.addEventListener('click', function() {
+  galleryImage.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentImageType = 'gallery';
     modalImg.src = galleryImages[currentGalleryIndex];
     openModal(imageModal);
@@ -745,7 +746,8 @@ document.addEventListener('DOMContentLoaded', function() {
     updateConfigGallery();
   });
 
-  configGalleryImage.addEventListener('click', function() {
+  configGalleryImage.addEventListener('click', function(e) {
+    e.stopPropagation();
     const currentConfig = configData[currentConfigIndex];
     if (currentConfig.zoomable) {
       currentImageType = 'config';
@@ -819,6 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   modalImg.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
     isDragging = true;
     startPos = {
       x: e.clientX - currentPos.x,
