@@ -89,13 +89,12 @@ body.light-theme {
 }
 
 .gallery-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .gallery-btn {
@@ -111,10 +110,22 @@ body.light-theme {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
 }
 
 .gallery-btn:hover {
   background: rgba(0, 0, 0, 0.5);
+}
+
+#prevBtn {
+  left: 10px;
+}
+
+#nextBtn {
+  right: 10px;
 }
 
 .header-content {
@@ -365,6 +376,8 @@ body.light-theme .feature-item {
   transition: transform 0.3s ease-out;
   object-fit: contain;
   cursor: grab;
+  position: relative;
+  z-index: 1002;
 }
 
 .modal-navigation {
@@ -436,8 +449,6 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
-  overflow-y: auto;
-  max-height: 70vh;
 }
 
 .config-gallery-image {
@@ -450,14 +461,43 @@ body.light-theme .feature-item {
 }
 
 .config-gallery-navigation {
-  display: flex;
-  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 0 10px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.config-nav-btn {
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1;
+  pointer-events: auto;
+}
+
+.config-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#configPrevBtn {
+  left: 10px;
+}
+
+#configNextBtn {
+  right: 10px;
 }
 
 @media (max-width: 768px) {
@@ -475,9 +515,10 @@ body.light-theme .feature-item {
     min-width: 120px;
   }
   .modal-content {
+    transform: scale(2);
     max-height: 80vh;
   }
-  .modal-nav-btn, .gallery-btn {
+  .modal-nav-btn, .gallery-btn, .config-nav-btn {
     width: 35px;
     height: 35px;
     font-size: 18px;
@@ -592,8 +633,8 @@ body.light-theme .feature-item {
     <div class="config-gallery-container">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
-        <button class="gallery-btn" id="configPrevBtn">❮</button>
-        <button class="gallery-btn" id="configNextBtn">❯</button>
+        <button class="config-nav-btn" id="configPrevBtn">❮</button>
+        <button class="config-nav-btn" id="configNextBtn">❯</button>
       </div>
     </div>
   </div>
@@ -716,20 +757,24 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
-  prevBtn.addEventListener('click', function() {
+  prevBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  nextBtn.addEventListener('click', function() {
+  nextBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  galleryImage.addEventListener('click', function() {
-    currentImageType = 'gallery';
-    modalImg.src = galleryImages[currentGalleryIndex];
-    openModal(imageModal);
+  galleryImage.addEventListener('click', function(e) {
+    if (e.target === galleryImage) {
+      currentImageType = 'gallery';
+      modalImg.src = galleryImages[currentGalleryIndex];
+      openModal(imageModal);
+    }
   });
 
   configToggle.addEventListener('click', function() {
@@ -737,22 +782,26 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(configModal);
   });
 
-  configPrevBtn.addEventListener('click', function() {
+  configPrevBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
     updateConfigGallery();
   });
 
-  configNextBtn.addEventListener('click', function() {
+  configNextBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
     currentConfigIndex = (currentConfigIndex + 1) % configData.length;
     updateConfigGallery();
   });
 
-  configGalleryImage.addEventListener('click', function() {
-    const currentConfig = configData[currentConfigIndex];
-    if (currentConfig.zoomable) {
-      currentImageType = 'config';
-      modalImg.src = currentConfig.image;
-      openModal(imageModal);
+  configGalleryImage.addEventListener('click', function(e) {
+    if (e.target === configGalleryImage) {
+      const currentConfig = configData[currentConfigIndex];
+      if (currentConfig.zoomable) {
+        currentImageType = 'config';
+        modalImg.src = currentConfig.image;
+        openModal(imageModal);
+      }
     }
   });
 
@@ -792,7 +841,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
-    modalImg.style.transform = `translate(0, 0) scale(1)`;
+    const scale = window.innerWidth < 768 ? 2 : 1;
+    modalImg.style.transform = `translate(0, 0) scale(${scale})`;
   }
 
   closeBtns.forEach(btn => {
@@ -819,6 +869,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   modalImg.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
     isDragging = true;
     startPos = {
       x: e.clientX - currentPos.x,
@@ -836,7 +887,8 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.clientY - startPos.y
     };
     
-    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(1)`;
+    const scale = window.innerWidth < 768 ? 2 : 1;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
   });
 
   window.addEventListener('mouseup', function() {
@@ -862,7 +914,8 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.touches[0].clientY - startPos.y
     };
     
-    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(1)`;
+    const scale = window.innerWidth < 768 ? 2 : 1;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
     e.preventDefault();
   }, { passive: false });
 
