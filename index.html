@@ -365,7 +365,8 @@ body.light-theme .feature-item {
   align-items: center;
   min-height: 100%;
   padding: 20px;
-  overflow: auto;
+  position: relative;
+  z-index: 1001;
 }
 
 .modal-content {
@@ -388,7 +389,7 @@ body.light-theme .feature-item {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1001;
+  z-index: 1003;
   pointer-events: none;
 }
 
@@ -420,7 +421,7 @@ body.light-theme .feature-item {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1003;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   width: 50px;
