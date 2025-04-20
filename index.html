@@ -724,8 +724,7 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  galleryImage.addEventListener('click', function(e) {
-    e.stopPropagation();
+  galleryImage.addEventListener('click', function() {
     currentImageType = 'gallery';
     modalImg.src = galleryImages[currentGalleryIndex];
     openModal(imageModal);
@@ -746,13 +745,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateConfigGallery();
   });
 
-  configGalleryImage.addEventListener('click', function(e) {
-    e.stopPropagation();
+  configGalleryImage.addEventListener('click', function() {
     const currentConfig = configData[currentConfigIndex];
     if (currentConfig.zoomable) {
       currentImageType = 'config';
       modalImg.src = currentConfig.image;
-      imageModal.style.zIndex = "1001";
       openModal(imageModal);
     }
   });
