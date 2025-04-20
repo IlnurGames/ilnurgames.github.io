@@ -688,15 +688,12 @@ document.addEventListener('DOMContentLoaded', function() {
   galleryImage.addEventListener('click', function() {
     currentImageType = 'gallery';
     modalImg.src = galleryImages[currentGalleryIndex];
-    openModal();
+    openModal(imageModal);
   });
 
   configToggle.addEventListener('click', function() {
     updateConfigGallery();
-    scrollPosition = window.pageYOffset;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosition}px`;
-    configModal.style.display = "block";
+    openModal(configModal);
   });
 
   configPrevBtn.addEventListener('click', function() {
@@ -715,7 +712,7 @@ document.addEventListener('DOMContentLoaded', function() {
       currentImageType = 'config';
       modalImg.src = currentConfig.image;
       imageModal.style.zIndex = "1001";
-      openModal();
+      openModal(imageModal);
     }
   });
 
@@ -753,13 +750,31 @@ document.addEventListener('DOMContentLoaded', function() {
     configTitle.textContent = currentConfig.title;
   }
 
-  function openModal() {
+  function openModal(modal) {
     scrollPosition = window.pageYOffset;
+    document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
     isModalOpen = true;
-    imageModal.style.display = "block";
-    resetImagePosition();
+    modal.style.display = "block";
+    if (modal === imageModal) {
+      resetImagePosition();
+    }
+  }
+
+  function closeModal(modal) {
+    const scrollY = parseInt(document.body.style.top || '0') * -1;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.overflow = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
+    isModalOpen = false;
+    modal.style.display = "none";
+    if (modal === imageModal) {
+      imageModal.style.zIndex = "1000";
+    }
   }
 
   function resetImagePosition() {
@@ -768,45 +783,26 @@ document.addEventListener('DOMContentLoaded', function() {
     modalImg.style.transform = `translate(0, 0) scale(${scale})`;
   }
 
-  function closeModal() {
-    const body = document.body;
-    const scrollY = body.style.top;
-    body.style.position = '';
-    body.style.top = '';
-    if (scrollY) {
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    }
-  }
-
   closeBtns.forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      if (imageModal.style.display === "block") {
-        closeModal();
-        imageModal.style.display = "none";
-        imageModal.style.zIndex = "1000";
-      } else {
-        closeModal();
-        configModal.style.display = "none";
-      }
+      const modal = this.closest('.modal');
+      closeModal(modal);
     });
   });
 
   window.addEventListener('click', function(event) {
     if (event.target == imageModal) {
-      closeModal();
-      imageModal.style.display = "none";
-      imageModal.style.zIndex = "1000";
+      closeModal(imageModal);
     }
     if (event.target == configModal) {
-      closeModal();
-      configModal.style.display = "none";
+      closeModal(configModal);
     }
   });
 
   window.addEventListener('scroll', function() {
     if (isModalOpen) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, parseInt(document.body.style.top || '0') * -1);
     }
   });
 
