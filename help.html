@@ -376,17 +376,6 @@ button:active, a:active {
   cursor: pointer;
 }
 
-.versions-gallery-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
 .version-link {
   display: block;
   padding: 10px;
@@ -484,15 +473,11 @@ body.light-theme .version-link:hover {
     <h2 class="versions-title" id="versionsTitle">Старые версии игры</h2>
     <div class="versions-gallery-container">
       <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
-      <div class="versions-gallery-navigation">
-        <button class="gallery-btn" id="versionsPrevBtn">❮</button>
-        <button class="gallery-btn" id="versionsNextBtn">❯</button>
-      </div>
     </div>
     <div style="padding: 20px;">
       <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">Версия 3.0.0</a>
       <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">Версия 3.3.0</a>
-      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.3.1.apk" class="version-link" target="_blank">Версия 3.3.1</a>
+      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.1/launcher_v3.3.1.apk" class="version-link" target="_blank">Версия 3.3.1</a>
     </div>
   </div>
 </div>
@@ -527,8 +512,6 @@ const versionsModal = document.getElementById('versionsModal');
 const closeBtns = document.querySelectorAll('.close');
 const versionsGalleryImage = document.getElementById('versionsGalleryImage');
 const versionsTitle = document.getElementById('versionsTitle');
-const modalPrevBtn = document.getElementById('modalPrevBtn');
-const modalNextBtn = document.getElementById('modalNextBtn');
 
 let currentImageType = 'versions';
 let isDragging = false;
@@ -648,16 +631,6 @@ versionsGalleryImage.addEventListener('click', function() {
   currentImageType = 'versions';
   modalImg.src = 'game_config_old.jpg';
   openModal(imageModal);
-});
-
-modalPrevBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  resetImagePosition();
-});
-
-modalNextBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  resetImagePosition();
 });
 
 function resetImagePosition() {
