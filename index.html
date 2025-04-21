@@ -466,8 +466,15 @@ body.light-theme .feature-item {
   pointer-events: none;
 }
 
-.launcher-config-image {
+.config-gallery-scrollable {
   max-height: 60vh;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.launcher-config-image {
+  max-height: none;
+  height: auto;
 }
 
 @media (max-width: 768px) {
@@ -504,7 +511,7 @@ body.light-theme .feature-item {
   .config-gallery-image {
     max-height: 60vh;
   }
-  .launcher-config-image {
+  .config-gallery-scrollable {
     max-height: 50vh;
   }
 }
@@ -522,7 +529,7 @@ body.light-theme .feature-item {
   .config-gallery-image {
     max-height: 50vh;
   }
-  .launcher-config-image {
+  .config-gallery-scrollable {
     max-height: 40vh;
   }
 }
@@ -610,10 +617,12 @@ body.light-theme .feature-item {
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden; display: flex; flex-direction: column; justify-content: center; height: auto;">
+  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
     <div class="config-gallery-container">
-      <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+      <div class="config-gallery-scrollable">
+        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+      </div>
       <div class="config-gallery-navigation">
         <button class="gallery-btn" id="configPrevBtn">❮</button>
         <button class="gallery-btn" id="configNextBtn">❯</button>
@@ -649,9 +658,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentGalleryIndex = 0;
 
   const configData = [
-    { image: 'controls.png', title: 'Управление', zoomable: true, class: '' },
-    { image: 'game_config.jpg', title: 'Настройки игры', zoomable: true, class: '' },
-    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', zoomable: false, class: 'launcher-config-image' }
+    { image: 'controls.png', title: 'Управление', zoomable: true },
+    { image: 'game_config.jpg', title: 'Настройки игры', zoomable: true },
+    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', zoomable: false }
   ];
   let currentConfigIndex = 0;
 
@@ -824,7 +833,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentConfig = configData[currentConfigIndex];
     configGalleryImage.src = currentConfig.image;
     configTitle.textContent = currentConfig.title;
-    configGalleryImage.className = 'config-gallery-image ' + (currentConfig.class || '');
   }
 
   function resetImagePosition() {
