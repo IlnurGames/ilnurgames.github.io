@@ -442,12 +442,11 @@ body.light-theme .feature-item {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 200px);
 }
 
 .config-gallery-image {
   max-width: 100%;
-  max-height: calc(100vh - 250px);
+  max-height: 70vh;
   border-radius: 12px;
   box-shadow: var(--shadow);
   border: 2px solid rgba(108, 92, 231, 0.5);
@@ -465,6 +464,10 @@ body.light-theme .feature-item {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+.launcher-config-image {
+  max-height: 60vh;
 }
 
 @media (max-width: 768px) {
@@ -498,11 +501,11 @@ body.light-theme .feature-item {
   .game-logo {
     height: 60px;
   }
-  .config-gallery-container {
-    height: calc(100vh - 150px);
-  }
   .config-gallery-image {
-    max-height: calc(100vh - 200px);
+    max-height: 60vh;
+  }
+  .launcher-config-image {
+    max-height: 50vh;
   }
 }
 
@@ -516,11 +519,11 @@ body.light-theme .feature-item {
   .game-logo {
     height: 50px;
   }
-  .config-gallery-container {
-    height: calc(100vh - 120px);
-  }
   .config-gallery-image {
-    max-height: calc(100vh - 170px);
+    max-height: 50vh;
+  }
+  .launcher-config-image {
+    max-height: 40vh;
   }
 }
 
@@ -607,7 +610,7 @@ body.light-theme .feature-item {
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden; height: calc(100vh - 100px); display: flex; flex-direction: column;">
+  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden; display: flex; flex-direction: column; justify-content: center; height: auto;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
     <div class="config-gallery-container">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
@@ -646,9 +649,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentGalleryIndex = 0;
 
   const configData = [
-    { image: 'controls.png', title: 'Управление', zoomable: true },
-    { image: 'game_config.jpg', title: 'Настройки игры', zoomable: true },
-    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', zoomable: false }
+    { image: 'controls.png', title: 'Управление', zoomable: true, class: '' },
+    { image: 'game_config.jpg', title: 'Настройки игры', zoomable: true, class: '' },
+    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', zoomable: false, class: 'launcher-config-image' }
   ];
   let currentConfigIndex = 0;
 
@@ -821,6 +824,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentConfig = configData[currentConfigIndex];
     configGalleryImage.src = currentConfig.image;
     configTitle.textContent = currentConfig.title;
+    configGalleryImage.className = 'config-gallery-image ' + (currentConfig.class || '');
   }
 
   function resetImagePosition() {
