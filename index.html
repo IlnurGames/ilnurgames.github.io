@@ -89,12 +89,13 @@ body.light-theme {
 }
 
 .gallery-navigation {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  height: 100%;
-  pointer-events: none;
+  padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .gallery-btn {
@@ -110,22 +111,10 @@ body.light-theme {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: auto;
 }
 
 .gallery-btn:hover {
   background: rgba(0, 0, 0, 0.5);
-}
-
-#prevBtn {
-  left: 10px;
-}
-
-#nextBtn {
-  right: 10px;
 }
 
 .header-content {
@@ -359,37 +348,16 @@ body.light-theme .feature-item {
   overflow: auto;
 }
 
-.zoom-modal {
-  display: none;
-  position: fixed;
-  z-index: 1001;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  overflow: auto;
-}
-
 .modal-content-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100%;
   padding: 20px;
+  overflow: auto;
 }
 
 .modal-content {
-  max-width: 100%;
-  max-height: 90vh;
-  transform: scale(1);
-  transform-origin: center center;
-  transition: transform 0.3s ease-out;
-  object-fit: contain;
-  cursor: grab;
-}
-
-.zoom-content {
   max-width: 100%;
   max-height: 90vh;
   transform: scale(1);
@@ -407,19 +375,7 @@ body.light-theme .feature-item {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1002;
-  pointer-events: none;
-}
-
-.zoom-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 20px;
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1002;
+  z-index: 1001;
   pointer-events: none;
 }
 
@@ -439,24 +395,7 @@ body.light-theme .feature-item {
   pointer-events: auto;
 }
 
-.zoom-nav-btn {
-  background: rgba(0, 0, 0, 0.2);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-}
-
-.modal-nav-btn:hover,
-.zoom-nav-btn:hover {
+.modal-nav-btn:hover {
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -468,7 +407,7 @@ body.light-theme .feature-item {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
-  z-index: 1003;
+  z-index: 1001;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   width: 50px;
@@ -478,26 +417,7 @@ body.light-theme .feature-item {
   justify-content: center;
 }
 
-.zoom-close {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 1003;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.close:hover,
-.zoom-close:hover {
+.close:hover {
   color: var(--accent);
   background: rgba(0, 0, 0, 0.5);
 }
@@ -516,6 +436,8 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
+  overflow: auto;
+  max-height: 70vh;
 }
 
 .config-gallery-image {
@@ -528,43 +450,13 @@ body.light-theme .feature-item {
 }
 
 .config-gallery-navigation {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.config-nav-btn {
-  background: rgba(0, 0, 0, 0.3);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: auto;
-}
-
-.config-nav-btn:hover {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-#configPrevBtn {
-  left: 10px;
-}
-
-#configNextBtn {
-  right: 10px;
 }
 
 @media (max-width: 768px) {
@@ -581,21 +473,16 @@ body.light-theme .feature-item {
   .btn {
     min-width: 120px;
   }
-  .modal-content,
-  .zoom-content {
+  .modal-content {
     transform: scale(2);
     max-height: 80vh;
   }
-  .modal-nav-btn,
-  .zoom-nav-btn,
-  .gallery-btn,
-  .config-nav-btn {
+  .modal-nav-btn, .gallery-btn {
     width: 35px;
     height: 35px;
     font-size: 18px;
   }
-  .close,
-  .zoom-close {
+  .close {
     width: 40px;
     height: 40px;
     font-size: 30px;
@@ -698,26 +585,15 @@ body.light-theme .feature-item {
   </div>
 </div>
 
-<div id="zoomModal" class="zoom-modal">
-  <span class="zoom-close">&times;</span>
-  <div class="zoom-navigation">
-    <button class="zoom-nav-btn" id="zoomPrevBtn">❮</button>
-    <button class="zoom-nav-btn" id="zoomNextBtn">❯</button>
-  </div>
-  <div class="modal-content-container">
-    <img class="zoom-content" id="zoomImage">
-  </div>
-</div>
-
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
+  <div class="card" style="margin: 20px auto; max-width: 600px;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
     <div class="config-gallery-container">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
-        <button class="config-nav-btn" id="configPrevBtn">❮</button>
-        <button class="config-nav-btn" id="configNextBtn">❯</button>
+        <button class="gallery-btn" id="configPrevBtn">❮</button>
+        <button class="gallery-btn" id="configNextBtn">❯</button>
       </div>
     </div>
   </div>
@@ -731,12 +607,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const langToggle = document.getElementById('langToggle');
   const configToggle = document.getElementById('configToggle');
   const imageModal = document.getElementById('imageModal');
-  const zoomModal = document.getElementById('zoomModal');
   const modalImg = document.getElementById('modalImage');
-  const zoomImg = document.getElementById('zoomImage');
   const configModal = document.getElementById('configModal');
   const closeBtns = document.querySelectorAll('.close');
-  const zoomCloseBtn = document.querySelector('.zoom-close');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const galleryImage = document.getElementById('galleryImage');
@@ -746,8 +619,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const configTitle = document.getElementById('configTitle');
   const modalPrevBtn = document.getElementById('modalPrevBtn');
   const modalNextBtn = document.getElementById('modalNextBtn');
-  const zoomPrevBtn = document.getElementById('zoomPrevBtn');
-  const zoomNextBtn = document.getElementById('zoomNextBtn');
   const body = document.body;
   const aboutBtn = document.getElementById('aboutBtn');
 
@@ -766,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let startPos = { x: 0, y: 0 };
   let currentPos = { x: 0, y: 0 };
   let scrollPosition = 0;
-  let activeModal = null;
+  let modalStack = [];
 
   function lockScroll() {
     scrollPosition = window.pageYOffset;
@@ -785,31 +656,25 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function openModal(modal) {
-    activeModal = modal;
-    lockScroll();
+    if (modalStack.length === 0) {
+      lockScroll();
+    }
+    modalStack.push(modal);
     modal.style.display = "block";
-    if (modal === imageModal || modal === zoomModal) {
+    if (modal === imageModal) {
       resetImagePosition();
     }
   }
 
   function closeModal(modal) {
-    modal.style.display = "none";
-    unlockScroll();
-    activeModal = null;
-  }
-
-  function openZoomModal() {
-    if (activeModal) {
-      activeModal.style.display = "none";
+    const index = modalStack.indexOf(modal);
+    if (index !== -1) {
+      modalStack.splice(index, 1);
     }
-    openModal(zoomModal);
-  }
-
-  function closeZoomModal() {
-    closeModal(zoomModal);
-    if (activeModal) {
-      activeModal.style.display = "block";
+    modal.style.display = "none";
+    
+    if (modalStack.length === 0) {
+      unlockScroll();
     }
   }
 
@@ -851,25 +716,20 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('lang', currentLang);
   });
 
-  prevBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
+  prevBtn.addEventListener('click', function() {
     currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  nextBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
+  nextBtn.addEventListener('click', function() {
     currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
     galleryImage.src = galleryImages[currentGalleryIndex];
   });
 
-  galleryImage.addEventListener('click', function(e) {
-    if (e.target === galleryImage) {
-      currentImageType = 'gallery';
-      modalImg.src = galleryImages[currentGalleryIndex];
-      zoomImg.src = galleryImages[currentGalleryIndex];
-      openModal(imageModal);
-    }
+  galleryImage.addEventListener('click', function() {
+    currentImageType = 'gallery';
+    modalImg.src = galleryImages[currentGalleryIndex];
+    openModal(imageModal);
   });
 
   configToggle.addEventListener('click', function() {
@@ -877,32 +737,23 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(configModal);
   });
 
-  configPrevBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
+  configPrevBtn.addEventListener('click', function() {
     currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
     updateConfigGallery();
   });
 
-  configNextBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
+  configNextBtn.addEventListener('click', function() {
     currentConfigIndex = (currentConfigIndex + 1) % configData.length;
     updateConfigGallery();
   });
 
-  configGalleryImage.addEventListener('click', function(e) {
-    if (e.target === configGalleryImage) {
-      const currentConfig = configData[currentConfigIndex];
-      if (currentConfig.zoomable) {
-        currentImageType = 'config';
-        modalImg.src = currentConfig.image;
-        zoomImg.src = currentConfig.image;
-        openModal(imageModal);
-      }
+  configGalleryImage.addEventListener('click', function() {
+    const currentConfig = configData[currentConfigIndex];
+    if (currentConfig.zoomable) {
+      currentImageType = 'config';
+      modalImg.src = currentConfig.image;
+      openModal(imageModal);
     }
-  });
-
-  modalImg.addEventListener('click', function() {
-    openZoomModal();
   });
 
   modalPrevBtn.addEventListener('click', function(e) {
@@ -910,13 +761,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentImageType === 'gallery') {
       currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
-      zoomImg.src = galleryImages[currentGalleryIndex];
     } else if (currentImageType === 'config') {
       do {
         currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
       } while (!configData[currentConfigIndex].zoomable);
       modalImg.src = configData[currentConfigIndex].image;
-      zoomImg.src = configData[currentConfigIndex].image;
     }
     resetImagePosition();
   });
@@ -926,45 +775,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentImageType === 'gallery') {
       currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
-      zoomImg.src = galleryImages[currentGalleryIndex];
     } else if (currentImageType === 'config') {
       do {
         currentConfigIndex = (currentConfigIndex + 1) % configData.length;
       } while (!configData[currentConfigIndex].zoomable);
       modalImg.src = configData[currentConfigIndex].image;
-      zoomImg.src = configData[currentConfigIndex].image;
-    }
-    resetImagePosition();
-  });
-
-  zoomPrevBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (currentImageType === 'gallery') {
-      currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
-      modalImg.src = galleryImages[currentGalleryIndex];
-      zoomImg.src = galleryImages[currentGalleryIndex];
-    } else if (currentImageType === 'config') {
-      do {
-        currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
-      } while (!configData[currentConfigIndex].zoomable);
-      modalImg.src = configData[currentConfigIndex].image;
-      zoomImg.src = configData[currentConfigIndex].image;
-    }
-    resetImagePosition();
-  });
-
-  zoomNextBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (currentImageType === 'gallery') {
-      currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
-      modalImg.src = galleryImages[currentGalleryIndex];
-      zoomImg.src = galleryImages[currentGalleryIndex];
-    } else if (currentImageType === 'config') {
-      do {
-        currentConfigIndex = (currentConfigIndex + 1) % configData.length;
-      } while (!configData[currentConfigIndex].zoomable);
-      modalImg.src = configData[currentConfigIndex].image;
-      zoomImg.src = configData[currentConfigIndex].image;
     }
     resetImagePosition();
   });
@@ -979,7 +794,6 @@ document.addEventListener('DOMContentLoaded', function() {
     currentPos = { x: 0, y: 0 };
     const scale = window.innerWidth < 768 ? 2 : 1;
     modalImg.style.transform = `translate(0, 0) scale(${scale})`;
-    zoomImg.style.transform = `translate(0, 0) scale(${scale})`;
   }
 
   closeBtns.forEach(btn => {
@@ -990,11 +804,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  zoomCloseBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    closeZoomModal();
-  });
-
   window.addEventListener('click', function(event) {
     if (event.target == imageModal) {
       closeModal(imageModal);
@@ -1002,25 +811,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.target == configModal) {
       closeModal(configModal);
     }
-    if (event.target == zoomModal) {
-      closeZoomModal();
-    }
   });
 
   window.addEventListener('scroll', function() {
-    if (activeModal) {
+    if (modalStack.length > 0) {
       window.scrollTo(0, parseInt(document.body.style.top || '0') * -1);
     }
   });
 
-  zoomImg.addEventListener('mousedown', function(e) {
+  modalImg.addEventListener('mousedown', function(e) {
     if (e.button !== 0) return;
     isDragging = true;
     startPos = {
       x: e.clientX - currentPos.x,
       y: e.clientY - currentPos.y
     };
-    zoomImg.style.cursor = 'grabbing';
+    modalImg.style.cursor = 'grabbing';
     e.preventDefault();
   });
 
@@ -1033,21 +839,21 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const scale = window.innerWidth < 768 ? 2 : 1;
-    zoomImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
   });
 
   window.addEventListener('mouseup', function() {
     isDragging = false;
-    zoomImg.style.cursor = 'grab';
+    modalImg.style.cursor = 'grab';
   });
 
-  zoomImg.addEventListener('touchstart', function(e) {
+  modalImg.addEventListener('touchstart', function(e) {
     isDragging = true;
     startPos = {
       x: e.touches[0].clientX - currentPos.x,
       y: e.touches[0].clientY - currentPos.y
     };
-    zoomImg.style.cursor = 'grabbing';
+    modalImg.style.cursor = 'grabbing';
     e.preventDefault();
   }, { passive: false });
 
@@ -1060,13 +866,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const scale = window.innerWidth < 768 ? 2 : 1;
-    zoomImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
     e.preventDefault();
   }, { passive: false });
 
   window.addEventListener('touchend', function() {
     isDragging = false;
-    zoomImg.style.cursor = 'grab';
+    modalImg.style.cursor = 'grab';
   });
 
   function updateLanguage(lang) {
