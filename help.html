@@ -264,6 +264,171 @@ button:active, a:active {
 .option-item:active, .test-notice:active {
   transform: translateX(5px) scale(0.98) !important;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: auto;
+}
+
+.modal-content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px;
+  overflow: auto;
+}
+
+.modal-content {
+  max-width: 100%;
+  max-height: 90vh;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.3s ease-out;
+  object-fit: contain;
+  cursor: grab;
+}
+
+.modal-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.modal-nav-btn {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.modal-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close:hover {
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.versions-title {
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.versions-gallery-container {
+  position: relative;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.versions-gallery-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  display: block;
+  cursor: pointer;
+}
+
+.versions-gallery-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.version-link {
+  display: block;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: rgba(108, 92, 231, 0.2);
+  border-radius: 6px;
+  color: var(--text-light);
+  text-decoration: none;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.version-link:hover {
+  background-color: rgba(108, 92, 231, 0.3);
+  transform: translateX(5px);
+}
+
+body.light-theme .version-link {
+  color: var(--text-dark);
+  background-color: rgba(108, 92, 231, 0.05);
+}
+
+body.light-theme .version-link:hover {
+  background-color: rgba(108, 92, 231, 0.15);
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    transform: scale(2);
+    max-height: 80vh;
+  }
+  .modal-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .close {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+}
 </style>
 </head>
 <body>
@@ -276,9 +441,9 @@ button:active, a:active {
       <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
     </button>
     <button class="btn lang-btn" id="langToggle">🌐 EN</button>
-    <a href="https://disk.yandex.ru/d/rRa_dpdER8rutA" class="btn download-btn" target="_blank" id="downloadBtn">
+    <button class="btn download-btn" id="versionsToggle">
       🎮 Старые версии игры
-    </a>
+    </button>
   </div>
   
   <div class="card">
@@ -313,12 +478,42 @@ button:active, a:active {
   </div>
 </div>
 
+<div id="versionsModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
+    <h2 class="versions-title" id="versionsTitle">Старые версии игры</h2>
+    <div class="versions-gallery-container">
+      <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
+      <div class="versions-gallery-navigation">
+        <button class="gallery-btn" id="versionsPrevBtn">❮</button>
+        <button class="gallery-btn" id="versionsNextBtn">❯</button>
+      </div>
+    </div>
+    <div style="padding: 20px;">
+      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">Версия 3.0.0</a>
+      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">Версия 3.3.0</a>
+      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.3.1.apk" class="version-link" target="_blank">Версия 3.3.1</a>
+    </div>
+  </div>
+</div>
+
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="modal-navigation">
+    <button class="modal-nav-btn" id="modalPrevBtn">❮</button>
+    <button class="modal-nav-btn" id="modalNextBtn">❯</button>
+  </div>
+  <div class="modal-content-container">
+    <img class="modal-content" id="modalImage">
+  </div>
+</div>
+
 <script>
 const themeToggle = document.getElementById('themeToggle');
 const themeText = document.getElementById('themeText');
 const themeIcon = document.getElementById('themeIcon');
 const langToggle = document.getElementById('langToggle');
-const downloadBtn = document.getElementById('downloadBtn');
+const versionsToggle = document.getElementById('versionsToggle');
 const backBtn = document.getElementById('backBtn');
 const backText = document.getElementById('backText');
 const attentionText = document.getElementById('attentionText');
@@ -326,6 +521,60 @@ const developerText = document.getElementById('developerText');
 const body = document.body;
 const noticeRu = document.querySelector('.notice-ru');
 const noticeEn = document.querySelector('.notice-en');
+const imageModal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImage');
+const versionsModal = document.getElementById('versionsModal');
+const closeBtns = document.querySelectorAll('.close');
+const versionsGalleryImage = document.getElementById('versionsGalleryImage');
+const versionsTitle = document.getElementById('versionsTitle');
+const modalPrevBtn = document.getElementById('modalPrevBtn');
+const modalNextBtn = document.getElementById('modalNextBtn');
+
+let currentImageType = 'versions';
+let isDragging = false;
+let startPos = { x: 0, y: 0 };
+let currentPos = { x: 0, y: 0 };
+let scrollPosition = 0;
+let modalStack = [];
+
+function lockScroll() {
+  scrollPosition = window.pageYOffset;
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.width = '100%';
+}
+
+function unlockScroll() {
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollPosition);
+}
+
+function openModal(modal) {
+  if (modalStack.length === 0) {
+    lockScroll();
+  }
+  modalStack.push(modal);
+  modal.style.display = "block";
+  if (modal === imageModal) {
+    resetImagePosition();
+  }
+}
+
+function closeModal(modal) {
+  const index = modalStack.indexOf(modal);
+  if (index !== -1) {
+    modalStack.splice(index, 1);
+  }
+  modal.style.display = "none";
+  
+  if (modalStack.length === 0) {
+    unlockScroll();
+  }
+}
 
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light-theme') {
@@ -372,22 +621,128 @@ function updateLanguage(lang) {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
     langToggle.textContent = '🌐 EN';
-    downloadBtn.innerHTML = '🎮 Старые версии игры';
+    versionsToggle.innerHTML = '🎮 Старые версии игры';
     backText.textContent = 'На главную';
     attentionText.textContent = 'Внимание!';
     developerText.textContent = 'Меню разработчика';
+    versionsTitle.textContent = 'Старые версии игры';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
     langToggle.textContent = '🌐 RU';
-    downloadBtn.innerHTML = '🎮 Old game versions';
+    versionsToggle.innerHTML = '🎮 Old game versions';
     backText.textContent = 'Back to main';
     attentionText.textContent = 'Attention!';
     developerText.textContent = 'Developer Menu';
+    versionsTitle.textContent = 'Old game versions';
   }
   updateThemeIcon();
   updateButtonText();
 }
+
+versionsToggle.addEventListener('click', function() {
+  openModal(versionsModal);
+});
+
+versionsGalleryImage.addEventListener('click', function() {
+  currentImageType = 'versions';
+  modalImg.src = 'game_config_old.jpg';
+  openModal(imageModal);
+});
+
+modalPrevBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  resetImagePosition();
+});
+
+modalNextBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  resetImagePosition();
+});
+
+function resetImagePosition() {
+  currentPos = { x: 0, y: 0 };
+  const scale = window.innerWidth < 768 ? 2 : 1;
+  modalImg.style.transform = `translate(0, 0) scale(${scale})`;
+}
+
+closeBtns.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const modal = this.closest('.modal');
+    closeModal(modal);
+  });
+});
+
+window.addEventListener('click', function(event) {
+  if (event.target == imageModal) {
+    closeModal(imageModal);
+  }
+  if (event.target == versionsModal) {
+    closeModal(versionsModal);
+  }
+});
+
+window.addEventListener('scroll', function() {
+  if (modalStack.length > 0) {
+    window.scrollTo(0, parseInt(document.body.style.top || '0') * -1);
+  }
+});
+
+modalImg.addEventListener('mousedown', function(e) {
+  isDragging = true;
+  startPos = {
+    x: e.clientX - currentPos.x,
+    y: e.clientY - currentPos.y
+  };
+  modalImg.style.cursor = 'grabbing';
+  e.preventDefault();
+});
+
+window.addEventListener('mousemove', function(e) {
+  if (!isDragging) return;
+  
+  currentPos = {
+    x: e.clientX - startPos.x,
+    y: e.clientY - startPos.y
+  };
+  
+  const scale = window.innerWidth < 768 ? 2 : 1;
+  modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+});
+
+window.addEventListener('mouseup', function() {
+  isDragging = false;
+  modalImg.style.cursor = 'grab';
+});
+
+modalImg.addEventListener('touchstart', function(e) {
+  isDragging = true;
+  startPos = {
+    x: e.touches[0].clientX - currentPos.x,
+    y: e.touches[0].clientY - currentPos.y
+  };
+  modalImg.style.cursor = 'grabbing';
+  e.preventDefault();
+}, { passive: false });
+
+window.addEventListener('touchmove', function(e) {
+  if (!isDragging) return;
+  
+  currentPos = {
+    x: e.touches[0].clientX - startPos.x,
+    y: e.touches[0].clientY - startPos.y
+  };
+  
+  const scale = window.innerWidth < 768 ? 2 : 1;
+  modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+  e.preventDefault();
+}, { passive: false });
+
+window.addEventListener('touchend', function() {
+  isDragging = false;
+  modalImg.style.cursor = 'grab';
+});
 
 document.addEventListener('touchend', function(e) {
   const activeElements = document.querySelectorAll('button:active, a:active, .option-item:active, .test-notice:active');
