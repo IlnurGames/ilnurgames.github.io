@@ -160,23 +160,6 @@ body.light-theme .team-item {
   transform: translateX(5px);
 }
 
-.team-item::before {
-  content: '•';
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent-dark);
-  font-size: 1.5em;
-  line-height: 1;
-  transition: var(--transition);
-}
-
-.team-item:hover::before {
-  color: var(--accent);
-  transform: translateY(-50%) scale(1.3);
-}
-
 .team-item:hover::after {
   content: '';
   position: absolute;
