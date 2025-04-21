@@ -96,6 +96,7 @@ body.light-theme {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .gallery-btn {
@@ -111,6 +112,7 @@ body.light-theme {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 }
 
 .gallery-btn:hover {
@@ -436,8 +438,6 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
-  overflow: auto;
-  max-height: 70vh;
 }
 
 .config-gallery-image {
@@ -450,43 +450,14 @@ body.light-theme .feature-item {
 }
 
 .config-gallery-navigation {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.config-nav-btn {
-  background: rgba(0, 0, 0, 0.3);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: auto;
-}
-
-.config-nav-btn:hover {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-#configPrevBtn {
-  left: 10px;
-}
-
-#configNextBtn {
-  right: 10px;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -507,7 +478,7 @@ body.light-theme .feature-item {
     transform: scale(2);
     max-height: 80vh;
   }
-  .modal-nav-btn, .gallery-btn, .config-nav-btn {
+  .modal-nav-btn, .gallery-btn {
     width: 35px;
     height: 35px;
     font-size: 18px;
@@ -619,11 +590,11 @@ body.light-theme .feature-item {
   <span class="close">&times;</span>
   <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-gallery-container">
+    <div class="config-gallery-container" style="overflow: auto; max-height: 70vh;">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
-        <button class="config-nav-btn" id="configPrevBtn">❮</button>
-        <button class="config-nav-btn" id="configNextBtn">❯</button>
+        <button class="gallery-btn" id="configPrevBtn">❮</button>
+        <button class="gallery-btn" id="configNextBtn">❯</button>
       </div>
     </div>
   </div>
@@ -767,23 +738,22 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(configModal);
   });
 
-  configPrevBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
+  configPrevBtn.addEventListener('click', function() {
     currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
     updateConfigGallery();
   });
 
-  configNextBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
+  configNextBtn.addEventListener('click', function() {
     currentConfigIndex = (currentConfigIndex + 1) % configData.length;
     updateConfigGallery();
   });
 
-  configGalleryImage.addEventListener('click', function(e) {
+  configGalleryImage.addEventListener('click', function() {
     const currentConfig = configData[currentConfigIndex];
     if (currentConfig.zoomable) {
       currentImageType = 'config';
       modalImg.src = currentConfig.image;
+      imageModal.style.zIndex = "1001";
       openModal(imageModal);
     }
   });
@@ -852,7 +822,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   modalImg.addEventListener('mousedown', function(e) {
-    if (e.button !== 0) return;
     isDragging = true;
     startPos = {
       x: e.clientX - currentPos.x,
