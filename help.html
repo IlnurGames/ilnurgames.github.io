@@ -376,14 +376,22 @@ button:active, a:active {
   cursor: pointer;
 }
 
+.versions-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+
 .version-item {
   background-color: rgba(108, 92, 231, 0.25);
-  padding: 18px;
+  padding: 12px 20px;
   border-radius: 6px;
-  margin-bottom: 15px;
-  position: relative;
   transition: var(--transition);
   border: 1px solid rgba(108, 92, 231, 0.35);
+  width: auto;
+  text-align: center;
 }
 
 body.light-theme .version-item {
@@ -411,11 +419,8 @@ body.light-theme .version-item {
 .version-link {
   color: inherit;
   text-decoration: none;
-  display: block;
-}
-
-.version-text {
-  display: inline;
+  display: inline-block;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -490,7 +495,7 @@ body.light-theme .version-item {
     <div class="versions-gallery-container">
       <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
     </div>
-    <div style="padding: 20px;">
+    <div class="versions-list">
       <div class="version-item">
         <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">
           <span id="versionText1">Версия</span> 3.0.0
