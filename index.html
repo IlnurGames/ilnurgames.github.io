@@ -438,11 +438,6 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
 }
 
 .config-gallery-image {
@@ -595,7 +590,7 @@ body.light-theme .feature-item {
   <span class="close">&times;</span>
   <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-gallery-container">
+    <div class="config-gallery-container" style="overflow: auto; max-height: 70vh;">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
         <button class="gallery-btn" id="configPrevBtn">❮</button>
@@ -772,12 +767,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentImageType === 'gallery') {
       currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
-      galleryImage.src = galleryImages[currentGalleryIndex];
+      updateGalleryImage();
     } else if (currentImageType === 'config') {
       do {
         currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
       } while (!configData[currentConfigIndex].zoomable);
       modalImg.src = configData[currentConfigIndex].image;
+      updateConfigGallery();
     }
     resetImagePosition();
   });
@@ -787,12 +783,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentImageType === 'gallery') {
       currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
-      galleryImage.src = galleryImages[currentGalleryIndex];
+      updateGalleryImage();
     } else if (currentImageType === 'config') {
       do {
         currentConfigIndex = (currentConfigIndex + 1) % configData.length;
       } while (!configData[currentConfigIndex].zoomable);
       modalImg.src = configData[currentConfigIndex].image;
+      updateConfigGallery();
     }
     resetImagePosition();
   });
