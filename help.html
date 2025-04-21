@@ -215,35 +215,6 @@ body.light-theme .option-item {
   border: 1px solid rgba(108, 92, 231, 0.35);
 }
 
-.option-item::before {
-  content: '•';
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent-dark);
-  font-size: 1.5em;
-  line-height: 1;
-  transition: var(--transition);
-}
-
-.option-item:hover::before {
-  color: var(--accent);
-  transform: translateY(-50%) scale(1.3);
-}
-
-.option-item:hover::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
-  z-index: -1;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -376,30 +347,36 @@ button:active, a:active {
   cursor: pointer;
 }
 
-.version-link {
-  display: block;
-  padding: 10px;
-  margin: 10px 0;
+.version-item {
+  padding: 12px 15px;
+  margin: 8px 0;
   background-color: rgba(108, 92, 231, 0.2);
   border-radius: 6px;
-  color: var(--text-light);
-  text-decoration: none;
-  text-align: center;
   transition: var(--transition);
+  cursor: pointer;
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  text-align: center;
 }
 
-.version-link:hover {
+body.light-theme .version-item {
+  background-color: rgba(108, 92, 231, 0.05);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+}
+
+.version-item:hover {
   background-color: rgba(108, 92, 231, 0.3);
   transform: translateX(5px);
+  border: 1px solid rgba(108, 92, 231, 0.35);
 }
 
-body.light-theme .version-link {
-  color: var(--text-dark);
-  background-color: rgba(108, 92, 231, 0.05);
+.version-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
 }
 
-body.light-theme .version-link:hover {
-  background-color: rgba(108, 92, 231, 0.15);
+.version-text {
+  display: inline;
 }
 
 @media (max-width: 768px) {
@@ -431,7 +408,7 @@ body.light-theme .version-link:hover {
     </button>
     <button class="btn lang-btn" id="langToggle">🌐 EN</button>
     <button class="btn download-btn" id="versionsToggle">
-      🎮 Старые версии игры
+      🎮 <span id="versionsBtnText">Старые версии игры</span>
     </button>
   </div>
   
@@ -475,9 +452,21 @@ body.light-theme .version-link:hover {
       <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
     </div>
     <div style="padding: 20px;">
-      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">Версия 3.0.0</a>
-      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">Версия 3.3.0</a>
-      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.1/launcher_v3.3.1.apk" class="version-link" target="_blank">Версия 3.3.1</a>
+      <div class="version-item">
+        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">
+          <span id="versionText1">Версия</span> 3.0.0
+        </a>
+      </div>
+      <div class="version-item">
+        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">
+          <span id="versionText2">Версия</span> 3.3.0
+        </a>
+      </div>
+      <div class="version-item">
+        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.1/launcher_v3.3.1.apk" class="version-link" target="_blank">
+          <span id="versionText3">Версия</span> 3.3.1
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -503,6 +492,11 @@ const backBtn = document.getElementById('backBtn');
 const backText = document.getElementById('backText');
 const attentionText = document.getElementById('attentionText');
 const developerText = document.getElementById('developerText');
+const versionsBtnText = document.getElementById('versionsBtnText');
+const versionsTitle = document.getElementById('versionsTitle');
+const versionText1 = document.getElementById('versionText1');
+const versionText2 = document.getElementById('versionText2');
+const versionText3 = document.getElementById('versionText3');
 const body = document.body;
 const noticeRu = document.querySelector('.notice-ru');
 const noticeEn = document.querySelector('.notice-en');
@@ -511,7 +505,6 @@ const modalImg = document.getElementById('modalImage');
 const versionsModal = document.getElementById('versionsModal');
 const closeBtns = document.querySelectorAll('.close');
 const versionsGalleryImage = document.getElementById('versionsGalleryImage');
-const versionsTitle = document.getElementById('versionsTitle');
 
 let currentImageType = 'versions';
 let isDragging = false;
@@ -604,20 +597,26 @@ function updateLanguage(lang) {
     noticeRu.classList.add('active');
     noticeEn.classList.remove('active');
     langToggle.textContent = '🌐 EN';
-    versionsToggle.innerHTML = '🎮 Старые версии игры';
     backText.textContent = 'На главную';
     attentionText.textContent = 'Внимание!';
     developerText.textContent = 'Меню разработчика';
+    versionsBtnText.textContent = 'Старые версии игры';
     versionsTitle.textContent = 'Старые версии игры';
+    versionText1.textContent = 'Версия';
+    versionText2.textContent = 'Версия';
+    versionText3.textContent = 'Версия';
   } else {
     noticeRu.classList.remove('active');
     noticeEn.classList.add('active');
     langToggle.textContent = '🌐 RU';
-    versionsToggle.innerHTML = '🎮 Old game versions';
     backText.textContent = 'Back to main';
     attentionText.textContent = 'Attention!';
     developerText.textContent = 'Developer Menu';
+    versionsBtnText.textContent = 'Old game versions';
     versionsTitle.textContent = 'Old game versions';
+    versionText1.textContent = 'Version';
+    versionText2.textContent = 'Version';
+    versionText3.textContent = 'Version';
   }
   updateThemeIcon();
   updateButtonText();
