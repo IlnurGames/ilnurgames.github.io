@@ -71,6 +71,13 @@ body.light-theme {
   margin: 0 auto;
   padding: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
 }
 
 .gallery-container {
@@ -133,46 +140,49 @@ body.light-theme {
   padding: 20px 0;
 }
 
-.game-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.game-logo {
-  height: 70px;
-  width: auto;
-  border-radius: 50%;
-  box-shadow: var(--shadow);
-  border: 2px solid rgba(108, 92, 231, 0.5);
-  transition: transform 0.3s;
-  flex-shrink: 0;
-}
-
-.game-logo:hover {
-  transform: scale(1.05);
-}
-
 .game-title-container {
   text-align: center;
-  flex: 1;
-  min-width: 0;
 }
 
 .game-title {
   font-family: 'HalfLife2', 'Arial Black', sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: normal;
   margin: 0;
   line-height: 1;
   color: #f0f0f0;
   text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
   text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  height: 50px;
+  width: auto;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  transition: transform 0.3s;
+}
+
+.footer-logo:hover {
+  transform: scale(1.05);
+}
+
+.footer-text {
+  font-family: 'HalfLife2', 'Arial Black', sans-serif;
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
 }
 
 .button-group {
@@ -449,7 +459,7 @@ body.light-theme .feature-item {
 
 @media (max-width: 768px) {
   .game-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   .button-group {
     flex-direction: row;
@@ -472,24 +482,18 @@ body.light-theme .feature-item {
     height: 40px;
     font-size: 30px;
   }
-  .game-logo {
-    height: 60px;
-  }
-  .game-header {
+  .footer {
+    flex-direction: column;
     gap: 10px;
   }
 }
 
 @media (max-width: 480px) {
   .game-title {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
-  .game-logo {
-    height: 50px;
-  }
-  .game-header {
-    flex-direction: column;
-    gap: 8px;
+  .footer-text {
+    font-size: 1rem;
   }
 }
 
@@ -505,60 +509,64 @@ body.light-theme .feature-item {
 </head>
 <body>
 <div class="container">
-  <div class="header-content">
-    <div class="game-header">
-      <img src="icon.png" alt="Half-Life Ɣ Logo" class="game-logo">
+  <div class="main-content">
+    <div class="header-content">
       <div class="game-title-container">
         <h1 class="game-title">HALF-LIFE Ɣ</h1>
       </div>
     </div>
-  </div>
 
-  <div class="gallery-container">
-    <img src="logo.png" alt="Half-Life Ɣ Screenshot" class="gallery-image" id="galleryImage">
-    <div class="gallery-navigation">
-      <button class="gallery-btn" id="prevBtn">❮</button>
-      <button class="gallery-btn" id="nextBtn">❯</button>
+    <div class="gallery-container">
+      <img src="logo.png" alt="Half-Life Ɣ Screenshot" class="gallery-image" id="galleryImage">
+      <div class="gallery-navigation">
+        <button class="gallery-btn" id="prevBtn">❮</button>
+        <button class="gallery-btn" id="nextBtn">❯</button>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.2/launcher_v3.3.2.apk" class="btn download-btn" target="_blank" id="downloadBtn">
+        🎮 Скачать игру
+      </a>
+      <button class="btn theme-btn" id="themeToggle">
+        <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
+      </button>
+      <button class="btn lang-btn" id="langToggle">🌐 EN</button>
+      <a href="help.html" class="btn dev-btn" id="devBtn">
+        🛠️ Меню разработчика
+      </a>
+      <button class="btn config-btn" id="configToggle">
+        ⚙️ Настройки
+      </button>
+      <a href="about.html" class="btn about-btn" id="aboutBtn">
+        👥 О разработчиках
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="game-description" id="descriptionText">
+        <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
+      </div>
+
+      <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
+
+      <ul class="features-list">
+        <li class="feature-item" id="feature1"><strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
+        <li class="feature-item" id="feature2"><strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
+        <li class="feature-item" id="feature3"><strong>Классический арсенал:</strong> монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
+        <li class="feature-item" id="feature4"><strong>Гибкость управления:</strong> поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
+        <li class="feature-item" id="feature5"><strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.</li>
+      </ul>
+
+      <div class="game-description" id="targetText">
+        <strong id="targetTitle">Для кого эта игра:</strong> <span id="targetDesc">для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.</span>
+      </div>
     </div>
   </div>
 
-  <div class="button-group">
-    <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.2/launcher_v3.3.2.apk" class="btn download-btn" target="_blank" id="downloadBtn">
-      🎮 Скачать игру
-    </a>
-    <button class="btn theme-btn" id="themeToggle">
-      <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
-    </button>
-    <button class="btn lang-btn" id="langToggle">🌐 EN</button>
-    <a href="help.html" class="btn dev-btn" id="devBtn">
-      🛠️ Меню разработчика
-    </a>
-    <button class="btn config-btn" id="configToggle">
-      ⚙️ Настройки
-    </button>
-    <a href="about.html" class="btn about-btn" id="aboutBtn">
-      👥 О разработчиках
-    </a>
-  </div>
-
-  <div class="card">
-    <div class="game-description" id="descriptionText">
-      <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
-    </div>
-
-    <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
-
-    <ul class="features-list">
-      <li class="feature-item" id="feature1"><strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
-      <li class="feature-item" id="feature2"><strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
-      <li class="feature-item" id="feature3"><strong>Классический арсенал:</strong> монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
-      <li class="feature-item" id="feature4"><strong>Гибкость управления:</strong> поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
-      <li class="feature-item" id="feature5"><strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.</li>
-    </ul>
-
-    <div class="game-description" id="targetText">
-      <strong id="targetTitle">Для кого эта игра:</strong> <span id="targetDesc">для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.</span>
-    </div>
+  <div class="footer">
+    <img src="icon.png" alt="Half-Life Ɣ Logo" class="footer-logo">
+    <div class="footer-text" id="footerText">Ilnur Games 2025 г.</div>
   </div>
 </div>
 
@@ -609,6 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalNextBtn = document.getElementById('modalNextBtn');
   const body = document.body;
   const aboutBtn = document.getElementById('aboutBtn');
+  const footerText = document.getElementById('footerText');
 
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
   let currentGalleryIndex = 0;
@@ -887,7 +896,8 @@ document.addEventListener('DOMContentLoaded', function() {
       targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
       targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
       configTitle: {ru: 'Настройки', en: 'Settings'},
-      aboutBtn: {ru: '👥 О разработчиках', en: '👥 About Developers'}
+      aboutBtn: {ru: '👥 О разработчиках', en: '👥 About Developers'},
+      footerText: {ru: 'Ilnur Games 2025 г.', en: 'Ilnur Games 2025'}
     };
 
     for (const [id, texts] of Object.entries(elements)) {
