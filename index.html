@@ -16,6 +16,11 @@
 <meta name="msapplication-navbutton-color" content="#1a1528">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
+@font-face {
+  font-family: 'HalfLife2';
+  src: url('halflife2.ttf') format('truetype');
+}
+
 :root {
   --primary: #6c5ce7;
   --primary-dark: #5649c0;
@@ -153,25 +158,15 @@ body.light-theme {
 }
 
 .game-title {
-  font-family: 'Arial Black', sans-serif;
+  font-family: 'HalfLife2', 'Arial Black', sans-serif;
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: normal;
   margin-bottom: 0;
   line-height: 1.2;
-  letter-spacing: -1px;
-  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shine 3s linear infinite;
+  letter-spacing: 0;
+  color: #f0f0f0;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
   text-transform: uppercase;
-}
-
-.game-title .lambda {
-  font-size: 0.8em;
-  vertical-align: middle;
-  text-transform: lowercase;
 }
 
 .game-subtitle {
@@ -527,7 +522,7 @@ body.light-theme .feature-item {
     <div class="game-header">
       <img src="icon.png" alt="Half-Life Ɣ Logo" class="game-logo">
       <div class="game-title-container">
-        <h1 class="game-title">H<span class="lambda">λ</span>LF-LIFE Ɣ</h1>
+        <h1 class="game-title">HALF-LIFE Ɣ</h1>
         <div class="game-subtitle">by Ilnur Games</div>
       </div>
     </div>
