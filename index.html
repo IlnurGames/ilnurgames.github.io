@@ -21,6 +21,11 @@
   src: url('halflife2.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'HalfLife';
+  src: url('halflife.ttf') format('truetype');
+}
+
 :root {
   --primary: #6c5ce7;
   --primary-dark: #5649c0;
@@ -39,6 +44,8 @@
   --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   --glow: 0 4px 12px rgba(108, 92, 231, 0.4);
   --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  --title-glow: 0 0 10px rgba(100, 149, 237, 0.8);
+  --footer-glow: 0 0 8px rgba(123, 104, 238, 0.8);
 }
 
 * {
@@ -151,13 +158,13 @@ body.light-theme {
   margin: 0;
   line-height: 1;
   color: #f0f0f0;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
+  text-shadow: var(--title-glow);
   text-transform: uppercase;
 }
 
 body.light-theme .game-title {
   color: #2d3436;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  text-shadow: var(--title-glow);
 }
 
 .footer {
@@ -184,16 +191,16 @@ body.light-theme .game-title {
 }
 
 .footer-text {
-  font-family: 'HalfLife2', 'Arial Black', sans-serif;
+  font-family: 'HalfLife', 'Arial Black', sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
   color: #f0f0f0;
-  text-shadow: 0 0 5px rgba(0, 229, 255, 0.7);
+  text-shadow: var(--footer-glow);
 }
 
 body.light-theme .footer-text {
   color: #2d3436;
-  text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+  text-shadow: var(--footer-glow);
 }
 
 .button-group {
