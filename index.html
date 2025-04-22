@@ -136,11 +136,13 @@ body.light-theme {
 .game-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .game-logo {
-  height: 80px;
+  height: 70px;
   width: auto;
   border-radius: 50%;
   box-shadow: var(--shadow);
@@ -155,38 +157,22 @@ body.light-theme {
 
 .game-title-container {
   text-align: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .game-title {
   font-family: 'HalfLife2', 'Arial Black', sans-serif;
-  font-size: 3rem;
+  font-size: 2.2rem;
   font-weight: normal;
-  margin-bottom: 0;
-  line-height: 1.2;
-  letter-spacing: 0;
+  margin: 0;
+  line-height: 1;
   color: #f0f0f0;
   text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
   text-transform: uppercase;
-}
-
-.game-subtitle {
-  font-family: 'Arial Black', sans-serif;
-  font-size: 1.2rem;
-  margin-top: 0;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, #6c5ce7, #00e5ff, #6c5ce7);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shine 3s linear infinite;
-  text-align: center;
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .button-group {
@@ -463,10 +449,7 @@ body.light-theme .feature-item {
 
 @media (max-width: 768px) {
   .game-title {
-    font-size: 2.2rem;
-  }
-  .game-subtitle {
-    font-size: 1rem;
+    font-size: 1.8rem;
   }
   .button-group {
     flex-direction: row;
@@ -492,17 +475,21 @@ body.light-theme .feature-item {
   .game-logo {
     height: 60px;
   }
+  .game-header {
+    gap: 10px;
+  }
 }
 
 @media (max-width: 480px) {
   .game-title {
-    font-size: 1.8rem;
-  }
-  .game-subtitle {
-    font-size: 0.9rem;
+    font-size: 1.5rem;
   }
   .game-logo {
     height: 50px;
+  }
+  .game-header {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
@@ -522,8 +509,7 @@ body.light-theme .feature-item {
     <div class="game-header">
       <img src="icon.png" alt="Half-Life Ɣ Logo" class="game-logo">
       <div class="game-title-container">
-        <h1 class="game-title">HALF-LIFE Ɣ</h1>
-        <div class="game-subtitle">by Ilnur Games</div>
+        <h1 class="game-title">HλLF-LIFE Ɣ</h1>
       </div>
     </div>
   </div>
