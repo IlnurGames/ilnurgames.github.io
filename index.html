@@ -455,6 +455,25 @@ body.light-theme .feature-item {
   position: relative;
   margin: 20px auto;
   max-width: 600px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.config-gallery-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.config-gallery-container::-webkit-scrollbar-track {
+  background: rgba(108, 92, 231, 0.1);
+}
+
+.config-gallery-container::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.3);
+  border-radius: 4px;
+}
+
+.config-gallery-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 92, 231, 0.5);
 }
 
 .config-gallery-image {
@@ -511,6 +530,9 @@ body.light-theme .feature-item {
   }
   .footer-text {
     font-size: 1.3rem;
+  }
+  .config-gallery-container {
+    max-height: 200px;
   }
 }
 
@@ -619,7 +641,7 @@ body.light-theme .feature-item {
   <span class="close">&times;</span>
   <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
     <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-gallery-container" style="overflow: auto; max-height: 70vh;">
+    <div class="config-gallery-container" style="overflow: auto; max-height: 300px;">
       <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       <div class="config-gallery-navigation">
         <button class="gallery-btn" id="configPrevBtn">❮</button>
