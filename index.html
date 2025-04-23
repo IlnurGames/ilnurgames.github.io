@@ -490,9 +490,12 @@ body.light-theme .feature-item {
   justify-content: space-between;
   width: 100%;
   padding: 0 10px;
-  position: absolute;
+  position: fixed;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  z-index: 1001;
   pointer-events: none;
 }
 
@@ -556,6 +559,14 @@ body.light-theme .feature-item {
   }
   .footer-logo {
     height: 50px;
+  }
+  .config-gallery-navigation {
+    padding: 0 5px;
+  }
+  .config-gallery-navigation button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
   }
 }
 
@@ -655,12 +666,12 @@ body.light-theme .feature-item {
       <h2 class="config-title" id="configTitle">Настройки</h2>
       <div class="config-gallery-container" style="overflow: auto; max-height: 300px;">
         <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
-        <div class="config-gallery-navigation">
-          <button class="gallery-btn" id="configPrevBtn">❮</button>
-          <button class="gallery-btn" id="configNextBtn">❯</button>
-        </div>
       </div>
     </div>
+  </div>
+  <div class="config-gallery-navigation">
+    <button class="gallery-btn" id="configPrevBtn">❮</button>
+    <button class="gallery-btn" id="configNextBtn">❯</button>
   </div>
 </div>
 
