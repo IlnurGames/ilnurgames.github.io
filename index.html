@@ -44,8 +44,8 @@
   --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   --glow: 0 4px 12px rgba(108, 92, 231, 0.4);
   --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  --title-glow: 0 0 10px rgba(100, 149, 237, 0.8);
-  --footer-glow: 0 0 8px rgba(123, 104, 238, 0.8);
+  --title-glow: 0 0 8px rgba(100, 149, 237, 0.6);
+  --footer-glow: 0 0 6px rgba(100, 149, 237, 0.5);
 }
 
 * {
@@ -158,28 +158,28 @@ body.light-theme {
   margin: 0;
   line-height: 1;
   color: #f0f0f0;
-  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
+  text-shadow: var(--title-glow);
   text-transform: uppercase;
   animation: pulseGlow 2s infinite alternate;
 }
 
 body.light-theme .game-title {
   color: #2d3436;
-  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
+  text-shadow: var(--title-glow);
 }
 
 .footer {
-  margin-top: 15px;
-  padding: 15px 0;
+  margin-top: 10px;
+  padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
 .footer-logo {
-  height: 80px;
+  height: 60px;
   width: auto;
   border-radius: 50%;
   box-shadow: var(--shadow);
@@ -193,23 +193,23 @@ body.light-theme .game-title {
 
 .footer-text {
   font-family: 'HalfLife', 'Arial Black', sans-serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #f0f0f0;
-  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
+  text-shadow: var(--footer-glow);
   animation: pulseGlow 2s infinite alternate;
 }
 
 body.light-theme .footer-text {
   color: #2d3436;
-  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
+  text-shadow: var(--footer-glow);
 }
 
 .button-group {
   display: flex;
   gap: 15px;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
@@ -266,7 +266,7 @@ body.light-theme .footer-text {
   background-color: var(--card-dark);
   border-radius: 14px;
   padding: 25px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   transition: var(--transition);
   border: 1.5px solid rgba(108, 92, 231, 0.5);
   box-shadow: 0 0 18px rgba(108, 92, 231, 0.18);
@@ -504,13 +504,13 @@ body.light-theme .feature-item {
   }
   .footer {
     flex-direction: row;
-    gap: 15px;
+    gap: 12px;
   }
   .footer-logo {
-    height: 70px;
+    height: 55px;
   }
   .footer-text {
-    font-size: 1.7rem;
+    font-size: 1.3rem;
   }
 }
 
@@ -519,10 +519,10 @@ body.light-theme .feature-item {
     font-size: 1.7rem;
   }
   .footer-text {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
   }
   .footer-logo {
-    height: 60px;
+    height: 50px;
   }
 }
 
@@ -532,8 +532,8 @@ body.light-theme .feature-item {
 }
 
 @keyframes pulseGlow {
-  0% { text-shadow: 0 0 10px rgba(100, 149, 237, 0.8); }
-  100% { text-shadow: 0 0 15px rgba(100, 149, 237, 1); }
+  0% { text-shadow: 0 0 6px rgba(100, 149, 237, 0.5); }
+  100% { text-shadow: 0 0 10px rgba(100, 149, 237, 0.7); }
 }
 
 .card {
