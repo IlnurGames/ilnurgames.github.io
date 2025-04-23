@@ -158,13 +158,14 @@ body.light-theme {
   margin: 0;
   line-height: 1;
   color: #f0f0f0;
-  text-shadow: var(--title-glow);
+  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
   text-transform: uppercase;
+  animation: pulseGlow 2s infinite alternate;
 }
 
 body.light-theme .game-title {
   color: #2d3436;
-  text-shadow: var(--title-glow);
+  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
 }
 
 .footer {
@@ -192,15 +193,16 @@ body.light-theme .game-title {
 
 .footer-text {
   font-family: 'HalfLife', 'Arial Black', sans-serif;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #f0f0f0;
-  text-shadow: var(--footer-glow);
+  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
+  animation: pulseGlow 2s infinite alternate;
 }
 
 body.light-theme .footer-text {
   color: #2d3436;
-  text-shadow: var(--footer-glow);
+  text-shadow: 0 0 10px rgba(100, 149, 237, 0.8);
 }
 
 .button-group {
@@ -508,7 +510,7 @@ body.light-theme .feature-item {
     height: 70px;
   }
   .footer-text {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
   }
 }
 
@@ -517,7 +519,7 @@ body.light-theme .feature-item {
     font-size: 1.7rem;
   }
   .footer-text {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
   .footer-logo {
     height: 60px;
@@ -527,6 +529,11 @@ body.light-theme .feature-item {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0% { text-shadow: 0 0 10px rgba(100, 149, 237, 0.8); }
+  100% { text-shadow: 0 0 15px rgba(100, 149, 237, 1); }
 }
 
 .card {
