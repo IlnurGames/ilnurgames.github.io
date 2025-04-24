@@ -108,17 +108,18 @@ body.light-theme {
 }
 
 .gallery-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
-  transform: translateY(-50%);
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 
 .gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.3);
   color: white;
   border: none;
@@ -132,11 +133,18 @@ body.light-theme {
   align-items: center;
   justify-content: center;
   pointer-events: auto;
-  margin: 0 10px;
 }
 
 .gallery-btn:hover {
   background: rgba(0, 0, 0, 0.5);
+}
+
+#prevBtn {
+  left: 10px;
+}
+
+#nextBtn {
+  right: 10px;
 }
 
 .header-content {
@@ -388,18 +396,18 @@ body.light-theme .feature-item {
 }
 
 .modal-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 0;
   left: 0;
-  transform: translateY(-50%);
-  z-index: 1001;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 
 .modal-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.2);
   color: white;
   border: none;
@@ -413,11 +421,18 @@ body.light-theme .feature-item {
   align-items: center;
   justify-content: center;
   pointer-events: auto;
-  margin: 0 10px;
 }
 
 .modal-nav-btn:hover {
   background: rgba(0, 0, 0, 0.4);
+}
+
+#modalPrevBtn {
+  left: 20px;
+}
+
+#modalNextBtn {
+  right: 20px;
 }
 
 .close {
@@ -488,16 +503,26 @@ body.light-theme .feature-item {
 }
 
 .config-gallery-navigation {
-  display: flex;
-  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 600px;
+  height: 100%;
   pointer-events: none;
-  z-index: 1;
+}
+
+.config-gallery-navigation .gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#configPrevBtn {
+  left: 10px;
+}
+
+#configNextBtn {
+  right: 10px;
 }
 
 .config-modal-content {
@@ -548,9 +573,6 @@ body.light-theme .feature-item {
   }
   .config-modal-content {
     padding: 20px 15px;
-  }
-  .config-gallery-navigation {
-    max-width: 90%;
   }
 }
 
