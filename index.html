@@ -651,14 +651,14 @@ body.light-theme .feature-item {
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
   <div class="config-modal-content">
-    <div class="card" style="margin: 0 auto; max-width: 600px; overflow: hidden;">
+    <div class="card" style="margin: 0 auto; max-width: 600px; overflow: hidden; position: relative;">
       <h2 class="config-title" id="configTitle">Настройки</h2>
+      <div class="config-gallery-navigation" style="position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); pointer-events: none; z-index: 1; display: flex; justify-content: space-between; padding: 0 10px;">
+        <button class="gallery-btn" id="configPrevBtn" style="pointer-events: auto;">❮</button>
+        <button class="gallery-btn" id="configNextBtn" style="pointer-events: auto;">❯</button>
+      </div>
       <div class="config-gallery-container" style="overflow: auto; max-height: 300px;">
         <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
-        <div class="config-gallery-navigation">
-          <button class="gallery-btn" id="configPrevBtn">❮</button>
-          <button class="gallery-btn" id="configNextBtn">❯</button>
-        </div>
       </div>
     </div>
   </div>
