@@ -495,6 +495,7 @@ body.light-theme .feature-item {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  z-index: 99999;
 }
 
 .config-modal-content {
@@ -659,12 +660,12 @@ body.light-theme .feature-item {
   <div class="config-modal-content">
     <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
       <h2 class="config-title" id="configTitle">Настройки</h2>
-      <div class="config-gallery-container">
-        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
-        <div class="config-gallery-navigation">
+      <div class="config-gallery-navigation">
           <button class="gallery-btn" id="configPrevBtn">❮</button>
           <button class="gallery-btn" id="configNextBtn">❯</button>
         </div>
+      <div class="config-gallery-container">
+        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       </div>
     </div>
   </div>
