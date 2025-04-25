@@ -454,8 +454,9 @@ body.light-theme .feature-item {
 .config-gallery-container {
   position: relative;
   margin: 20px auto;
-  max-width: 600px;
-  max-height: 300px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 500px;
   overflow-y: auto;
 }
 
@@ -502,6 +503,7 @@ body.light-theme .feature-item {
   justify-content: center;
   min-height: 100vh;
   padding: 40px 20px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -540,10 +542,11 @@ body.light-theme .feature-item {
     font-size: 1.3rem;
   }
   .config-gallery-container {
-    max-height: 200px;
+    max-height: 60vh;
+    max-width: 95vw;
   }
   .config-modal-content {
-    padding: 20px 15px;
+    padding: 10px 5px;
   }
 }
 
@@ -556,6 +559,9 @@ body.light-theme .feature-item {
   }
   .footer-logo {
     height: 50px;
+  }
+  .config-gallery-container {
+    max-height: 70vh;
   }
 }
 
@@ -651,9 +657,9 @@ body.light-theme .feature-item {
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
   <div class="config-modal-content">
-    <div class="card" style="margin: 0 auto; max-width: 600px; overflow: hidden;">
+    <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
       <h2 class="config-title" id="configTitle">Настройки</h2>
-      <div class="config-gallery-container" style="overflow: auto; max-height: 300px;">
+      <div class="config-gallery-container">
         <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
         <div class="config-gallery-navigation">
           <button class="gallery-btn" id="configPrevBtn">❮</button>
