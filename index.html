@@ -454,8 +454,8 @@ body.light-theme .feature-item {
 .config-gallery-container {
   position: relative;
   margin: 20px auto;
-  max-width: 800px;
-  max-height: 500px;
+  max-width: 600px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
@@ -486,17 +486,14 @@ body.light-theme .feature-item {
 }
 
 .config-gallery-navigation {
-  position: fixed;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 800px;
-  left: 50%;
-  transform: translateX(-50%);
+  padding: 0 10px;
+  position: absolute;
   top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
-  z-index: 1002;
-  padding: 0 20px;
 }
 
 .config-modal-content {
@@ -543,12 +540,7 @@ body.light-theme .feature-item {
     font-size: 1.3rem;
   }
   .config-gallery-container {
-    max-width: 100%;
-    max-height: 60vh;
-  }
-  .config-gallery-navigation {
-    width: 100%;
-    padding: 0 20px;
+    max-height: 200px;
   }
   .config-modal-content {
     padding: 20px 15px;
@@ -564,9 +556,6 @@ body.light-theme .feature-item {
   }
   .footer-logo {
     height: 50px;
-  }
-  .config-gallery-container {
-    max-height: 70vh;
   }
 }
 
@@ -662,16 +651,16 @@ body.light-theme .feature-item {
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
   <div class="config-modal-content">
-    <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
+    <div class="card" style="margin: 0 auto; max-width: 600px; overflow: hidden;">
       <h2 class="config-title" id="configTitle">Настройки</h2>
-      <div class="config-gallery-container">
+      <div class="config-gallery-container" style="overflow: auto; max-height: 300px;">
         <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+        <div class="config-gallery-navigation">
+          <button class="gallery-btn" id="configPrevBtn">❮</button>
+          <button class="gallery-btn" id="configNextBtn">❯</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="config-gallery-navigation">
-    <button class="gallery-btn" id="configPrevBtn">❮</button>
-    <button class="gallery-btn" id="configNextBtn">❯</button>
   </div>
 </div>
 
