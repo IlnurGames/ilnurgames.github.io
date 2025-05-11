@@ -456,25 +456,6 @@ body.light-theme .feature-item {
   margin: 20px auto;
   width: 100%;
   max-width: 800px;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.config-gallery-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.config-gallery-container::-webkit-scrollbar-track {
-  background: rgba(108, 92, 231, 0.1);
-}
-
-.config-gallery-container::-webkit-scrollbar-thumb {
-  background: rgba(108, 92, 231, 0.3);
-  border-radius: 4px;
-}
-
-.config-gallery-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(108, 92, 231, 0.5);
 }
 
 .config-gallery-image {
@@ -484,15 +465,6 @@ body.light-theme .feature-item {
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
   cursor: pointer;
-}
-
-.config-modal-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px;
-  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -531,11 +503,7 @@ body.light-theme .feature-item {
     font-size: 1.3rem;
   }
   .config-gallery-container {
-    max-height: 40vh;
     max-width: 95vw;
-  }
-  .config-modal-content {
-    padding: 10px 5px;
   }
 }
 
@@ -548,9 +516,6 @@ body.light-theme .feature-item {
   }
   .footer-logo {
     height: 50px;
-  }
-  .config-gallery-container {
-    max-height: 45vh;
   }
 }
 
@@ -645,12 +610,10 @@ body.light-theme .feature-item {
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="config-modal-content">
-    <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
-      <h2 class="config-title" id="configTitle">Настройки управления</h2>
-      <div class="config-gallery-container">
-        <img src="controls.png" alt="Настройки управления" class="config-gallery-image" id="configGalleryImage">
-      </div>
+  <div class="card" style="margin: 20px auto; max-width: 800px; overflow: hidden;">
+    <h2 class="config-title" id="configTitle">Настройки</h2>
+    <div class="config-gallery-container">
+      <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
     </div>
   </div>
 </div>
@@ -669,9 +632,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const galleryImage = document.getElementById('galleryImage');
-  const modalPrevBtn = document.getElementById('modalPrevBtn');
-  const modalNextBtn = document.getElementById('modalNextBtn');
-  const configGalleryImage = document.getElementById('configGalleryImage');
   const body = document.body;
   const aboutBtn = document.getElementById('aboutBtn');
   const footerText = document.getElementById('footerText');
@@ -787,32 +747,6 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(configModal);
   });
 
-  configGalleryImage.addEventListener('click', function() {
-    currentImageType = 'config';
-    modalImg.src = this.src;
-    openModal(imageModal);
-  });
-
-  modalPrevBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (currentImageType === 'gallery') {
-      currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
-      modalImg.src = galleryImages[currentGalleryIndex];
-      updateGalleryImage();
-    }
-    resetImagePosition();
-  });
-
-  modalNextBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (currentImageType === 'gallery') {
-      currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
-      modalImg.src = galleryImages[currentGalleryIndex];
-      updateGalleryImage();
-    }
-    resetImagePosition();
-  });
-
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
     const scale = window.innerWidth < 768 ? 2 : 1;
@@ -912,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function() {
       feature5: {ru: '<strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.', en: '<strong>Dark atmosphere:</strong> dark locations, tense dialogues and sound design in the spirit of original Half-Life.'},
       targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
       targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
-      configTitle: {ru: 'Настройки управления', en: 'Controls Settings'},
+      configTitle: {ru: 'Настройки', en: 'Settings'},
       aboutBtn: {ru: '👥 О разработчиках', en: '👥 About Developers'},
       footerText: {ru: 'Ilnur Games 2025 г.', en: 'Ilnur Games 2025'}
     };
