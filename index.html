@@ -467,6 +467,15 @@ body.light-theme .feature-item {
   cursor: pointer;
 }
 
+.config-modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   .game-title {
     font-size: 2rem;
@@ -504,6 +513,9 @@ body.light-theme .feature-item {
   }
   .config-gallery-container {
     max-width: 95vw;
+  }
+  .config-modal-content {
+    padding: 10px 5px;
   }
 }
 
@@ -610,10 +622,12 @@ body.light-theme .feature-item {
 
 <div id="configModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 800px; overflow: hidden;">
-    <h2 class="config-title" id="configTitle">Настройки</h2>
-    <div class="config-gallery-container">
-      <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+  <div class="config-modal-content">
+    <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
+      <h2 class="config-title" id="configTitle">Настройки</h2>
+      <div class="config-gallery-container">
+        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+      </div>
     </div>
   </div>
 </div>
@@ -632,6 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const galleryImage = document.getElementById('galleryImage');
+  const configGalleryImage = document.getElementById('configGalleryImage');
   const body = document.body;
   const aboutBtn = document.getElementById('aboutBtn');
   const footerText = document.getElementById('footerText');
@@ -745,6 +760,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   configToggle.addEventListener('click', function() {
     openModal(configModal);
+  });
+
+  configGalleryImage.addEventListener('click', function() {
+    currentImageType = 'config';
+    modalImg.src = 'controls.png';
+    openModal(imageModal);
   });
 
   function resetImagePosition() {
