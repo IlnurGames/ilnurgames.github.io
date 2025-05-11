@@ -458,6 +458,10 @@ body.light-theme .feature-item {
   max-width: 800px;
   max-height: 500px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .config-gallery-container::-webkit-scrollbar {
@@ -484,6 +488,16 @@ body.light-theme .feature-item {
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
   cursor: pointer;
+}
+
+.config-modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -638,9 +652,9 @@ body.light-theme .feature-item {
   <span class="close">&times;</span>
   <div class="config-modal-content">
     <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
-      <h2 class="config-title" id="configTitle">Настройки</h2>
+      <h2 class="config-title" id="configTitle">Настройки управления</h2>
       <div class="config-gallery-container">
-        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+        <img src="controls.png" alt="Настройки управления" class="config-gallery-image" id="configGalleryImage">
       </div>
     </div>
   </div>
@@ -896,7 +910,7 @@ document.addEventListener('DOMContentLoaded', function() {
       feature5: {ru: '<strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.', en: '<strong>Dark atmosphere:</strong> dark locations, tense dialogues and sound design in the spirit of original Half-Life.'},
       targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
       targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
-      configTitle: {ru: 'Настройки', en: 'Settings'},
+      configTitle: {ru: 'Настройки управления', en: 'Controls Settings'},
       aboutBtn: {ru: '👥 О разработчиках', en: '👥 About Developers'},
       footerText: {ru: 'Ilnur Games 2025 г.', en: 'Ilnur Games 2025'}
     };
