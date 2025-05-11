@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Half-Life Ɣ</title>
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -91,7 +91,6 @@ body.light-theme {
   position: relative;
   margin: 0 auto 20px;
   max-width: 600px;
-
 }
 
 .gallery-image {
@@ -266,17 +265,7 @@ body.light-theme .footer-text {
 .card {
   background-color: var(--card-dark);
   border-radius: 14px;
-  padding: 25px 25px 25px 0px;
-  margin-bottom: 10px;
-  transition: var(--transition);
-  border: 1.5px solid rgba(108, 92, 231, 0.5);
-  box-shadow: 0 0 18px rgba(108, 92, 231, 0.18);
-  backdrop-filter: blur(5px);
-}
-  .main-card {
-  background-color: var(--card-dark);
-  border-radius: 14px;
-  padding: 25px 25px 25px 25px;
+  padding: 25px;
   margin-bottom: 10px;
   transition: var(--transition);
   border: 1.5px solid rgba(108, 92, 231, 0.5);
@@ -469,7 +458,6 @@ body.light-theme .feature-item {
   max-width: 800px;
   max-height: 500px;
   overflow-y: auto;
-  padding: 0 0 0 25px;
 }
 
 .config-gallery-container::-webkit-scrollbar {
@@ -502,12 +490,11 @@ body.light-theme .feature-item {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0 5% 0 5%;
+  padding: 0 10px;
   position: absolute;
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  z-index: 99999;
 }
 
 .config-modal-content {
@@ -517,7 +504,6 @@ body.light-theme .feature-item {
   min-height: 100vh;
   padding: 40px 20px;
   width: 100%;
-  
 }
 
 @media (max-width: 768px) {
@@ -630,7 +616,7 @@ body.light-theme .feature-item {
       </a>
     </div>
 
-    <div class="main-card">
+    <div class="card">
       <div class="game-description" id="descriptionText">
         <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
       </div>
@@ -673,12 +659,12 @@ body.light-theme .feature-item {
   <div class="config-modal-content">
     <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
       <h2 class="config-title" id="configTitle">Настройки</h2>
-      <div class="config-gallery-navigation">
+      <div class="config-gallery-container">
+        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+        <div class="config-gallery-navigation">
           <button class="gallery-btn" id="configPrevBtn">❮</button>
           <button class="gallery-btn" id="configNextBtn">❯</button>
         </div>
-      <div class="config-gallery-container">
-        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
       </div>
     </div>
   </div>
