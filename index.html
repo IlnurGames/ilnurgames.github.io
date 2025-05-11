@@ -488,6 +488,10 @@ body.light-theme .feature-item {
   border: 2px solid rgba(108, 92, 231, 0.5);
   display: block;
   cursor: pointer;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.3s ease-out;
+  object-fit: contain;
 }
 
 .config-modal-content {
@@ -511,8 +515,8 @@ body.light-theme .feature-item {
   .btn {
     min-width: 120px;
   }
-  .modal-content {
-    transform: scale(2);
+  .modal-content, .config-gallery-image {
+    transform: scale(1.5);
     max-height: 80vh;
   }
   .modal-nav-btn, .gallery-btn {
@@ -556,6 +560,9 @@ body.light-theme .feature-item {
   }
   .config-gallery-container {
     max-height: 45vh;
+  }
+  .modal-content, .config-gallery-image {
+    transform: scale(1.8);
   }
 }
 
@@ -676,6 +683,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const galleryImage = document.getElementById('galleryImage');
   const modalPrevBtn = document.getElementById('modalPrevBtn');
   const modalNextBtn = document.getElementById('modalNextBtn');
+  const configGalleryImage = document.getElementById('configGalleryImage');
   const body = document.body;
   const aboutBtn = document.getElementById('aboutBtn');
   const footerText = document.getElementById('footerText');
@@ -791,6 +799,12 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(configModal);
   });
 
+  configGalleryImage.addEventListener('click', function() {
+    currentImageType = 'config';
+    modalImg.src = this.src;
+    openModal(imageModal);
+  });
+
   modalPrevBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     if (currentImageType === 'gallery') {
@@ -813,7 +827,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
-    const scale = window.innerWidth < 768 ? 2 : 1;
+    const scale = window.innerWidth < 768 ? (window.innerWidth < 480 ? 1.8 : 1.5) : 1;
     modalImg.style.transform = `translate(0, 0) scale(${scale})`;
   }
 
@@ -858,7 +872,7 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.clientY - startPos.y
     };
     
-    const scale = window.innerWidth < 768 ? 2 : 1;
+    const scale = window.innerWidth < 768 ? (window.innerWidth < 480 ? 1.8 : 1.5) : 1;
     modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
   });
 
@@ -885,7 +899,7 @@ document.addEventListener('DOMContentLoaded', function() {
       y: e.touches[0].clientY - startPos.y
     };
     
-    const scale = window.innerWidth < 768 ? 2 : 1;
+    const scale = window.innerWidth < 768 ? (window.innerWidth < 480 ? 1.8 : 1.5) : 1;
     modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
     e.preventDefault();
   }, { passive: false });
