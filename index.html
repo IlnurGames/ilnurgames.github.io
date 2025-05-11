@@ -486,26 +486,6 @@ body.light-theme .feature-item {
   cursor: pointer;
 }
 
-.config-gallery-navigation {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.config-modal-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px;
-  width: 100%;
-}
-
 @media (max-width: 768px) {
   .game-title {
     font-size: 2rem;
@@ -661,10 +641,6 @@ body.light-theme .feature-item {
       <h2 class="config-title" id="configTitle">Настройки</h2>
       <div class="config-gallery-container">
         <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
-        <div class="config-gallery-navigation">
-          <button class="gallery-btn" id="configPrevBtn">❮</button>
-          <button class="gallery-btn" id="configNextBtn">❯</button>
-        </div>
       </div>
     </div>
   </div>
@@ -684,10 +660,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const galleryImage = document.getElementById('galleryImage');
-  const configPrevBtn = document.getElementById('configPrevBtn');
-  const configNextBtn = document.getElementById('configNextBtn');
-  const configGalleryImage = document.getElementById('configGalleryImage');
-  const configTitle = document.getElementById('configTitle');
   const modalPrevBtn = document.getElementById('modalPrevBtn');
   const modalNextBtn = document.getElementById('modalNextBtn');
   const body = document.body;
@@ -696,13 +668,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
   let currentGalleryIndex = 0;
-
-  const configData = [
-    { image: 'controls.png', title: 'Управление', zoomable: true },
-    { image: 'game_config.jpg', title: 'Настройки игры', zoomable: true },
-    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', zoomable: false }
-  ];
-  let currentConfigIndex = 0;
 
   let currentImageType = 'gallery';
   let isDragging = false;
@@ -809,28 +774,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   configToggle.addEventListener('click', function() {
-    updateConfigGallery();
     openModal(configModal);
-  });
-
-  configPrevBtn.addEventListener('click', function() {
-    currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
-    updateConfigGallery();
-  });
-
-  configNextBtn.addEventListener('click', function() {
-    currentConfigIndex = (currentConfigIndex + 1) % configData.length;
-    updateConfigGallery();
-  });
-
-  configGalleryImage.addEventListener('click', function() {
-    const currentConfig = configData[currentConfigIndex];
-    if (currentConfig.zoomable) {
-      currentImageType = 'config';
-      modalImg.src = currentConfig.image;
-      imageModal.style.zIndex = "1001";
-      openModal(imageModal);
-    }
   });
 
   modalPrevBtn.addEventListener('click', function(e) {
@@ -839,12 +783,6 @@ document.addEventListener('DOMContentLoaded', function() {
       currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
       updateGalleryImage();
-    } else if (currentImageType === 'config') {
-      do {
-        currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
-      } while (!configData[currentConfigIndex].zoomable);
-      modalImg.src = configData[currentConfigIndex].image;
-      updateConfigGallery();
     }
     resetImagePosition();
   });
@@ -855,21 +793,9 @@ document.addEventListener('DOMContentLoaded', function() {
       currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
       modalImg.src = galleryImages[currentGalleryIndex];
       updateGalleryImage();
-    } else if (currentImageType === 'config') {
-      do {
-        currentConfigIndex = (currentConfigIndex + 1) % configData.length;
-      } while (!configData[currentConfigIndex].zoomable);
-      modalImg.src = configData[currentConfigIndex].image;
-      updateConfigGallery();
     }
     resetImagePosition();
   });
-
-  function updateConfigGallery() {
-    const currentConfig = configData[currentConfigIndex];
-    configGalleryImage.src = currentConfig.image;
-    configTitle.textContent = currentConfig.title;
-  }
 
   function resetImagePosition() {
     currentPos = { x: 0, y: 0 };
@@ -980,14 +906,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (element) {
         element.innerHTML = texts[lang];
       }
-    }
-
-    if (configData) {
-      configData[0].title = lang === 'ru' ? 'Управление' : 'Controls';
-      configData[1].title = lang === 'ru' ? 'Настройки игры' : 'Game Settings';
-      configData[2].title = lang === 'ru' ? 'Настройки лаунчера' : 'Launcher Settings';
-      
-      updateConfigGallery();
     }
 
     langToggle.textContent = lang === 'ru' ? '🌐 EN' : '🌐 RU';
