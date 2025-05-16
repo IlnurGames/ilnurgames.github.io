@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Half-Life Ɣ | Developer help</title>
+<style>
+:root {
+  --primary: #6c5ce7;
+  --primary-dark: #5649c0;
+  --primary-light: #a29bfe;
+  --secondary: #7b68ee;
+  --accent: #00e5ff;
+  --accent-dark: #00b8d4;
+  --danger: #e84393;
+  --text-light: #f8f9fa;
+  --text-dark: #2d3436;
+  --bg-light: #f8f9fa;
+  --bg-dark: #1a1528;
+  --card-light: #ffffff;
+  --card-dark: #1e1a34;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --glow: 0 4px 12px rgba(108, 92, 231, 0.4);
+  --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.7;
+  padding: 20px;
+  transition: var(--transition);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
+}
+
+body.light-theme {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  background-image: none;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  min-width: 120px;
+  gap: 8px;
+  transform: translateY(0);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #7e57c2, #5c6bc0);
+}
+
+.theme-btn {
+  background: linear-gradient(135deg, #5c6bc0, #4a5acf);
+}
+
+.lang-btn {
+  background: linear-gradient(135deg, #4a5acf, #3949ab);
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #3949ab, #303f9f);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  background-color: var(--card-dark);
+  border-radius: 14px;
+  padding: 25px;
+  margin-bottom: 30px;
+  transition: var(--transition);
+  border: 1.5px solid rgba(108, 92, 231, 0.5);
+  box-shadow: 0 0 18px rgba(108, 92, 231, 0.18);
+  backdrop-filter: blur(5px);
+}
+
+body.light-theme .card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(108, 92, 231, 0.35);
+  box-shadow: 0 0 12px rgba(108, 92, 231, 0.12);
+}
+
+.card:hover {
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.25);
+}
+
+.attention {
+  color: var(--danger);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: var(--text-shadow);
+}
+
+.test-notice {
+  background-color: rgba(108, 92, 231, 0.25);
+  padding: 18px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+  position: relative;
+  transition: var(--transition);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+}
+
+body.light-theme .test-notice {
+  background-color: rgba(108, 92, 231, 0.08);
+  border: 1px solid rgba(108, 92, 231, 0.2);
+}
+
+.test-notice:hover {
+  background-color: rgba(108, 92, 231, 0.35);
+  transform: translateX(5px);
+}
+
+.test-notice:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
+  z-index: -1;
+}
+
+.notice-ru, .notice-en {
+  display: none;
+}
+.notice-ru.active, .notice-en.active {
+  display: block;
+}
+
+.developer {
+  color: var(--accent);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: var(--text-shadow);
+}
+
+.options-list {
+  list-style-type: none;
+}
+
+.option-item {
+  padding: 12px 15px 12px 25px;
+  margin-bottom: 8px;
+  background-color: rgba(108, 92, 231, 0.2);
+  border-radius: 6px;
+  transition: var(--transition);
+  position: relative;
+  cursor: pointer;
+  border: 1px solid rgba(108, 92, 231, 0.25);
+}
+
+body.light-theme .option-item {
+  background-color: rgba(108, 92, 231, 0.05);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+}
+
+.option-item:hover {
+  background-color: rgba(108, 92, 231, 0.3);
+  transform: translateX(5px);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+}
+
+.option-item::before {
+  content: '•';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-dark);
+  font-size: 1.5em;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.option-item:hover::before {
+  color: var(--accent);
+  transform: translateY(-50%) scale(1.3);
+}
+
+.option-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
+  z-index: -1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+button, a {
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+button:active, a:active {
+  transform: translateY(2px) !important;
+}
+
+.option-item:active, .test-notice:active {
+  transform: translateX(5px) scale(0.98) !important;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: auto;
+}
+
+.modal-content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px;
+  overflow: auto;
+}
+
+.modal-content {
+  max-width: 100%;
+  max-height: 90vh;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.3s ease-out;
+  object-fit: contain;
+  cursor: grab;
+}
+
+.modal-navigation {
+  display: none;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.modal-nav-btn {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.modal-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close:hover {
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.versions-title {
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.versions-gallery-container {
+  position: relative;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.versions-gallery-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  display: block;
+  cursor: pointer;
+}
+
+.versions-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+.version-item {
+  background-color: rgba(108, 92, 231, 0.25);
+  padding: 14px 30px;
+  border-radius: 6px;
+  transition: var(--transition);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+body.light-theme .version-item {
+  background-color: rgba(108, 92, 231, 0.08);
+  border: 1px solid rgba(108, 92, 231, 0.2);
+}
+
+.version-item:hover {
+  background-color: rgba(108, 92, 231, 0.35);
+  transform: translateX(5px);
+}
+
+.version-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
+  z-index: -1;
+}
+
+.version-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    transform: scale(2);
+    max-height: 80vh;
+  }
+  .modal-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .close {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .version-item {
+    width: 90%;
+    padding: 12px 20px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="button-group">
+    <a href="index.html" class="btn back-btn" id="backBtn">
+      ↩️ <span id="backText">На главную</span>
+    </a>
+    <button class="btn theme-btn" id="themeToggle">
+      <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
+    </button>
+    <button class="btn lang-btn" id="langToggle">🌐 EN</button>
+    <button class="btn download-btn" id="versionsToggle">
+      🎮 <span id="versionsBtnText">Старые версии игры</span>
+    </button>
+  </div>
+  
+  <div class="card">
+    <h2 class="attention" id="attentionText">Внимание!</h2>
+
+    <div class="test-notice">
+      <div class="notice-ru active">
+        Уважаемые тестировщики, использовать режим разработчика стоит с особой осторожностью, так как его применение может привести к нестабильности игры и вылетам!
+      </div>
+      <div class="notice-en">
+        Dear testers, you should use developer mode with special care, as its use can lead to game instability and crashes!
+      </div>
+    </div>
+
+    <h2 class="developer" id="developerText">Меню разработчика</h2>
+
+    <ul class="options-list">
+      <li class="option-item">Debug: true/false - Включить/выключить режим отладки</li>
+      <li class="option-item">Open all levels - Открыть все уровни</li>
+      <li class="option-item">Show QFPS: true/false - Показывать/не показывать частоту кадров</li>
+      <li class="option-item">Show RAM: true/false - Показывать/не показывать использование оперативной памяти</li>
+      <li class="option-item">Show room ID: true/false - Показывать/не показывать ID комнаты</li>
+      <li class="option-item">Draw portals: true/false - Рисовать/не рисовать порталы</li>
+      <li class="option-item">Show player pos: true/false - Показывать/не показывать позицию игрока</li>
+      <li class="option-item">God mode: true/false - Включить/выключить режим "Бога"</li>
+      <li class="option-item">Show level objects: true/false - Показывать/не показывать объекты уровня</li>
+      <li class="option-item">Show shoot collision: true/false - Показывать/не показывать коллизии выстрелов</li>
+      <li class="option-item">Render Pixels Overwrite: true/false - Перезаписывать/не перезаписывать пиксели при рендеринге</li>
+      <li class="option-item">Fly: On/Off - Включить/выключить режим полета</li>
+      <li class="option-item">Play video!!! :D - Воспроизвести видео (пока не работает)</li>
+    </ul>
+  </div>
+</div>
+
+<div id="versionsModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
+    <h2 class="versions-title" id="versionsTitle">Старые версии игры</h2>
+    <div class="versions-gallery-container">
+      <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
+    </div>
+    <div class="versions-list">
+      <div class="version-item">
+        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">
+          <span id="versionText1">Версия</span> 3.0.0
+        </a>
+      </div>
+      <div class="version-item">
+        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">
+          <span id="versionText2">Версия</span> 3.3.0
+        </a>
+      </div>
+      <div class="version-item">
+        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.1/launcher_v3.3.1.apk" class="version-link" target="_blank">
+          <span id="versionText3">Версия</span> 3.3.1
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="modal-navigation">
+    <button class="modal-nav-btn" id="modalPrevBtn">❮</button>
+    <button class="modal-nav-btn" id="modalNextBtn">❯</button>
+  </div>
+  <div class="modal-content-container">
+    <img class="modal-content" id="modalImage">
+  </div>
+</div>
+
+<script>
+const themeToggle = document.getElementById('themeToggle');
+const themeText = document.getElementById('themeText');
+const themeIcon = document.getElementById('themeIcon');
+const langToggle = document.getElementById('langToggle');
+const versionsToggle = document.getElementById('versionsToggle');
+const backBtn = document.getElementById('backBtn');
+const backText = document.getElementById('backText');
+const attentionText = document.getElementById('attentionText');
+const developerText = document.getElementById('developerText');
+const versionsBtnText = document.getElementById('versionsBtnText');
+const versionsTitle = document.getElementById('versionsTitle');
+const versionText1 = document.getElementById('versionText1');
+const versionText2 = document.getElementById('versionText2');
+const versionText3 = document.getElementById('versionText3');
+const body = document.body;
+const noticeRu = document.querySelector('.notice-ru');
+const noticeEn = document.querySelector('.notice-en');
+const imageModal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImage');
+const versionsModal = document.getElementById('versionsModal');
+const closeBtns = document.querySelectorAll('.close');
+const versionsGalleryImage = document.getElementById('versionsGalleryImage');
+
+let currentImageType = 'versions';
+let isDragging = false;
+let startPos = { x: 0, y: 0 };
+let currentPos = { x: 0, y: 0 };
+let scrollPosition = 0;
+let modalStack = [];
+
+function lockScroll() {
+  scrollPosition = window.pageYOffset;
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.width = '100%';
+}
+
+function unlockScroll() {
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollPosition);
+}
+
+function openModal(modal) {
+  if (modalStack.length === 0) {
+    lockScroll();
+  }
+  modalStack.push(modal);
+  modal.style.display = "block";
+  if (modal === imageModal) {
+    resetImagePosition();
+  }
+}
+
+function closeModal(modal) {
+  const index = modalStack.indexOf(modal);
+  if (index !== -1) {
+    modalStack.splice(index, 1);
+  }
+  modal.style.display = "none";
+  
+  if (modalStack.length === 0) {
+    unlockScroll();
+  }
+}
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light-theme') {
+  body.classList.add('light-theme');
+  updateThemeIcon();
+  updateButtonText();
+}
+
+themeToggle.addEventListener('click', (e) => {
+  e.preventDefault();
+  body.classList.toggle('light-theme');
+  const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
+  localStorage.setItem('theme', currentTheme);
+  updateThemeIcon();
+  updateButtonText();
+});
+
+function updateThemeIcon() {
+  const isLight = body.classList.contains('light-theme');
+  themeIcon.textContent = isLight ? '🌙' : '☀️';
+}
+
+function updateButtonText() {
+  const isLight = body.classList.contains('light-theme');
+  const currentLang = noticeRu.classList.contains('active') ? 'ru' : 'en';
+  if (currentLang === 'ru') {
+    themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+  } else {
+    themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
+  }
+}
+
+const savedLang = localStorage.getItem('lang') || 'ru';
+updateLanguage(savedLang);
+
+langToggle.addEventListener('click', () => {
+  const currentLang = noticeRu.classList.contains('active') ? 'en' : 'ru';
+  updateLanguage(currentLang);
+  localStorage.setItem('lang', currentLang);
+});
+
+function updateLanguage(lang) {
+  if (lang === 'ru') {
+    noticeRu.classList.add('active');
+    noticeEn.classList.remove('active');
+    langToggle.textContent = '🌐 EN';
+    backText.textContent = 'На главную';
+    attentionText.textContent = 'Внимание!';
+    developerText.textContent = 'Меню разработчика';
+    versionsBtnText.textContent = 'Старые версии игры';
+    versionsTitle.textContent = 'Старые версии игры';
+    versionText1.textContent = 'Версия';
+    versionText2.textContent = 'Версия';
+    versionText3.textContent = 'Версия';
+  } else {
+    noticeRu.classList.remove('active');
+    noticeEn.classList.add('active');
+    langToggle.textContent = '🌐 RU';
+    backText.textContent = 'Back to main';
+    attentionText.textContent = 'Attention!';
+    developerText.textContent = 'Developer Menu';
+    versionsBtnText.textContent = 'Old game versions';
+    versionsTitle.textContent = 'Old game versions';
+    versionText1.textContent = 'Version';
+    versionText2.textContent = 'Version';
+    versionText3.textContent = 'Version';
+  }
+  updateThemeIcon();
+  updateButtonText();
+}
+
+versionsToggle.addEventListener('click', function() {
+  openModal(versionsModal);
+});
+
+versionsGalleryImage.addEventListener('click', function() {
+  currentImageType = 'versions';
+  modalImg.src = 'game_config_old.jpg';
+  openModal(imageModal);
+});
+
+function resetImagePosition() {
+  currentPos = { x: 0, y: 0 };
+  const scale = window.innerWidth < 768 ? 2 : 1;
+  modalImg.style.transform = `translate(0, 0) scale(${scale})`;
+}
+
+closeBtns.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const modal = this.closest('.modal');
+    closeModal(modal);
+  });
+});
+
+window.addEventListener('click', function(event) {
+  if (event.target == imageModal) {
+    closeModal(imageModal);
+  }
+  if (event.target == versionsModal) {
+    closeModal(versionsModal);
+  }
+});
+
+window.addEventListener('scroll', function() {
+  if (modalStack.length > 0) {
+    window.scrollTo(0, parseInt(document.body.style.top || '0') * -1);
+  }
+});
+
+modalImg.addEventListener('mousedown', function(e) {
+  isDragging = true;
+  startPos = {
+    x: e.clientX - currentPos.x,
+    y: e.clientY - currentPos.y
+  };
+  modalImg.style.cursor = 'grabbing';
+  e.preventDefault();
+});
+
+window.addEventListener('mousemove', function(e) {
+  if (!isDragging) return;
+  
+  currentPos = {
+    x: e.clientX - startPos.x,
+    y: e.clientY - startPos.y
+  };
+  
+  const scale = window.innerWidth < 768 ? 2 : 1;
+  modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+});
+
+window.addEventListener('mouseup', function() {
+  isDragging = false;
+  modalImg.style.cursor = 'grab';
+});
+
+modalImg.addEventListener('touchstart', function(e) {
+  isDragging = true;
+  startPos = {
+    x: e.touches[0].clientX - currentPos.x,
+    y: e.touches[0].clientY - currentPos.y
+  };
+  modalImg.style.cursor = 'grabbing';
+  e.preventDefault();
+}, { passive: false });
+
+window.addEventListener('touchmove', function(e) {
+  if (!isDragging) return;
+  
+  currentPos = {
+    x: e.touches[0].clientX - startPos.x,
+    y: e.touches[0].clientY - startPos.y
+  };
+  
+  const scale = window.innerWidth < 768 ? 2 : 1;
+  modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+  e.preventDefault();
+}, { passive: false });
+
+window.addEventListener('touchend', function() {
+  isDragging = false;
+  modalImg.style.cursor = 'grab';
+});
+
+document.addEventListener('touchend', function(e) {
+  const activeElements = document.querySelectorAll('button:active, a:active, .option-item:active, .test-notice:active, .version-item:active');
+  activeElements.forEach(el => {
+    setTimeout(() => {
+      el.style.transform = '';
+    }, 200);
+  });
+}, true);
+
+updateThemeIcon();
+updateButtonText();
+</script>
+</body>
+</html>

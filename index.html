@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Half-Life Ɣ</title>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="application-name" content="HL Ɣ | Ilnur Games">
+<meta name="apple-mobile-web-app-title" content="HL Ɣ | Ilnur Games">
+<meta name="msapplication-tooltip" content="Half-Life Ɣ">
+<meta name="theme-color" content="#1a1528">
+<meta name="msapplication-navbutton-color" content="#1a1528">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+@font-face {
+  font-family: 'HalfLife2';
+  src: url('halflife2.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'HalfLife';
+  src: url('halflife.ttf') format('truetype');
+}
+
+:root {
+  --primary: #6c5ce7;
+  --primary-dark: #5649c0;
+  --primary-light: #a29bfe;
+  --secondary: #7b68ee;
+  --accent: #00e5ff;
+  --accent-dark: #00b8d4;
+  --danger: #e84393;
+  --text-light: #f8f9fa;
+  --text-dark: #2d3436;
+  --bg-light: #f8f9fa;
+  --bg-dark: #1a1528;
+  --card-light: #ffffff;
+  --card-dark: #1e1a34;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --glow: 0 4px 12px rgba(108, 92, 231, 0.4);
+  --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  --title-glow: 0 0 10px rgba(100, 149, 237, 0.8);
+  --footer-glow: 0 0 6px rgba(100, 149, 237, 0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.7;
+  padding: 20px;
+  transition: var(--transition);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(123, 104, 238, 0.15) 0%, transparent 40%);
+}
+
+body.light-theme {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  background-image: none;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.gallery-container {
+  position: relative;
+  margin: 0 auto 20px;
+  max-width: 600px;
+}
+
+.gallery-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  display: block;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.gallery-image:hover {
+  transform: scale(1.02);
+}
+
+.gallery-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.gallery-btn {
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.gallery-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 20px 0;
+}
+
+.game-title-container {
+  text-align: center;
+}
+
+.game-title {
+  font-family: 'HalfLife2', 'Arial Black', sans-serif;
+  font-size: 2.5rem;
+  font-weight: normal;
+  margin: 0;
+  line-height: 1;
+  color: #f0f0f0;
+  text-shadow: var(--title-glow);
+  text-transform: uppercase;
+  animation: pulseGlow 2s infinite alternate;
+}
+
+body.light-theme .game-title {
+  color: #2d3436;
+  text-shadow: var(--title-glow);
+}
+
+.footer {
+  margin-top: 10px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  height: 60px;
+  width: auto;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  transition: transform 0.3s;
+}
+
+.footer-logo:hover {
+  transform: scale(1.05);
+}
+
+.footer-text {
+  font-family: 'HalfLife', 'Arial Black', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  text-shadow: var(--footer-glow);
+  animation: pulseGlow 2s infinite alternate;
+}
+
+body.light-theme .footer-text {
+  color: #2d3436;
+  text-shadow: var(--footer-glow);
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  min-width: 120px;
+  gap: 8px;
+  transform: translateY(0);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #7e57c2, #5c6bc0);
+}
+
+.theme-btn {
+  background: linear-gradient(135deg, #5c6bc0, #4a5acf);
+}
+
+.lang-btn {
+  background: linear-gradient(135deg, #4a5acf, #3949ab);
+}
+
+.dev-btn {
+  background: linear-gradient(135deg, #3949ab, #303f9f);
+}
+
+.config-btn {
+  background: linear-gradient(135deg, #303f9f, #283593);
+}
+
+.about-btn {
+  background: linear-gradient(135deg, #283593, #1a237e);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  background-color: var(--card-dark);
+  border-radius: 14px;
+  padding: 25px;
+  margin-bottom: 10px;
+  transition: var(--transition);
+  border: 1.5px solid rgba(108, 92, 231, 0.5);
+  box-shadow: 0 0 18px rgba(108, 92, 231, 0.18);
+  backdrop-filter: blur(5px);
+}
+
+body.light-theme .card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(108, 92, 231, 0.35);
+  box-shadow: 0 0 12px rgba(108, 92, 231, 0.12);
+}
+
+.card:hover {
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.25);
+}
+
+.game-description {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.features-title {
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 25px 0 15px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: var(--text-shadow);
+}
+
+.features-list {
+  list-style-type: none;
+  margin-bottom: 15px;
+}
+
+.feature-item {
+  padding: 12px 15px 12px 25px;
+  margin-bottom: 8px;
+  background-color: rgba(108, 92, 231, 0.2);
+  border-radius: 6px;
+  transition: var(--transition);
+  position: relative;
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  cursor: pointer;
+}
+
+body.light-theme .feature-item {
+  background-color: rgba(108, 92, 231, 0.05);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+}
+
+.feature-item:hover {
+  background-color: rgba(108, 92, 231, 0.3);
+  transform: translateX(5px);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+}
+
+.feature-item::before {
+  content: '•';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-dark);
+  font-size: 1.5em;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.feature-item:hover::before {
+  color: var(--accent);
+  transform: translateY(-50%) scale(1.3);
+}
+
+.feature-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(45deg, transparent 70%, rgba(100, 149, 237, 0.2));
+  z-index: -1;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: auto;
+}
+
+.modal-content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px;
+  overflow: auto;
+}
+
+.modal-content {
+  max-width: 100%;
+  max-height: 90vh;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.3s ease-out;
+  object-fit: contain;
+  cursor: grab;
+}
+
+.modal-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.modal-nav-btn {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.modal-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close:hover {
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.config-title {
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.config-gallery-container {
+  position: relative;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 800px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.config-gallery-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.config-gallery-container::-webkit-scrollbar-track {
+  background: rgba(108, 92, 231, 0.1);
+}
+
+.config-gallery-container::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.3);
+  border-radius: 4px;
+}
+
+.config-gallery-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 92, 231, 0.5);
+}
+
+.config-gallery-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(108, 92, 231, 0.5);
+  display: block;
+  cursor: pointer;
+}
+
+.config-gallery-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.config-modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2rem;
+  }
+  .button-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .btn {
+    min-width: 120px;
+  }
+  .modal-content {
+    transform: scale(2);
+    max-height: 80vh;
+  }
+  .modal-nav-btn, .gallery-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .close {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .footer {
+    flex-direction: row;
+    gap: 12px;
+  }
+  .footer-logo {
+    height: 55px;
+  }
+  .footer-text {
+    font-size: 1.3rem;
+  }
+  .config-gallery-container {
+    max-height: 40vh;
+    max-width: 95vw;
+  }
+  .config-modal-content {
+    padding: 10px 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 1.7rem;
+  }
+  .footer-text {
+    font-size: 1.1rem;
+  }
+  .footer-logo {
+    height: 50px;
+  }
+  .config-gallery-container {
+    max-height: 45vh;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0% { text-shadow: 0 0 8px rgba(100, 149, 237, 0.7); }
+  100% { text-shadow: 0 0 12px rgba(100, 149, 237, 0.9); }
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="main-content">
+    <div class="header-content">
+      <div class="game-title-container">
+        <h1 class="game-title">HALF-LIFE Ɣ</h1>
+      </div>
+    </div>
+
+    <div class="gallery-container">
+      <img src="logo.png" alt="Half-Life Ɣ Screenshot" class="gallery-image" id="galleryImage">
+      <div class="gallery-navigation">
+        <button class="gallery-btn" id="prevBtn">❮</button>
+        <button class="gallery-btn" id="nextBtn">❯</button>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.2/launcher_v3.3.2.apk" class="btn download-btn" target="_blank" id="downloadBtn">
+        🎮 Скачать игру
+      </a>
+      <button class="btn theme-btn" id="themeToggle">
+        <span id="themeIcon">☀️</span> <span id="themeText">Сменить тему</span>
+      </button>
+      <button class="btn lang-btn" id="langToggle">🌐 EN</button>
+      <a href="help.html" class="btn dev-btn" id="devBtn">
+        🛠️ Меню разработчика
+      </a>
+      <button class="btn config-btn" id="configToggle">
+        ⚙️ Настройки
+      </button>
+      <a href="about.html" class="btn about-btn" id="aboutBtn">
+        👥 О разработчиках
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="game-description" id="descriptionText">
+        <strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.
+      </div>
+
+      <h2 class="features-title" id="featuresTitle">Особенности игры</h2>
+
+      <ul class="features-list">
+        <li class="feature-item" id="feature1"><strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.</li>
+        <li class="feature-item" id="feature2"><strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.</li>
+        <li class="feature-item" id="feature3"><strong>Классический арсенал:</strong> монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.</li>
+        <li class="feature-item" id="feature4"><strong>Гибкость управления:</strong> поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.</li>
+        <li class="feature-item" id="feature5"><strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.</li>
+      </ul>
+
+      <div class="game-description" id="targetText">
+        <strong id="targetTitle">Для кого эта игра:</strong> <span id="targetDesc">для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <img src="icon.png" alt="Half-Life Ɣ Logo" class="footer-logo">
+    <div class="footer-text" id="footerText">Ilnur Games 2025 г.</div>
+  </div>
+</div>
+
+<div id="imageModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="modal-navigation">
+    <button class="modal-nav-btn" id="modalPrevBtn">❮</button>
+    <button class="modal-nav-btn" id="modalNextBtn">❯</button>
+  </div>
+  <div class="modal-content-container">
+    <img class="modal-content" id="modalImage">
+  </div>
+</div>
+
+<div id="configModal" class="modal">
+  <span class="close">&times;</span>
+  <div class="config-modal-content">
+    <div class="card" style="margin: 0 auto; max-width: 800px; overflow: hidden;">
+      <h2 class="config-title" id="configTitle">Настройки</h2>
+      <div class="config-gallery-container">
+        <img src="controls.png" alt="Настройки" class="config-gallery-image" id="configGalleryImage">
+        <div class="config-gallery-navigation">
+          <button class="gallery-btn" id="configPrevBtn">❮</button>
+          <button class="gallery-btn" id="configNextBtn">❯</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.getElementById('themeToggle');
+  const themeText = document.getElementById('themeText');
+  const themeIcon = document.getElementById('themeIcon');
+  const langToggle = document.getElementById('langToggle');
+  const configToggle = document.getElementById('configToggle');
+  const imageModal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  const configModal = document.getElementById('configModal');
+  const closeBtns = document.querySelectorAll('.close');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const galleryImage = document.getElementById('galleryImage');
+  const configPrevBtn = document.getElementById('configPrevBtn');
+  const configNextBtn = document.getElementById('configNextBtn');
+  const configGalleryImage = document.getElementById('configGalleryImage');
+  const configTitle = document.getElementById('configTitle');
+  const modalPrevBtn = document.getElementById('modalPrevBtn');
+  const modalNextBtn = document.getElementById('modalNextBtn');
+  const body = document.body;
+  const aboutBtn = document.getElementById('aboutBtn');
+  const footerText = document.getElementById('footerText');
+
+  const galleryImages = ['logo.png', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+  let currentGalleryIndex = 0;
+
+  const configData = [
+    { image: 'controls.png', title: 'Управление', zoomable: true },
+    { image: 'game_config.jpg', title: 'Настройки игры', zoomable: true },
+    { image: 'launcher_config.jpg', title: 'Настройки лаунчера', zoomable: false }
+  ];
+  let currentConfigIndex = 0;
+
+  let currentImageType = 'gallery';
+  let isDragging = false;
+  let startPos = { x: 0, y: 0 };
+  let currentPos = { x: 0, y: 0 };
+  let scrollPosition = 0;
+  let modalStack = [];
+
+  function lockScroll() {
+    scrollPosition = window.pageYOffset;
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+  }
+
+  function unlockScroll() {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollPosition);
+  }
+
+  function openModal(modal) {
+    if (modalStack.length === 0) {
+      lockScroll();
+    }
+    modalStack.push(modal);
+    modal.style.display = "block";
+    if (modal === imageModal) {
+      resetImagePosition();
+    }
+  }
+
+  function closeModal(modal) {
+    const index = modalStack.indexOf(modal);
+    if (index !== -1) {
+      modalStack.splice(index, 1);
+    }
+    modal.style.display = "none";
+    
+    if (modalStack.length === 0) {
+      unlockScroll();
+    }
+  }
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light-theme') {
+    body.classList.add('light-theme');
+    updateThemeIcon();
+  }
+
+  themeToggle.addEventListener('click', function() {
+    body.classList.toggle('light-theme');
+    const currentTheme = body.classList.contains('light-theme') ? 'light-theme' : '';
+    localStorage.setItem('theme', currentTheme);
+    updateThemeIcon();
+    updateButtonText();
+  });
+
+  function updateThemeIcon() {
+    const isLight = body.classList.contains('light-theme');
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
+  }
+
+  function updateButtonText() {
+    const isLight = body.classList.contains('light-theme');
+    const currentLang = localStorage.getItem('lang') || 'ru';
+    if (currentLang === 'ru') {
+      themeText.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+    } else {
+      themeText.textContent = isLight ? 'Dark theme' : 'Light theme';
+    }
+  }
+
+  const savedLang = localStorage.getItem('lang') || 'ru';
+  updateLanguage(savedLang);
+
+  langToggle.addEventListener('click', function() {
+    const currentLang = localStorage.getItem('lang') === 'ru' ? 'en' : 'ru';
+    updateLanguage(currentLang);
+    localStorage.setItem('lang', currentLang);
+  });
+
+  prevBtn.addEventListener('click', function() {
+    currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateGalleryImage();
+  });
+
+  nextBtn.addEventListener('click', function() {
+    currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
+    updateGalleryImage();
+  });
+
+  function updateGalleryImage() {
+    galleryImage.src = galleryImages[currentGalleryIndex];
+  }
+
+  galleryImage.addEventListener('click', function() {
+    currentImageType = 'gallery';
+    modalImg.src = galleryImages[currentGalleryIndex];
+    openModal(imageModal);
+  });
+
+  configToggle.addEventListener('click', function() {
+    updateConfigGallery();
+    openModal(configModal);
+  });
+
+  configPrevBtn.addEventListener('click', function() {
+    currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
+    updateConfigGallery();
+  });
+
+  configNextBtn.addEventListener('click', function() {
+    currentConfigIndex = (currentConfigIndex + 1) % configData.length;
+    updateConfigGallery();
+  });
+
+  configGalleryImage.addEventListener('click', function() {
+    const currentConfig = configData[currentConfigIndex];
+    if (currentConfig.zoomable) {
+      currentImageType = 'config';
+      modalImg.src = currentConfig.image;
+      imageModal.style.zIndex = "1001";
+      openModal(imageModal);
+    }
+  });
+
+  modalPrevBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (currentImageType === 'gallery') {
+      currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+      modalImg.src = galleryImages[currentGalleryIndex];
+      updateGalleryImage();
+    } else if (currentImageType === 'config') {
+      do {
+        currentConfigIndex = (currentConfigIndex - 1 + configData.length) % configData.length;
+      } while (!configData[currentConfigIndex].zoomable);
+      modalImg.src = configData[currentConfigIndex].image;
+      updateConfigGallery();
+    }
+    resetImagePosition();
+  });
+
+  modalNextBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (currentImageType === 'gallery') {
+      currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
+      modalImg.src = galleryImages[currentGalleryIndex];
+      updateGalleryImage();
+    } else if (currentImageType === 'config') {
+      do {
+        currentConfigIndex = (currentConfigIndex + 1) % configData.length;
+      } while (!configData[currentConfigIndex].zoomable);
+      modalImg.src = configData[currentConfigIndex].image;
+      updateConfigGallery();
+    }
+    resetImagePosition();
+  });
+
+  function updateConfigGallery() {
+    const currentConfig = configData[currentConfigIndex];
+    configGalleryImage.src = currentConfig.image;
+    configTitle.textContent = currentConfig.title;
+  }
+
+  function resetImagePosition() {
+    currentPos = { x: 0, y: 0 };
+    const scale = window.innerWidth < 768 ? 2 : 1;
+    modalImg.style.transform = `translate(0, 0) scale(${scale})`;
+  }
+
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const modal = this.closest('.modal');
+      closeModal(modal);
+    });
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == imageModal) {
+      closeModal(imageModal);
+    }
+    if (event.target == configModal) {
+      closeModal(configModal);
+    }
+  });
+
+  window.addEventListener('scroll', function() {
+    if (modalStack.length > 0) {
+      window.scrollTo(0, parseInt(document.body.style.top || '0') * -1);
+    }
+  });
+
+  modalImg.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    startPos = {
+      x: e.clientX - currentPos.x,
+      y: e.clientY - currentPos.y
+    };
+    modalImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    
+    currentPos = {
+      x: e.clientX - startPos.x,
+      y: e.clientY - startPos.y
+    };
+    
+    const scale = window.innerWidth < 768 ? 2 : 1;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+  });
+
+  window.addEventListener('mouseup', function() {
+    isDragging = false;
+    modalImg.style.cursor = 'grab';
+  });
+
+  modalImg.addEventListener('touchstart', function(e) {
+    isDragging = true;
+    startPos = {
+      x: e.touches[0].clientX - currentPos.x,
+      y: e.touches[0].clientY - currentPos.y
+    };
+    modalImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  }, { passive: false });
+
+  window.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    
+    currentPos = {
+      x: e.touches[0].clientX - startPos.x,
+      y: e.touches[0].clientY - startPos.y
+    };
+    
+    const scale = window.innerWidth < 768 ? 2 : 1;
+    modalImg.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scale(${scale})`;
+    e.preventDefault();
+  }, { passive: false });
+
+  window.addEventListener('touchend', function() {
+    isDragging = false;
+    modalImg.style.cursor = 'grab';
+  });
+
+  function updateLanguage(lang) {
+    const elements = {
+      downloadBtn: {ru: '🎮 Скачать игру', en: '🎮 Download game'},
+      themeText: {ru: body.classList.contains('light-theme') ? 'Тёмная тема' : 'Светлая тема', en: body.classList.contains('light-theme') ? 'Dark theme' : 'Light theme'},
+      devBtn: {ru: '🛠️ Меню разработчика', en: '🛠️ Developer Menu'},
+      configToggle: {ru: '⚙️ Настройки', en: '⚙️ Settings'},
+      descriptionText: {ru: '<strong>Half-Life Ɣ</strong> — это атмосферный шутер от первого лица, вдохновленный классической серией Half-Life. Игра погружает вас в мрачный и опасный мир, где вам предстоит сражаться с монстрами, преодолевать препятствия и раскрывать тайны, оставленные Альянсом.', en: '<strong>Half-Life Ɣ</strong> is an atmospheric first-person shooter inspired by the classic Half-Life series. The game immerses you in a dark and dangerous world where you will fight monsters, overcome obstacles and uncover secrets left by the Combine.'},
+      featuresTitle: {ru: 'Особенности игры', en: 'Game Features'},
+      feature1: {ru: '<strong>Динамичный сюжет:</strong> шесть уникальных глав, включая заброшенное метро, промышленный городок Рейнхольм, заснеженную Арктику и загадочный мир Зен.', en: '<strong>Dynamic story:</strong> six unique chapters including abandoned subway, industrial town Ravenholm, snowy Arctic and mysterious Xen world.'},
+      feature2: {ru: '<strong>Разнообразие противников:</strong> хедкрабы, зомби, солдаты Альянса и другие существа, создающие напряженные моменты в бою.', en: '<strong>Variety of enemies:</strong> headcrabs, zombies, Combine soldiers and other creatures creating intense combat moments.'},
+      feature3: {ru: '<strong>Классический арсенал:</strong> монтировка, пистолет USP, мощное экспериментальное оружие и полезные предметы вроде аптечек и фонаря.', en: '<strong>Classic arsenal:</strong> crowbar, USP pistol, powerful experimental weapons and useful items like medkits and flashlight.'},
+      feature4: {ru: '<strong>Гибкость управления:</strong> поддержка разных схем ввода — геймпада, сенсорного экрана или виртуальных кнопок.', en: '<strong>Control flexibility:</strong> support for different input schemes - gamepad, touch screen or virtual buttons.'},
+      feature5: {ru: '<strong>Мрачная атмосфера:</strong> темные локации, тревожные диалоги и звуковое оформление в духе оригинальной Half-Life.', en: '<strong>Dark atmosphere:</strong> dark locations, tense dialogues and sound design in the spirit of original Half-Life.'},
+      targetTitle: {ru: 'Для кого эта игра:', en: 'Who is this game for:'},
+      targetDesc: {ru: 'для поклонников классических шутеров с уклоном в научную фантастику и хоррор. Для тех, кто ценит сложные испытания и нелинейное прохождение. Для игроков, ищущих необычные интерпретации знакомых вселенных.', en: 'for fans of classic shooters with sci-fi and horror elements. For those who appreciate challenging gameplay and non-linear progression. For players looking for unique interpretations of familiar universes.'},
+      configTitle: {ru: 'Настройки', en: 'Settings'},
+      aboutBtn: {ru: '👥 О разработчиках', en: '👥 About Developers'},
+      footerText: {ru: 'Ilnur Games 2025 г.', en: 'Ilnur Games 2025'}
+    };
+
+    for (const [id, texts] of Object.entries(elements)) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = texts[lang];
+      }
+    }
+
+    if (configData) {
+      configData[0].title = lang === 'ru' ? 'Управление' : 'Controls';
+      configData[1].title = lang === 'ru' ? 'Настройки игры' : 'Game Settings';
+      configData[2].title = lang === 'ru' ? 'Настройки лаунчера' : 'Launcher Settings';
+      
+      updateConfigGallery();
+    }
+
+    langToggle.textContent = lang === 'ru' ? '🌐 EN' : '🌐 RU';
+    updateThemeIcon();
+  }
+
+  updateThemeIcon();
+  updateButtonText();
+});
+</script>
+</body>
+</html>
