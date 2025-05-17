@@ -426,6 +426,17 @@ body.light-theme .version-item {
   text-align: center;
 }
 
+.versions-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
 @media (max-width: 768px) {
   .modal-content {
     transform: scale(2);
@@ -497,26 +508,28 @@ body.light-theme .version-item {
 
 <div id="versionsModal" class="modal">
   <span class="close">&times;</span>
-  <div class="card" style="margin: 20px auto; max-width: 600px; overflow: hidden;">
-    <h2 class="versions-title" id="versionsTitle">Старые версии игры</h2>
-    <div class="versions-gallery-container">
-      <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
-    </div>
-    <div class="versions-list">
-      <div class="version-item">
-        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">
-          <span id="versionText1">Версия</span> 3.0.0
-        </a>
+  <div class="versions-modal-content">
+    <div class="card">
+      <h2 class="versions-title" id="versionsTitle">Старые версии игры</h2>
+      <div class="versions-gallery-container">
+        <img src="game_config_old.jpg" alt="Настройки старых версий" class="versions-gallery-image" id="versionsGalleryImage">
       </div>
-      <div class="version-item">
-        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">
-          <span id="versionText2">Версия</span> 3.3.0
-        </a>
-      </div>
-      <div class="version-item">
-        <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.1/launcher_v3.3.1.apk" class="version-link" target="_blank">
-          <span id="versionText3">Версия</span> 3.3.1
-        </a>
+      <div class="versions-list">
+        <div class="version-item">
+          <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.0.0/launcher_v3.0.0.apk" class="version-link" target="_blank">
+            <span id="versionText1">Версия</span> 3.0.0
+          </a>
+        </div>
+        <div class="version-item">
+          <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.0/launcher_v3.3.0.apk" class="version-link" target="_blank">
+            <span id="versionText2">Версия</span> 3.3.0
+          </a>
+        </div>
+        <div class="version-item">
+          <a href="https://github.com/IlnurGames/ilnurgames.github.io/releases/download/v3.3.1/launcher_v3.3.1.apk" class="version-link" target="_blank">
+            <span id="versionText3">Версия</span> 3.3.1
+          </a>
+        </div>
       </div>
     </div>
   </div>
