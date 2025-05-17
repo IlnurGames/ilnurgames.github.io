@@ -201,6 +201,19 @@ body.light-theme .team-item {
   opacity: 0.8;
 }
 
+.assistant-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.assistant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @keyframes shine {
   to {
     background-position: 200% center;
@@ -285,13 +298,16 @@ body.light-theme .team-item {
       </li>
       <li class="team-item">
         <div class="team-role" id="assistantRole">Помощь в разработке</div>
-        <div class="team-nickname"><span>Docker</span></div>
-        <div class="team-name">(Мансур Шарапов)</div>
-      </li>
-      <li class="team-item">
-        <div class="team-role" id="assistantRole2">Помощь в разработке</div>
-        <div class="team-nickname"><span>enT0Xx</span></div>
-        <div class="team-name">(Фёдор Руденко)</div>
+        <div class="assistant-container">
+          <div class="assistant-item">
+            <div class="team-nickname"><span>Docker</span></div>
+            <div class="team-name">(Мансур Шарапов)</div>
+          </div>
+          <div class="assistant-item">
+            <div class="team-nickname"><span>enT0Xx</span></div>
+            <div class="team-name">(Фёдор Руденко)</div>
+          </div>
+        </div>
       </li>
     </ul>
 
@@ -359,7 +375,6 @@ document.addEventListener('DOMContentLoaded', function() {
       aboutTitle: {ru: 'Команда разработчиков', en: 'Development Team'},
       mainDevRole: {ru: 'Основной разработчик', en: 'Lead Developer'},
       assistantRole: {ru: 'Помощь в разработке', en: 'Development Assistant'},
-      assistantRole2: {ru: 'Помощь в разработке', en: 'Development Assistant'},
       resourceTitle: {ru: 'HLDOC.RU', en: 'HLDOC.RU'},
       resourceDesc: {ru: 'Рекомендуемый ресурс по вселенной Half-Life от Docker', en: 'Recommended Half-Life universe resource by Docker'},
       releaseYears: {ru: '2020-2025 гг.', en: '2020-2025'}
@@ -367,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const names = {
       mainDevName: {ru: 'Ильнур Шарапов', en: 'Ilnur Sharapov'},
-      assistantName: {ru: 'Мансур Шарапов', en: 'Mansur Sharapov'},
+      assistantName1: {ru: 'Мансур Шарапов', en: 'Mansur Sharapov'},
       assistantName2: {ru: 'Фёдор Руденко', en: 'Fedor Rudenko'}
     };
 
@@ -379,11 +394,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const mainDevName = document.querySelector('.team-item:nth-child(1) .team-name');
-    const assistantName = document.querySelector('.team-item:nth-child(2) .team-name');
-    const assistantName2 = document.querySelector('.team-item:nth-child(3) .team-name');
-    if (mainDevName && assistantName && assistantName2) {
+    const assistantName1 = document.querySelector('.assistant-item:nth-child(1) .team-name');
+    const assistantName2 = document.querySelector('.assistant-item:nth-child(2) .team-name');
+    if (mainDevName && assistantName1 && assistantName2) {
       mainDevName.textContent = `(${names.mainDevName[lang]})`;
-      assistantName.textContent = `(${names.assistantName[lang]})`;
+      assistantName1.textContent = `(${names.assistantName1[lang]})`;
       assistantName2.textContent = `(${names.assistantName2[lang]})`;
     }
 
