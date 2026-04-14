@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>???</title>
+    <style>
+        /* Сброс стилей и полный чёрный фон */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+            /* Эффект лёгкой "шумной" статики, как на старых мониторах в FNaF */
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Псевдоэлемент для эффекта старого ЭЛТ-монитора / аналог помех */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(255, 255, 255, 0.02) 1px,
+                rgba(0, 0, 0, 0.15) 2px
+            );
+            pointer-events: none;
+            z-index: 2;
+            animation: flicker 0.3s infinite alternate;
+        }
+
+        /* Эффект мерцания */
+        @keyframes flicker {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+            100% { opacity: 0.4; }
+        }
+
+        /* Основной контейнер для кнопок */
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 35px;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+            /* Лёгкая тень, создающая глубину на чёрном фоне */
+            filter: drop-shadow(0 0 15px rgba(80, 0, 0, 0.5));
+        }
+
+        /* Загадочный стиль кнопок — шрифт с засечками + "глитч-эффект" */
+        .mystery-btn {
+            /* Красивый загадочный шрифт. 
+               Используем системные шрифты, которые есть везде и выглядят жутковато:
+               'Times New Roman' — классика, 'Georgia' — элегантность, 
+               'Papyrus' — если есть, придаст налёт мистики (как в старых хоррорах) */
+            font-family: 'Georgia', 'Times New Roman', 'Papyrus', serif;
+            font-size: 2.2rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            
+            /* Прозрачный фон, белый/серый текст с красным оттенком при наведении */
+            background: transparent;
+            color: #aaaaaa;
+            
+            /* Границы в стиле старых винтажных интерфейсов */
+            border: 1.5px solid #3a1a1a;
+            border-radius: 2px;
+            
+            padding: 18px 45px;
+            cursor: pointer;
+            
+            /* Плавные переходы для анимаций */
+            transition: all 0.25s ease-in-out;
+            
+            /* Тень для объёма */
+            box-shadow: 
+                0 0 8px rgba(100, 0, 0, 0.3),
+                inset 0 0 5px rgba(0, 0, 0, 0.9);
+                
+            /* Размытие текста (совсем немного) для эффекта старого монитора */
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8), 0 0 8px rgba(150, 0, 0, 0.5);
+            
+            /* Глитч-смещение при наведении (вдохновлено статикой ФНаФ) */
+            position: relative;
+            backdrop-filter: blur(0.5px);
+            
+            /* Чтобы кнопки были одинаковой ширины на мобильных */
+            min-width: 350px;
+            text-align: center;
+        }
+
+        /* Эффект "дёргания" текста при наведении — как глюк системы */
+        .mystery-btn:hover {
+            color: #d0d0d0;
+            border-color: #6b2020;
+            box-shadow: 
+                0 0 18px rgba(180, 0, 0, 0.6),
+                inset 0 0 8px rgba(80, 0, 0, 0.7);
+            text-shadow: 3px 3px 3px #000, 0 0 15px #a00;
+            letter-spacing: 6px;
+            transform: scale(1.02);
+            
+            /* Лёгкое искажение фона при наведении */
+            background: rgba(20, 0, 0, 0.15);
+        }
+
+        /* Активное нажатие — имитация помех */
+        .mystery-btn:active {
+            transform: scale(0.98) skewX(-2deg);
+            color: #ffffff;
+            border-color: #8b0000;
+            box-shadow: 0 0 25px red, inset 0 0 10px #300;
+            transition: all 0.05s;
+        }
+
+        /* Добавляем небольшие декоративные элементы по бокам — ощущение заброшенности */
+        .static-noise-left,
+        .static-noise-right {
+            position: fixed;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(40, 0, 0, 0.8),
+                rgba(0, 0, 0, 0.9) 10px
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .static-noise-left { left: 0; border-right: 1px solid #1a0000; }
+        .static-noise-right { right: 0; border-left: 1px solid #1a0000; }
+
+        /* Адаптация для маленьких экранов */
+        @media (max-width: 500px) {
+            .mystery-btn {
+                font-size: 1.4rem;
+                min-width: 260px;
+                padding: 15px 20px;
+                letter-spacing: 3px;
+            }
+            .menu-container {
+                gap: 25px;
+            }
+        }
+
+        /* Небольшой загадочный текст внизу (как в тизерах) */
+        .footer-whisper {
+            position: fixed;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #1f0a0a;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            z-index: 5;
+            pointer-events: none;
+            text-transform: uppercase;
+            opacity: 0.5;
+            animation: whisperFade 7s infinite alternate;
+        }
+
+        @keyframes whisperFade {
+            0% { opacity: 0.1; color: #1a0505; }
+            50% { opacity: 0.4; color: #3b0d0d; }
+            100% { opacity: 0.1; color: #1a0505; }
+        }
+        
+        /* Греческая буква Гамма (Ɣ) в названии кнопки — делаем её чуть крупнее для стиля */
+        .gamma-symbol {
+            font-size: 1.2em;
+            display: inline-block;
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Визуальные помехи по краям для атмосферы FNaF -->
+    <div class="static-noise-left"></div>
+    <div class="static-noise-right"></div>
+
+    <!-- Основное меню -->
+    <div class="menu-container">
+        <!-- Кнопка Half-Life Ɣ -->
+        <button class="mystery-btn" onclick="location.href='hl.html'">
+            Half-Life <span class="gamma-symbol">Ɣ</span>
+        </button>
+        
+        <!-- Кнопка Five Nights at Ilnur's -->
+        <button class="mystery-btn" onclick="location.href='fnai.html'">
+            Five Nights at Ilnur's
+        </button>
+    </div>
+
+    <!-- Загадочная надпись снизу (типичный приём Скотта) -->
+    <div class="footer-whisper">
+        [ it's me ] [ remember ] [ 1987 ]
+    </div>
+
+    <!-- Небольшой скрипт для усиления эффекта случайных глитчей (не обязательно, но приятно) -->
+    <script>
+        (function() {
+            // Лёгкий эффект "сдвига" экрана при клике по кнопке, имитация старого монитора
+            const buttons = document.querySelectorAll('.mystery-btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Небольшой баг-эффект: временное смещение body
+                    document.body.style.transform = 'translateX(2px)';
+                    setTimeout(() => { document.body.style.transform = 'translateX(-1px)'; }, 30);
+                    setTimeout(() => { document.body.style.transform = 'translateX(0)'; }, 60);
+                    
+                    // Можно добавить звук клика, но без звука — просто визуал.
+                    // Настоящий переход всё равно сработает после onclick.
+                });
+            });
+            
+            // Добавляем случайное мерцание фона каждые несколько секунд (как в камерах FNaF)
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    document.body.style.backgroundColor = '#0a0000';
+                    setTimeout(() => { document.body.style.backgroundColor = '#000000'; }, 80);
+                }
+            }, 4000);
+        })();
+    </script>
+
+    <!-- 
+        Примечание: 
+        Кнопки настроены на открытие hl.html и fnai.html в той же вкладке.
+        Файлы должны находиться в одной папке с этим index.html.
+    -->
+</body>
+</html>
